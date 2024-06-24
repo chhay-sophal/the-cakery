@@ -1,0 +1,100 @@
+# Byte-compiled / optimized / DLL files
+*.py[cod]
+*.$py.class
+
+# C extensions
+*.so
+
+# Distribution / packaging
+.Python
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+*.egg
+*.egg-info/
+dist/
+build/
+develop-eggs/
+.eggs/
+
+# Django stuff:
+*.log
+*.pot
+*.pyc
+__pycache__/
+*.sqlite3
+
+# Local settings
+local_settings.py
+
+# Database
+db.sqlite3
+*.db
+
+# Media
+/media
+
+# Static files
+/static
+
+# Translations
+*.mo
+*.pot
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Pyre type checker
+.pyre/
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Editor directories and files
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Pylint
+pylint.d/
+reports/
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+
+# MyPy
+.mypy_cache/
+
+# Bandit
+.bandit/
+
+# Pytest
+.pytest_cache/
+
+# celery beat schedule file
+celerybeat-schedule
+
+# SageMath parsed files
+*.sage.py
+
+# Encrypted secrets (Django 3.1+)
+secrets.json
