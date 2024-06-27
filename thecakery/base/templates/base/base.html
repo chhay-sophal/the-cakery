@@ -36,20 +36,23 @@
 </head>
 <body>
     <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-8 offset-md-2 text-center">
-                <h1 class="display-4 text-primary">Welcome to The Cakery</h1>
-                <p class="lead text-secondary">This is the Base page</p>
-                <button class="btn custom-btn btn-lg">Test Button</button>
-            </div>
-        </div>
-        <h1>Cakes Available:</h1>
+        <header>
+            <h1 class="display-4 text-primary">Welcome to The Cakery</h1>
+        </header>
+
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer>
+            <p>&copy; 2024 My Cake Shop. All rights reserved.</p>
+        </footer>
+        <!-- <h1>Cakes Available:</h1>
         <ul>
             {% for cake in cakes %}
                 <li>
                     <h2>{{ cake.name }}</h2>
                     <p>Price: {{ cake.price }}</p>
-                    <!-- Display cake images -->
                     <div>
                         {% for image in cake.images.all %}
                             <img src="{{ image.image.url }}" alt="{{ image.alt_text }}" style="max-width: 300px;">
@@ -61,7 +64,7 @@
             {% empty %}
                 <li>No cakes available.</li>
             {% endfor %}
-        </ul>
+        </ul> -->
     </div>
 </body>
 </html>
