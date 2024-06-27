@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Cakery</title>
+    <title>{% block title %}The Cakery{% endblock %}</title>
     <link href="static/css/bootstrap.min.css" rel="stylesheet">
     <script src="static/js/bootstrap.bundle.min.js"></script>
     <style>
@@ -47,24 +47,7 @@
         <footer>
             <p>&copy; 2024 My Cake Shop. All rights reserved.</p>
         </footer>
-        <!-- <h1>Cakes Available:</h1>
-        <ul>
-            {% for cake in cakes %}
-                <li>
-                    <h2>{{ cake.name }}</h2>
-                    <p>Price: {{ cake.price }}</p>
-                    <div>
-                        {% for image in cake.images.all %}
-                            <img src="{{ image.image.url }}" alt="{{ image.alt_text }}" style="max-width: 300px;">
-                        {% empty %}
-                            <p>No images available for this cake.</p>
-                        {% endfor %}
-                    </div>
-                </li>
-            {% empty %}
-                <li>No cakes available.</li>
-            {% endfor %}
-        </ul> -->
+
     </div>
 </body>
 </html>

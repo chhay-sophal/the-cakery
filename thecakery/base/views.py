@@ -1,4 +1,4 @@
-from django.shortcuts import render, render
+from django.shortcuts import render
 from cakes.models import Cake, CakeImage
 
 def home_page(request): 
