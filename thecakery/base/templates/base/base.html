@@ -43,6 +43,25 @@
                 <button class="btn custom-btn btn-lg">Test Button</button>
             </div>
         </div>
+        <h1>Cakes Available:</h1>
+        <ul>
+            {% for cake in cakes %}
+                <li>
+                    <h2>{{ cake.name }}</h2>
+                    <p>Price: {{ cake.price }}</p>
+                    <!-- Display cake images -->
+                    <div>
+                        {% for image in cake.images.all %}
+                            <img src="{{ image.image.url }}" alt="{{ image.alt_text }}" style="max-width: 300px;">
+                        {% empty %}
+                            <p>No images available for this cake.</p>
+                        {% endfor %}
+                    </div>
+                </li>
+            {% empty %}
+                <li>No cakes available.</li>
+            {% endfor %}
+        </ul>
     </div>
 </body>
 </html>
