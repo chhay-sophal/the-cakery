@@ -8,7 +8,7 @@ class CakeType(models.Model):
         return self.name
     
 class Cake(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     description = models.TextField(blank=True)
     cake_type = models.ForeignKey(CakeType, related_name='cakes', on_delete=models.CASCADE)
     price = models.DecimalField(max_digits=10, decimal_places=2)

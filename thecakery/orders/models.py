@@ -3,9 +3,20 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
+        
+class Cart(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def total_price(self):
+        return sum(item.content_object.price * item.quantity for item in self.cartitem_set.all())
+
+    def __str__(self):
+        return f"Cart of {self.user.username}"
 
 class CartItem(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
@@ -16,25 +27,12 @@ class CartItem(models.Model):
         return f"{self.content_object} (x{self.quantity})"
 
     def clean(self):
-        # Add validation for custom text length
         if self.custom_text and len(self.custom_text) > 25:
             raise ValidationError('Custom text cannot exceed 25 characters.')
 
     def save(self, *args, **kwargs):
-        self.clean()  # Ensure validation is called
+        self.clean()
         super(CartItem, self).save(*args, **kwargs)
-        
-class Cart(models.Model):
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    items = models.ManyToManyField(CartItem)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-
-    def total_price(self):
-        return sum(item.content_object.price * item.quantity for item in self.items.all())
-
-    def __str__(self):
-        return f"Cart of {self.user.username}"
 
 class Order(models.Model):
     SHIPMENT_STATUS_CHOICES = [

@@ -1,0 +1,26 @@
+<h3>Images:</h3>
+<div>
+    {% for image in cake_images %}
+        <img src="{{ image.image.url }}" alt="{{ image.alt_text }}" style="max-width: 300px;">
+    {% empty %}
+        <p>No images available for this cake.</p>
+    {% endfor %}
+</div>
+
+<h3>Sizes:</h3>
+<ul>
+    {% for size in cake_sizes %}
+        <li>{{ size.size }} - Additional Price: {{ size.additional_price }}</li>
+    {% empty %}
+        <li>No sizes available for this cake.</li>
+    {% endfor %}
+</ul>
+
+<h3>Reviews:</h3>
+<ul>
+    {% for review in cake_reviews %}
+        <li>{{ review.user.username }} - Rating: {{ review.rating }} - {{ review.comment }}</li>
+    {% empty %}
+        <li>No reviews available for this cake.</li>
+    {% endfor %}
+</ul>
