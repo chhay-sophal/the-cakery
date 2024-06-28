@@ -1,3 +1,4 @@
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .models import Cart, CartItem
@@ -31,4 +32,12 @@ def add_to_cart(request, item_type, item_id):
         cart_item.save()
 
     messages.success(request, f"{item.name} added to your cart.")
-    return redirect('home')
+    return JsonResponse({"message": f"{item.name} added to your cart."})
+
+@login_required
+def remove_from_cart(request, cart_item_id):
+    item_to_remove = get_object_or_404(CartItem, pk=cart_item_id)
+    item_name = str(item_to_remove.content_object)
+    item_to_remove.delete()
+    messages.success(request, f"{item_name} removed from your cart.")
+    return JsonResponse(f"{item_name} removed from your cart.")

@@ -10,13 +10,13 @@ class Cart(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def total_price(self):
-        return sum(item.content_object.price * item.quantity for item in self.cartitem_set.all())
+        return sum(item.content_object.price * item.quantity for item in self.items.all())
 
     def __str__(self):
         return f"Cart of {self.user.username}"
 
 class CartItem(models.Model):
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    cart = models.ForeignKey(Cart, related_name='items', on_delete=models.CASCADE)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
@@ -54,3 +54,11 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Order by {self.user.username} on {self.created_at}"
+    
+    def calculate_total_price(self):
+        total = sum(item.content_object.price * item.quantity for item in self.items.all())
+        return total
+
+    def save(self, *args, **kwargs):
+        self.total_price = self.calculate_total_price()
+        super(Order, self).save(*args, **kwargs)
