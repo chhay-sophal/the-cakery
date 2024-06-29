@@ -1,0 +1,117 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block title %}Home{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-lg-6 d-flex align-items-center">
+            <div style="padding-left: 100px; max-width: 600px; margin: auto;">
+                <h1 style="color: #FAABBD;"><strong>Sweet</strong> Taste</h1>
+                <h1 style="color:#56091F;"><strong>Dream and Fantasy</strong></h1>
+                <h1 style="color:#56091F;"><strong>Comes in Flavor</strong></h1>
+                <p id="desc1" style="font-size: 12px; text-align: left;">Made with the finest ingredients and a touch of love, 
+                    each cake is a masterpiece of flavor and design. Browse our catalog, place your order, 
+                    and indulge in the perfect slice of happiness. At The Cakery, we turn every moment into a delicious memory.</p>
+            </div>
+        </div>
+        <div class="col-lg-6 d-flex align-items-center justify-content-center">
+            <div class="products">
+                <img src="{% static 'image/choch1.jpg' %}" alt="Cake Image" style="max-width: 100%; height: auto;">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex justify-content-center">
+    <div class="card pink" id="left">
+        <div class="ico">
+            <i class="fa fa-bullseye"></i>
+        </div>
+        <h3 class="title">Mission</h3>
+        <p>To create joy through exceptional cakes for every celebration.</p>
+    </div>
+    <div class="card yellow" id="middle">
+        <div class="ico">
+            <i class="fa fa-eye pink"></i>
+        </div>
+        <h3 class="title">Vision</h3>
+        <p>To be the community's top choice for delicious and beautifully crafted cakes.</p>
+    </div>
+    <div class="card pink" id="left">
+        <div class="ico">
+            <i class="fa fa-star"></i>
+        </div>
+        <h3 class="title">Goal</h3>
+        <p>To deliver top-notch quality, delight customers, and engage our community.</p>
+    </div>
+</div>
+
+<h2 style="text-align: center; padding-top:5% ;color:#FAABBD"><strong>Our Flavours</strong></h2>
+<div class="container-fluid" id="con1">
+    <div class="row align-items-center">
+        <div class="col-sm-3 col-md-6 text-center">
+            <img src="{% static 'image/choco2.jpg' %}" alt="Placeholder Image" class="img-fluid">
+        </div>
+        <div class="col-sm-9 col-md-6">
+            <h4>Chocolate Mousse</h4>
+            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+            <div class="overlay">Click to see more</div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid" id="con1">
+    <div class="row align-items-center">
+        <div class="col-sm-3 col-md-6 text-center">
+            <img src="{% static 'image/vanilla.jpg' %}" alt="Placeholder Image" class="img-fluid">
+        </div>
+        <div class="col-sm-9 col-md-6">
+            <h4>Tropical Vanilla</h4>
+            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+        </div>
+    </div>
+</div>
+<div class="container-fluid" id="con1">
+    <div class="row align-items-center">
+        <div class="col-sm-3 col-md-6 text-center">
+            <img src="{% static 'image/brownie.jpg' %}" alt="Placeholder Image" class="img-fluid">
+        </div>
+        <div class="col-sm-9 col-md-6">
+            <h4>Chestnut & Brownie</h4>
+            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+        </div>
+    </div>
+</div>
+<div class="container-fluid" id="con1">
+    <div class="row align-items-center">
+        <div class="col-sm-3 col-md-6 text-center">
+            <img src="{% static 'image/strawberry.jpg' %}" alt="Placeholder Image" class="img-fluid">
+        </div>
+        <div class="col-sm-9 col-md-6">
+            <h4>Chestnut & Brownie</h4>
+            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+        </div>
+    </div>
+</div>
+
+<div class="container1">
+    <h2 class="title">Our Cakes</h2>
+    <div class="cake-slider">
+        <div class="slider-wrapper">
+            {% for cake_image in cake_images %}
+            <div class="slide">
+                <div class="img-container">
+                    <img src="{{ cake_image.image.url }}" alt="{{ cake_image.alt_text }}" class="cake-image">
+                    <div class="cake-info">
+                        <div class="cake-title">{{ cake_image.cake.name }}</div>
+                        <div class="cake-description">{{ cake_image.cake.description }}</div>
+                        <button class="add-to-cart">+ Add to Cart</button>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+
