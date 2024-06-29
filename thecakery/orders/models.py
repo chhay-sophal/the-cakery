@@ -3,20 +3,20 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
-        
+
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def total_price(self):
-        return sum(item.content_object.price * item.quantity for item in self.cartitem_set.all())
+        return sum(item.content_object.price * item.quantity for item in self.items.all())
 
     def __str__(self):
         return f"Cart of {self.user.username}"
 
 class CartItem(models.Model):
-    cart = models.ForeignKey(Cart, on_delete=models.CASCADE)
+    cart = models.ForeignKey(Cart, related_name='items', on_delete=models.CASCADE)
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
     object_id = models.PositiveIntegerField()
     content_object = GenericForeignKey('content_type', 'object_id')
@@ -44,7 +44,6 @@ class Order(models.Model):
     ]
 
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    items = models.ManyToManyField(CartItem)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     destination = models.CharField(max_length=255)
     payment_status = models.CharField(max_length=50)
@@ -54,3 +53,17 @@ class Order(models.Model):
 
     def __str__(self):
         return f"Order by {self.user.username} on {self.created_at}"
+    
+    def calculate_total_price(self):
+        total = sum(item.content_object.price * item.quantity for item in self.items.all())
+        return total
+
+class OrderItem(models.Model):
+    order = models.ForeignKey(Order, related_name='order_items', on_delete=models.CASCADE)
+    content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
+    object_id = models.PositiveIntegerField()
+    content_object = GenericForeignKey('content_type', 'object_id')
+    quantity = models.PositiveIntegerField()
+
+    def __str__(self):
+        return f"{self.content_object} (x{self.quantity})"
