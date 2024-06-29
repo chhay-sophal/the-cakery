@@ -1,7 +1,7 @@
 from django.contrib import admin
 from .models import * 
 
-@admin.register(PartyAccessory, PartyAccessoryImage, PartyAccessoryReview)
+@admin.register(PartyAccessory, PartyAccessoryImage)
 class PartyAccessoryAdmin(admin.ModelAdmin):
     def get_model_fields(self, model):
         return [field.name for field in model._meta.fields]
