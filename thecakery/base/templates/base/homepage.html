@@ -3,16 +3,70 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
+<style>
+button.buy1 {
+    background-color: #FAABBD;
+    border: none;
+    padding: 5px 30px;
+    border-radius: 15px;
+    cursor: pointer;
+}
+
+button.buy1:hover {
+    background-color:#FFFFB7;
+}
+.image-container {
+    position: relative;
+    overflow: hidden;
+}
+
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); 
+    color: #ffffff;
+    font-size: 16px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0; 
+    transition: opacity 0.3s ease; 
+}
+
+.image-container:hover .overlay {
+    opacity: 1;
+}
+button.see {
+    background-color: #FAABBD;
+    border: none;
+    padding: 5px 20px;
+    border-radius: 15px;
+    cursor: pointer;
+    border: 2px solid #FAABBD;
+}
+button.see:hover {
+    background-color: white;
+    border: 2px solid #FAABBD; /* Add border properties */
+    border-radius: 15px;
+    cursor: pointer;
+}
+</style>
+
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-lg-6 d-flex align-items-center">
             <div style="padding-left: 100px; max-width: 600px; margin: auto;">
-                <h1 style="color: #FAABBD;"><strong>Sweet</strong> Taste</h1>
-                <h1 style="color:#56091F;"><strong>Dream and Fantasy</strong></h1>
-                <h1 style="color:#56091F;"><strong>Comes in Flavor</strong></h1>
-                <p id="desc1" style="font-size: 12px; text-align: left;">Made with the finest ingredients and a touch of love, 
+                <h1 class="primary-color"><strong>Sweet</strong> Taste</h1>
+                <h1 class="secondary-color"><strong>Dream and Fantasy</strong></h1>
+                <h1 class="secondary-color"><strong>Comes in Flavor</strong></h1>
+                <p id="desc1">Made with the finest ingredients and a touch of love, 
                     each cake is a masterpiece of flavor and design. Browse our catalog, place your order, 
                     and indulge in the perfect slice of happiness. At The Cakery, we turn every moment into a delicious memory.</p>
+                <button class="buy1">Buy Now</button>
             </div>
         </div>
         <div class="col-lg-6 d-flex align-items-center justify-content-center">
@@ -22,7 +76,7 @@
         </div>
     </div>
 </div>
-
+<!-- Card for displaying mission vision and goal -->
 <div class="d-flex justify-content-center">
     <div class="card pink" id="left">
         <div class="ico">
@@ -38,7 +92,7 @@
         <h3 class="title">Vision</h3>
         <p>To be the community's top choice for delicious and beautifully crafted cakes.</p>
     </div>
-    <div class="card pink" id="left">
+    <div class="card" id="left">
         <div class="ico">
             <i class="fa fa-star"></i>
         </div>
@@ -47,53 +101,86 @@
     </div>
 </div>
 
-<h2 style="text-align: center; padding-top:5% ;color:#FAABBD"><strong>Our Flavours</strong></h2>
-<div class="container-fluid" id="con1">
+<!-- Displaying Flavors for users-->
+<h2 style="text-align: center; padding-top: 5%; color: #FAABBD;"><strong>Our Flavours</strong></h2>
+<div class="container-fluid">
     <div class="row align-items-center">
+        <!-- Flavor 1: Chocolate Mousse -->
         <div class="col-sm-3 col-md-6 text-center">
-            <img src="{% static 'image/choco2.jpg' %}" alt="Placeholder Image" class="img-fluid">
+            <div class="image-container">
+                <img src="{% static 'image/choco2.jpg' %}" alt="Chocolate Mousse" class="img-fluid">
+                <div class="overlay">Click to see more</div>
+            </div>
         </div>
         <div class="col-sm-9 col-md-6">
             <h4>Chocolate Mousse</h4>
-            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-            <div class="overlay">Click to see more</div>
-        </div>
-    </div>
-</div>
-<div class="container-fluid" id="con1">
-    <div class="row align-items-center">
-        <div class="col-sm-3 col-md-6 text-center">
-            <img src="{% static 'image/vanilla.jpg' %}" alt="Placeholder Image" class="img-fluid">
-        </div>
-        <div class="col-sm-9 col-md-6">
-            <h4>Tropical Vanilla</h4>
-            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-        </div>
-    </div>
-</div>
-<div class="container-fluid" id="con1">
-    <div class="row align-items-center">
-        <div class="col-sm-3 col-md-6 text-center">
-            <img src="{% static 'image/brownie.jpg' %}" alt="Placeholder Image" class="img-fluid">
-        </div>
-        <div class="col-sm-9 col-md-6">
-            <h4>Chestnut & Brownie</h4>
-            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
-        </div>
-    </div>
-</div>
-<div class="container-fluid" id="con1">
-    <div class="row align-items-center">
-        <div class="col-sm-3 col-md-6 text-center">
-            <img src="{% static 'image/strawberry.jpg' %}" alt="Placeholder Image" class="img-fluid">
-        </div>
-        <div class="col-sm-9 col-md-6">
-            <h4>Chestnut & Brownie</h4>
-            <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo. Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</p>
+            <p>
+                Indulge in the rich decadence of our Chocolate Mousse cake. Velvety layers of moist chocolate sponge are delicately filled and topped with luscious chocolate mousse, creating a harmonious blend of flavors and textures. Each bite is a journey through creamy bliss, perfect for chocolate enthusiasts seeking a sublime dessert experience.
+            </p>
+            <button class="see">See more</button>
         </div>
     </div>
 </div>
 
+<div class="container-fluid">
+    <div class="row align-items-center">
+        <!-- Flavor 2: Tropical Vanilla -->
+        <div class="col-sm-3 col-md-6 text-center">
+            <div class="image-container">
+                <img src="{% static 'image/vanilla.jpg' %}" alt="Tropical Vanilla" class="img-fluid">
+                <div class="overlay">Click to see more</div>
+            </div>
+        </div>
+        <div class="col-sm-9 col-md-6">
+            <h4>Tropical Vanilla</h4>
+            <p>
+                Experience the exotic allure of our Tropical Vanilla cake. Infused with the essence of tropical fruits and Madagascar vanilla, this delicacy offers a symphony of flavors that transport you to sun-kissed shores. With layers of moist vanilla sponge and a hint of island-inspired freshness, each slice is a delightful escape into paradise.
+            </p>
+            <button class="see">See more</button>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row align-items-center">
+        <!-- Flavor 3: Chestnut & Brownie -->
+        <div class="col-sm-3 col-md-6 text-center">
+            <div class="image-container">
+                <img src="{% static 'image/brownie.jpg' %}" alt="Chestnut & Brownie" class="img-fluid">
+                <div class="overlay">Click to see more</div>
+            </div>
+        </div>
+        <div class="col-sm-9 col-md-6">
+            <h4>Chestnut & Brownie</h4>
+            <p>
+                Indulge in the rich harmony of roasted chestnuts and decadent chocolate brownies with our Chestnut & Brownie cake. Each bite combines the earthy sweetness of chestnuts with the fudgy richness of brownies, creating a luxurious treat that satisfies both dessert lovers and connoisseurs alike. Perfect for those who appreciate a delightful blend of flavors in every slice.
+            </p>
+            <button class="see">See more</button>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+    <div class="row align-items-center">
+        <!-- Flavor 4: Strawberry Delight -->
+        <div class="col-sm-3 col-md-6 text-center">
+            <div class="image-container">
+                <img src="{% static 'image/strawberry.jpg' %}" alt="Strawberry Delight" class="img-fluid">
+                <div class="overlay">Click to see more</div>
+            </div>
+        </div>
+        <div class="col-sm-9 col-md-6">
+            <h4>Strawberry Delight</h4>
+            <p>
+                Experience the blissful taste of summer with our Strawberry Delight cake. Each layer is infused with luscious strawberries, delivering a burst of fruity sweetness with every bite. Paired perfectly with light, fluffy sponge cake and topped with fresh strawberry slices, this creation is a delightful symphony of flavors that captures the essence of joyous celebrations.
+            </p>
+            <button class="see">See more</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- Displaying Cake for users-->
 <div class="container1">
     <h2 class="title">Our Cakes</h2>
     <div class="cake-slider">
