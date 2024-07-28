@@ -41,7 +41,9 @@
                         <p class="card-text">{{ flavour.description }}</p>
                         <button class="mt-auto">See More</button>
                     </div>
-                    <img src="{{ flavour.image.url }}" class="card-img-top up" alt="{{ flavour.name }}">
+                    <img src="{% if flavour.image %}{{ flavour.image.url }}{% else %}{% static 'image/placeholder.webp' %}{% endif %}" 
+                        class="card-img-top up" 
+                        alt="{{ flavour.name }}">
                 </div>
             </div>
             {% endfor %}
