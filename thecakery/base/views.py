@@ -1,10 +1,16 @@
 from django.shortcuts import render
-from cakes.models import Cake, CakeImage
+from cakes.models import Cake, CakeImage, Flavour
 
 def home_page(request):
     cakes = Cake.objects.all()
     cake_images = CakeImage.objects.all()
-    return render(request, "base/homepage.html", {'cakes': cakes, 'cake_images': cake_images})
+    flavours = Flavour.objects.all()
+    context = {
+        'cakes': cakes, 
+        'cake_images': cake_images,
+        'flavours': flavours
+    }
+    return render(request, "base/homepage.html", context)
 
 def about(request):
     return render(request, 'base/about_us.html')
