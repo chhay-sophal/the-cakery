@@ -1,0 +1,189 @@
+{% extends "base/base.html" %}
+{% load static %}
+{% block title %}About Us{% endblock %}
+
+{% block content %}
+
+<style>
+    .image-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 50vh; /* Adjust this as needed */
+    }
+
+    .centered-image {
+        max-width: 50%;
+        height: auto;
+    }
+    .about-container {
+        background-color: white;
+        padding: 50px 20px;
+        max-width: 1200px;
+        margin: auto;
+    }
+
+    .about-header {
+        text-align: center;
+        color: #56091F;
+        margin-bottom: 40px;
+    }
+
+    .about-header h1 {
+        font-size: 2.5em;
+        margin-bottom: 10px;
+        animation: fadeIn 2s;
+    }
+
+    .about-header p {
+        font-size: 1.2em;
+        color: #faabbd;
+        animation: fadeIn 2s;
+    }
+
+    .about-content {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+    }
+
+    .about-section {
+        background-color: #ffe4e1;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        animation: slideInUp 1s;
+    }
+
+    .about-section h2 {
+        font-size: 1.8em;
+        margin-bottom: 15px;
+        color: #56091F;
+    }
+
+    .about-section p, .about-section ul {
+        font-size: 1em;
+        color: #212d31;
+    }
+
+    .about-section ul {
+        list-style-type: none;
+        padding-left: 0;
+    }
+
+    .about-section li {
+        margin-bottom: 10px;
+    }
+
+    .about-section li strong {
+        color: #56091F;
+    }
+
+    .team-container {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 20px;
+    }
+
+    .team-member {
+        text-align: center;
+        max-width: 200px;
+        animation: slideInUp 1s;
+    }
+
+    .team-member img {
+        width: 100%;
+        height: auto;
+        border-radius: 50%;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        margin-bottom: 10px;
+    }
+
+    .team-member h3 {
+        font-size: 1.5em;
+        color: #56091F;
+        margin-bottom: 5px;
+    }
+
+    .team-member p {
+        font-size: 1em;
+        color: #212d31;
+        margin-bottom: 5px;
+    }
+
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+
+    @keyframes slideInUp {
+        from { transform: translateY(50px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+        .about-content {
+            flex-direction: column;
+        }
+
+        .team-container {
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .team-member {
+            margin-bottom: 20px;
+        }
+    }
+</style>
+<div class="image-container">
+    <img src="{% static 'image/thecake.png' %}" alt="Cake Image" class="centered-image">
+</div>
+<div class="about-container">
+    <div class="about-header">
+        <h1>About The Cakery</h1>
+        <p>Delighting your taste buds with our exquisite cakes since 2024</p>
+    </div>
+    <div class="about-content">
+        <div class="about-section">
+            <h2>Our Story</h2>
+            <p>
+                Founded in 2024, The Cakery began with a simple mission: to bring joy and sweetness into the lives of our customers. Our passion for baking and dedication to quality has allowed us to create delectable cakes that not only taste divine but also look stunning.
+            </p>
+        </div>
+        <div class="about-section">
+            <h2>Our Vision</h2>
+            <p>
+                At The Cakery, we envision a world where every celebration is made sweeter and more memorable with our cakes. We strive to be the go-to bakery for all your special occasions, providing cakes that are crafted with love and attention to detail.
+            </p>
+        </div>
+        <div class="about-section">
+            <h2>Our Values</h2>
+            <ul>
+                <li><strong>Quality:</strong> We use only the finest ingredients in our cakes.</li>
+                <li><strong>Creativity:</strong> Our designs are innovative and tailored to your preferences.</li>
+                <li><strong>Customer Satisfaction:</strong> Your happiness is our top priority.</li>
+                <li><strong>Community:</strong> We believe in giving back and supporting local initiatives.</li>
+            </ul>
+        </div>
+        <div class="about-section">
+            <h2>Our Team</h2>
+            <div class="team-container">
+                <div class="team-member">
+                    <img src="{% static 'images/team_member1.jpg' %}" alt="John Doe">
+                    <h3>John Doe</h3>
+                    <p>Founder & Master Baker</p>
+                    <p>John has been passionate about baking since childhood. He brings creativity and innovation to every cake he designs, ensuring each one is a masterpiece.</p>
+                </div>
+                <div class="team-member">
+                    <img src="{% static 'images/team_member2.jpg' %}" alt="Jane Smith">
+                    <h3>Jane Smith</h3>
+                    <p>Co-Founder & Head of Marketing</p>
+                    <p>Jane's expertise in marketing has helped The Cakery grow and reach more customers. She is dedicated to making sure every customer has a delightful experience.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

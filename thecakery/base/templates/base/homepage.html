@@ -3,202 +3,395 @@
 {% block title %}Home{% endblock %}
 
 {% block content %}
-<style>
-button.buy1 {
-    background-color: #FAABBD;
-    border: none;
-    padding: 5px 30px;
-    border-radius: 15px;
-    cursor: pointer;
-}
 
-button.buy1:hover {
-    background-color:#FFFFB7;
-}
-.image-container {
-    position: relative;
-    overflow: hidden;
-}
+<header>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+</header>
 
-.overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5); 
-    color: #ffffff;
-    font-size: 16px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0; 
-    transition: opacity 0.3s ease; 
-}
-
-.image-container:hover .overlay {
-    opacity: 1;
-}
-button.see {
-    background-color: #FAABBD;
-    border: none;
-    padding: 5px 20px;
-    border-radius: 15px;
-    cursor: pointer;
-    border: 2px solid #FAABBD;
-}
-button.see:hover {
-    background-color: white;
-    border: 2px solid #FAABBD; /* Add border properties */
-    border-radius: 15px;
-    cursor: pointer;
-}
-</style>
-
-
-<div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-6 d-flex align-items-center">
-            <div style="padding-left: 100px; max-width: 600px; margin: auto;">
-                <h1 class="primary-color"><strong>Sweet</strong> Taste</h1>
+<!-- ****Add Slideshow for texts and images -->
+<div class="container-fluid bg-white py-5 mb-5 hero-header">
+    <div class="container py-5">
+        <div class="row">
+            <!-- Text Column -->
+            <div class="col-lg-6 text-center text-lg-start">
+                <h1 class="font-secondary mb-4" style="color:palevioletred">Sweet Taste</h1>
                 <h1 class="secondary-color"><strong>Dream and Fantasy</strong></h1>
                 <h1 class="secondary-color"><strong>Comes in Flavor</strong></h1>
                 <p id="desc1">Made with the finest ingredients and a touch of love, 
                     each cake is a masterpiece of flavor and design. Browse our catalog, place your order, 
                     and indulge in the perfect slice of happiness. At The Cakery, we turn every moment into a delicious memory.</p>
-                <button class="buy1">Buy Now</button>
+                <div class="d-flex align-items-center justify-content-center justify-content-lg-start pt-5">
+                    <a href="" class="btn border-inner py-3 px-5 me-5" style="background-color: #FAABBD;">Read More</a>
+                </div>
             </div>
         </div>
-        <div class="col-lg-6 d-flex align-items-center justify-content-center">
-            <div class="products">
-                <img src="{% static 'image/choch1.jpg' %}" alt="Cake Image" style="max-width: 100%; height: auto;">
-            </div>
-        </div>
-    </div>
-</div>
-<!-- Card for displaying mission vision and goal -->
-<div class="d-flex justify-content-center">
-    <div class="card pink" id="left">
-        <div class="ico">
-            <i class="fa fa-bullseye"></i>
-        </div>
-        <h3 class="title">Mission</h3>
-        <p>To create joy through exceptional cakes for every celebration.</p>
-    </div>
-    <div class="card yellow" id="middle">
-        <div class="ico">
-            <i class="fa fa-eye pink"></i>
-        </div>
-        <h3 class="title">Vision</h3>
-        <p>To be the community's top choice for delicious and beautifully crafted cakes.</p>
-    </div>
-    <div class="card" id="left">
-        <div class="ico">
-            <i class="fa fa-star"></i>
-        </div>
-        <h3 class="title">Goal</h3>
-        <p>To deliver top-notch quality, delight customers, and engage our community.</p>
     </div>
 </div>
 
 <!-- Displaying Flavors for users-->
-<h2 style="text-align: center; padding-top: 5%; color: #FAABBD;"><strong>Our Flavours</strong></h2>
-<div class="container-fluid">
-    <div class="row align-items-center">
-        <!-- Flavor 1: Chocolate Mousse -->
-        <div class="col-sm-3 col-md-6 text-center">
-            <div class="image-container">
-                <img src="{% static 'image/choco2.jpg' %}" alt="Chocolate Mousse" class="img-fluid">
-                <div class="overlay">Click to see more</div>
+<div class="container2">
+    <h2 style="text-align: center; color: #FAABBD; font-size: 40px;"><strong>Our Flavours</strong></h2>
+    <div class="container6 mt-5">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-overlay">
+                        <h5 class="card-title">Chocolate Mousse</h5>
+                        <p class="card-text">Indulge in the rich decadence of our Chocolate Mousse cake. Velvety layers of moist chocolate sponge are delicately filled and topped with luscious chocolate mousse, creating a harmonious blend of flavors and textures.</p>
+                        <button class="mt-auto">See More</button>
+                    </div>
+                    <img src="{% static 'image/choco2.jpg' %}" class="card-img-top up" alt="Chocolate Mousse">
+                </div>
             </div>
-        </div>
-        <div class="col-sm-9 col-md-6">
-            <h4>Chocolate Mousse</h4>
-            <p>
-                Indulge in the rich decadence of our Chocolate Mousse cake. Velvety layers of moist chocolate sponge are delicately filled and topped with luscious chocolate mousse, creating a harmonious blend of flavors and textures. Each bite is a journey through creamy bliss, perfect for chocolate enthusiasts seeking a sublime dessert experience.
-            </p>
-            <button class="see">See more</button>
-        </div>
-    </div>
-</div>
-
-<div class="container-fluid">
-    <div class="row align-items-center">
-        <!-- Flavor 2: Tropical Vanilla -->
-        <div class="col-sm-3 col-md-6 text-center">
-            <div class="image-container">
-                <img src="{% static 'image/vanilla.jpg' %}" alt="Tropical Vanilla" class="img-fluid">
-                <div class="overlay">Click to see more</div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-overlay">
+                        <h5 class="card-title">Tropical Vanilla</h5>
+                        <p class="card-text">Experience the exotic allure of our Tropical Vanilla cake. Infused with the essence of tropical fruits and Madagascar vanilla, this delicacy offers a symphony of flavors that transport you to sun-kissed shores.</p>
+                        <button class="mt-auto">See More</button>
+                    </div>
+                    <img src="{% static 'image/vanilla.jpg' %}" class="card-img-top up" alt="Tropical Vanilla">
+                </div>
             </div>
-        </div>
-        <div class="col-sm-9 col-md-6">
-            <h4>Tropical Vanilla</h4>
-            <p>
-                Experience the exotic allure of our Tropical Vanilla cake. Infused with the essence of tropical fruits and Madagascar vanilla, this delicacy offers a symphony of flavors that transport you to sun-kissed shores. With layers of moist vanilla sponge and a hint of island-inspired freshness, each slice is a delightful escape into paradise.
-            </p>
-            <button class="see">See more</button>
-        </div>
-    </div>
-</div>
-
-<div class="container-fluid">
-    <div class="row align-items-center">
-        <!-- Flavor 3: Chestnut & Brownie -->
-        <div class="col-sm-3 col-md-6 text-center">
-            <div class="image-container">
-                <img src="{% static 'image/brownie.jpg' %}" alt="Chestnut & Brownie" class="img-fluid">
-                <div class="overlay">Click to see more</div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-overlay">
+                        <h5 class="card-title">Chestnut & Brownie</h5>
+                        <p class="card-text">Indulge in the rich harmony of roasted chestnuts and decadent chocolate brownies with our Chestnut & Brownie cake.</p>
+                        <button class="mt-auto">See More</button>
+                    </div>
+                    <img src="{% static 'image/brownie.jpg' %}" class="card-img-top up" alt="Chestnut & Brownie">
+                </div>
             </div>
-        </div>
-        <div class="col-sm-9 col-md-6">
-            <h4>Chestnut & Brownie</h4>
-            <p>
-                Indulge in the rich harmony of roasted chestnuts and decadent chocolate brownies with our Chestnut & Brownie cake. Each bite combines the earthy sweetness of chestnuts with the fudgy richness of brownies, creating a luxurious treat that satisfies both dessert lovers and connoisseurs alike. Perfect for those who appreciate a delightful blend of flavors in every slice.
-            </p>
-            <button class="see">See more</button>
-        </div>
-    </div>
-</div>
-
-<div class="container-fluid">
-    <div class="row align-items-center">
-        <!-- Flavor 4: Strawberry Delight -->
-        <div class="col-sm-3 col-md-6 text-center">
-            <div class="image-container">
-                <img src="{% static 'image/strawberry.jpg' %}" alt="Strawberry Delight" class="img-fluid">
-                <div class="overlay">Click to see more</div>
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-overlay">
+                        <h5 class="card-title">Strawberry Delight</h5>
+                        <p class="card-text">Experience the blissful taste of summer with our Strawberry Delight cake.</p>
+                        <button class="mt-auto">See More</button>
+                    </div>
+                    <img src="{% static 'image/one.jpg' %}" class="card-img-top up" alt="Strawberry Delight">
+                </div>
             </div>
-        </div>
-        <div class="col-sm-9 col-md-6">
-            <h4>Strawberry Delight</h4>
-            <p>
-                Experience the blissful taste of summer with our Strawberry Delight cake. Each layer is infused with luscious strawberries, delivering a burst of fruity sweetness with every bite. Paired perfectly with light, fluffy sponge cake and topped with fresh strawberry slices, this creation is a delightful symphony of flavors that captures the essence of joyous celebrations.
-            </p>
-            <button class="see">See more</button>
         </div>
     </div>
 </div>
 
 
-<!-- Displaying Cake for users-->
-<div class="container1">
-    <h2 class="title">Our Cakes</h2>
-    <div class="cake-slider">
-        <div class="slider-wrapper">
-            {% for cake_image in cake_images %}
-            <div class="slide">
-                <div class="img-container">
-                    <img src="{{ cake_image.image.url }}" alt="{{ cake_image.alt_text }}" class="cake-image">
-                    <div class="cake-info">
-                        <div class="cake-title">{{ cake_image.cake.name }}</div>
-                        <div class="cake-description">{{ cake_image.cake.description }}</div>
-                        <button class="add-to-cart">+ Add to Cart</button>
+
+<div class="container-fluid pt-5">
+    <div class="container">
+        <div class="section-title position-relative text-center mx-auto mb-5 pb-3" style="max-width: 600px;">
+            <h2 class="text-primary font-secondary">About Us</h2>
+            <h5 class="display-4 text-uppercase">Welcome To The Cakery</h5>
+        </div>
+        <div class="row gx-5">
+            <div class="col-lg-5 mb-5 mb-lg-0" style="min-height: 400px;">
+                <div class="position-relative h-100">
+                    <img class="position-absolute w-100 h-100" src="{% static 'image/strawchoco.jpg' %}" style="object-fit: cover;">
+                </div>
+            </div>
+            <div class="col-lg-6 pb-5">
+                <h4 class="mb-4">Tempor erat elitr rebum clita. Diam dolor diam ipsum erat lorem sed stet labore lorem sit clita duo</h4>
+                <p class="mb-5">Tempor erat elitr at rebum at at clita. Diam dolor diam ipsum et tempor sit. Clita erat ipsum et lorem et sit, sed stet no labore lorem sit. Sanctus clita duo justo et tempor eirmod magna dolore erat amet magna</p>
+                <div class="row g-5">
+                    <div class="col-sm-6">
+                        <div class="d-flex align-items-center justify-content-center bg-primary border-inner mb-4" style="width: 90px; height: 90px;">
+                            <i class="fa fa-heartbeat fa-2x text-white"></i>
+                        </div>
+                        <h4 class="text-uppercase">100% Healthy</h4>
+                        <p class="mb-0">Labore justo vero ipsum sit clita erat lorem magna clita nonumy dolor magna dolor vero</p>
+                    </div>
+                    <div class="col-sm-6">
+                        <div class="d-flex align-items-center justify-content-center bg-primary border-inner mb-4" style="width: 90px; height: 90px;">
+                            <i class="fa fa-award fa-2x text-white"></i>
+                        </div>
+                        <h4 class="text-uppercase">Award Winning</h4>
+                        <p class="mb-0">Labore justo vero ipsum sit clita erat lorem magna clita nonumy dolor magna dolor vero</p>
                     </div>
                 </div>
             </div>
-            {% endfor %}
         </div>
     </div>
 </div>
-{% endblock %}
+<!-- About End -->
 
+
+
+<!-- Card for displaying mission vision and goal -->
+<div class="stats-container pink-bg" id="stats-container">
+    <div class="d-flex justify-content-center stats">
+        <div class="stat-card">
+            <h3 class="stat-title" id="customers-served" data-count="1000" data-start="700">700+</h3>
+            <p class="stat-description">Customers</p>
+        </div>
+        <div class="stat-card">
+            <h3 class="stat-title" id="cakes-baked" data-count="2000" data-start="1700">1700+</h3>
+            <p class="stat-description">Cakes Baked</p>
+        </div>
+        <div class="stat-card">
+            <h3 class="stat-title" id="flavors-created" data-count="50" data-start="0">0+</h3>
+            <p class="stat-description">Flavors Created</p>
+        </div>
+    </div>
+</div>
+
+
+
+<!-- Service Start -->
+    <div class="container-fluid service position-relative px-5 mt-5" style="margin-bottom: 135px;">
+        <div class="container">
+            <div class="row g-5">
+                <div class="col-lg-4 col-md-6">
+                    <div class="bg-primary border-inner text-center text-white p-5">
+                        <h4 class="text-uppercase mb-3">Birthday Cake</h4>
+                        <p>Ipsum ipsum clita erat amet dolor sit justo sea eirmod diam stet sit justo amet tempor amet kasd lorem dolor ipsum</p>
+                        <a class="text-uppercase text-dark" href="">Read More <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="bg-primary border-inner text-center text-white p-5">
+                        <h4 class="text-uppercase mb-3">Wedding Cake</h4>
+                        <p>Ipsum ipsum clita erat amet dolor sit justo sea eirmod diam stet sit justo amet tempor amet kasd lorem dolor ipsum</p>
+                        <a class="text-uppercase text-dark" href="">Read More <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="bg-primary border-inner text-center text-white p-5">
+                        <h4 class="text-uppercase mb-3">Custom Cake</h4>
+                        <p>Ipsum ipsum clita erat amet dolor sit justo sea eirmod diam stet sit justo amet tempor amet kasd lorem dolor ipsum</p>
+                        <a class="text-uppercase text-dark" href="">Read More <i class="bi bi-arrow-right"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-12 col-md-6 text-center">
+                    <h1 class="text-uppercase text-light mb-4">30% Discount For This Summer</h1>
+                    <a href="" class="btn border-inner py-3 px-5" style="background-color: #FAABBD;">Order Now</a>
+                </div>
+            </div>
+        </div>
+    </div>
+<!-- Service End-->
+
+
+
+<!-- Need css for image and add some buttons-->
+<!-- Displaying Cake for users-->
+<h2 style="text-align: center;padding: 20px; color: #FAABBD; font-size: 40px;"><strong>Our Flavours</strong></h2>
+
+<div class="container3">
+    <div class="custom-card-deck">
+        <div class="custom-card text-center">
+            <a href="#">
+                <div class="custom-card-header">
+                    Most Popular!
+                </div>
+                <img class="up" src="{% static 'image/black.jpg' %}" alt="Card image">
+                <div class="custom-card-body">
+                    <a href="#"><h5 class="custom-card-title">Very long item name</h5></a>
+                    <div class="custom-card-footer">
+                        3000$
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="custom-card text-center">
+            <a href="#">
+                <div class="custom-card-header">
+                    Most Popular!
+                </div>
+                <img class="up" src="{% static 'image/cat1.jpg' %}" alt="Card image">
+                <div class="custom-card-body">
+                    <a href="#"><h5 class="custom-card-title">Very long item name</h5></a>
+                    <div class="custom-card-footer">
+                        3000$
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="custom-card text-center">
+            <a href="#">
+                <div class="custom-card-header">
+                    Most Popular!
+                </div>
+                <img class="up" src="{% static 'image/cat6.jpg' %}" alt="Card image">
+                <div class="custom-card-body">
+                    <a href="#"><h5 class="custom-card-title">Very long item name</h5></a>
+                    <div class="custom-card-footer">
+                        3000$
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="custom-card text-center">
+            <a href="#">
+                <div class="custom-card-header">
+                    Hottest!
+                </div>
+                <img class="up" src="{% static 'image/twotop.png' %}" alt="Card image">
+                <div class="custom-card-body">
+                    <a href="#"><h5 class="custom-card-title">Very long item name</h5></a>
+                    <div class="custom-card-footer">
+                        3000$
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="custom-card text-center">
+            <a href="#">
+                <div class="custom-card-header">
+                    Most Recent!
+                </div>
+                <img class="up" src="{% static 'image/choco3.jpg' %}" alt="Card image">
+                <div class="custom-card-body">
+                    <a href="#"><h5 class="custom-card-title">Very long item name</h5></a>
+                    <div class="custom-card-footer">
+                        3000$
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+<div class="container3" style="padding-top: 15px;">
+    <div class="custom-card-deck">
+        <div class="custom-card text-center">
+            <a href="#">
+                <img class="up" src="{% static 'image/cat2.jpg' %}" alt="Card image">
+                <div class="custom-card-body">
+                    <a href="#"><h5 class="custom-card-title">Very long item name</h5></a>
+                    <div class="custom-card-footer">
+                        3000$
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="custom-card text-center">
+            <a href="#">
+                <img class="up" src="{% static 'image/cat3.jpg' %}" alt="Card image">
+                <div class="custom-card-body">
+                    <a href="#"><h5 class="custom-card-title">Very long item name</h5></a>
+                    <div class="custom-card-footer">
+                        3000$
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="custom-card text-center">
+            <a href="#">
+                <img class="up" src="{% static 'image/cat5.jpg' %}" alt="Card image">
+                <div class="custom-card-body">
+                    <a href="#"><h5 class="custom-card-title">Very long item name</h5></a>
+                    <div class="custom-card-footer">
+                        3000$
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="custom-card text-center">
+            <a href="#">
+                <img class="up" src="{% static 'image/cat7.jpg' %}" alt="Card image">
+                <div class="custom-card-body">
+                    <a href="#"><h5 class="custom-card-title">Very long item name</h5></a>
+                    <div class="custom-card-footer">
+                        3000$
+                    </div>
+                </div>
+            </a>
+        </div>
+        <div class="custom-card text-center">
+            <a href="#">
+                <img class="up" src="{% static 'image/cat8.jpg' %}" alt="Card image">
+                <div class="custom-card-body">
+                    <a href="#"><h5 class="custom-card-title">Very long item name</h5></a>
+                    <div class="custom-card-footer">
+                        3000$
+                    </div>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>
+
+<section class="contact_section layout_padding">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-md-5 col-lg-4 offset-md-1 offset-lg-2">
+          <div class="form_container">
+            <div class="heading_container">
+              <h2>
+                Contact Us
+              </h2>
+            </div>
+            <form action="">
+              <div>
+                <input type="text" placeholder="Full Name " />
+              </div>
+              <div>
+                <input type="text" placeholder="Phone number" />
+              </div>
+              <div>
+                <input type="email" placeholder="Email" />
+              </div>
+              <div>
+                <input type="text" class="message-box" placeholder="Message" />
+              </div>
+              <div class="d-flex ">
+                <button>
+                  SEND NOW
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="col-md-6  px-0">
+          <div class="map_container">
+            <div class="map">
+              <div id="googleMap"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- end contact section -->
+
+
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    function animateValue(id, start, end, duration) {
+        // Assumes integers for start and end values
+        var obj = document.getElementById(id);
+        var range = end - start;
+        var current = start;
+        var increment = end > start ? 1 : -1;
+        var stepTime = Math.abs(Math.floor(duration / range));
+        var timer = setInterval(function() {
+            current += increment;
+            obj.textContent = current + "+";
+            if (current == end) {
+                clearInterval(timer);
+            }
+        }, stepTime);
+    }
+
+    function checkAnimations() {
+        const statsContainer = document.getElementById("stats-container");
+        const statsTop = statsContainer.getBoundingClientRect().top;
+        const viewportHeight = window.innerHeight;
+        if (statsTop < viewportHeight) {
+            animateValue("customers-served", 700, 1000, 2000);
+            animateValue("cakes-baked", 1700, 2000, 2000);
+            animateValue("flavors-created", 0, 50, 2000);
+            window.removeEventListener('scroll', checkAnimations);
+        }
+    }
+
+    window.addEventListener('scroll', checkAnimations);
+    checkAnimations();
+});
+
+    </script>
+{% endblock %}
