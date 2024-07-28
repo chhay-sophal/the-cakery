@@ -36,15 +36,20 @@
    python manage.py migrate
    ```
 
-5. **Create a superuser for accessing the Django admin**:
+5. **Add Test Data**:
+   ```
+   python manage.py loaddata cakes/fixture_files/trendingtype_fixture.json
+   ```
+
+6. **Create a superuser for accessing the Django admin**:
    ```
    python manage.py createsuperuser
    ```
 
-6. **Collect static files**:
+<!-- 7. **Collect static files**:
    ```
    python manage.py collectstatic
-   ```
+   ``` -->
 
 ## Run the Application
 

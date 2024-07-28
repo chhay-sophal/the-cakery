@@ -1,0 +1,82 @@
+[
+    {
+        "model": "cakes.trendingtype",
+        "pk": 1,
+        "fields": {
+            "name": "Popular",
+            "description": "Cakes that are currently highly popular among customers, often due to their unique flavors, presentation, or overall customer satisfaction."
+        }
+    },
+    {
+        "model": "cakes.trendingtype",
+        "pk": 2,
+        "fields": {
+            "name": "Hottest",
+            "description": "The most sought-after cakes at the moment, often characterized by high demand and frequent purchases."
+        }
+    },
+    {
+        "model": "cakes.trendingtype",
+        "pk": 3,
+        "fields": {
+            "name": "Recent",
+            "description": "Newly added cakes to the catalog, highlighting the latest additions for customers to explore fresh offerings."
+        }
+    },
+    {
+        "model": "cakes.trendingtype",
+        "pk": 4,
+        "fields": {
+            "name": "Top Rated",
+            "description": "Cakes that have received the highest ratings from customers, often praised for their taste, quality, and presentation."
+        }
+    },
+    {
+        "model": "cakes.trendingtype",
+        "pk": 5,
+        "fields": {
+            "name": "Most Reviewed",
+            "description": "Cakes with the most customer reviews, providing a wealth of feedback and insights from other customers."
+        }
+    },
+    {
+        "model": "cakes.trendingtype",
+        "pk": 6,
+        "fields": {
+            "name": "Most Viewed",
+            "description": "Cakes that have attracted the most views on the website, indicating strong interest and curiosity from visitors."
+        }
+    },
+    {
+        "model": "cakes.trendingtype",
+        "pk": 7,
+        "fields": {
+            "name": "Editor's Choice",
+            "description": "Specially curated cakes recommended by the staff or culinary experts, selected for their exceptional quality or unique attributes."
+        }
+    },
+    {
+        "model": "cakes.trendingtype",
+        "pk": 8,
+        "fields": {
+            "name": "Limited Edition",
+            "description": "Cakes available for a limited time or in limited quantities, often featuring seasonal ingredients or special designs."
+        }
+    },
+    {
+        "model": "cakes.trendingtype",
+        "pk": 9,
+        "fields": {
+            "name": "Best Seller",
+            "description": "The top-selling cakes, favored by customers for their consistency in quality and flavor."
+        }
+    },
+    {
+        "model": "cakes.trendingtype",
+        "pk": 10,
+        "fields": {
+            "name": "Seasonal Favorites",
+            "description": "Cakes that are particularly popular during specific seasons or holidays, often featuring seasonal ingredients or themes."
+        }
+    }
+]

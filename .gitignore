@@ -98,3 +98,4 @@ celerybeat-schedule
 
 # Encrypted secrets (Django 3.1+)
 secrets.json
+/thecakery/media
