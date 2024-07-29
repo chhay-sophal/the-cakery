@@ -156,7 +156,7 @@ button.see:hover {
     left: 50%;
     bottom: 0;
     margin-left: -30px;
-    background: var(--primary);
+    background:#FAABBD;
 }
 
 .section-title::after {
@@ -167,7 +167,7 @@ button.see:hover {
     left: 50%;
     bottom: 4px;
     margin-left: -90px;
-    background: var(--primary);
+    background:#FAABBD; ;
 }
 
 .service::after,
@@ -335,13 +335,23 @@ button:hover {
 }
 
 .custom-card-header {
-    font-size: 13px;
+    font-size: 10px;
     color: gray;
     background-color: white;
 }
 
 .custom-card-title {
+    font-size: 17px;
     color: #56091F;
+    text-align: left;
+}
+
+.custom-card {
+    border: 2px solid white;
+    border-radius: 10px;
+    padding: 10px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(58, 57, 57, 0.1);
 }
 
 .custom-card-text {
@@ -349,9 +359,10 @@ button:hover {
 }
 
 .custom-card-footer {
+    color:black;
     font-weight: bold;
-    font-size: 18px;
-    background-color: pink;
+    text-align: left;
+    font-size: 16px;
 }
 
 .table img {

@@ -3,7 +3,6 @@
 
 <head>
     <meta charset="utf-8">
-    <title>CakeZone - Cake Shop Website Template</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <!-- Favicon -->
@@ -48,14 +47,14 @@
     <div class="row gx-0">
         <div class="col-lg-4 text-center py-3" style="background-color: #FBF7D0;">
             <div class="d-inline-flex align-items-center justify-content-center">
-                <i class="bi bi-envelope fs-1 text-primary me-3"></i>
+                <i class="bi bi-envelope fs-1 me-3" style="color:pink"></i>
                 <div class="text-start">
                     <h6 class="text-uppercase mb-1">Email Us</h6>
-                    <span>info@example.com</span>
+                    <span>thecakery@cambodia.com</span>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 text-center bg-primary border-inner py-3">
+        <div class="col-lg-4 text-center border-inner py-3" style="background-color: #F598B0;">
             <div class="d-inline-flex align-items-center justify-content-center">
                 <a href="{% url 'home' %}" class="navbar-brand">
                     <h1 class="m-0 text-uppercase text-white"><i class="fa fa-birthday-cake fs-1 me-3" style="color: #56091F;"></i>The Cakery</h1>
@@ -64,7 +63,7 @@
         </div>
         <div class="col-lg-4 text-center py-3" style="background-color: #FBF7D0;">
             <div class="d-inline-flex align-items-center justify-content-center">
-                <i class="bi bi-phone-vibrate fs-1 text-primary me-3"></i>
+                <i class="bi bi-phone-vibrate fs-1 me-3" style="color: #F598B0;"></i>
                 <div class="text-start">
                     <h6 class="text-uppercase mb-1">Call Us</h6>
                     <span>+012 345 6789</span>
@@ -100,7 +99,13 @@
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'about' %}">About Us</a>
+                    <a class="nav-link" href="{% url 'about' %}">Desserts & Sweets</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'about' %}">Decoration</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'about' %}">About</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'contact' %}">Contact Us</a>

@@ -20,12 +20,19 @@ class Cake(models.Model):
     cake_type = models.ForeignKey(CakeType, related_name='cakes', on_delete=models.CASCADE)
     flavours = models.ManyToManyField(Flavour, related_name='cakes', blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
+    discount_percentage = models.DecimalField(max_digits=3, decimal_places=2, default=0.00)
     stock = models.PositiveIntegerField()
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
+    
+    def get_discounted_price(self):
+        if self.discount_percentage > 0:
+            discount_amount = (self.discount_percentage / 100) * self.price
+            return self.price - discount_amount
+        return self.price
 
 class CakeImage(models.Model):
     cake = models.ForeignKey(Cake, related_name='images', on_delete=models.CASCADE)

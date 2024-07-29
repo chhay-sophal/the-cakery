@@ -94,7 +94,7 @@
 <div class="container-fluid pt-5">
     <div class="container">
         <div class="section-title position-relative text-center mx-auto mb-5 pb-3" style="max-width: 600px;">
-            <h2 class="text-primary font-secondary">About Us</h2>
+            <h2 class="font-secondary" style="color: #F598B0;">About Us</h2>
             <h5 class="display-4 text-uppercase">Welcome To The Cakery</h5>
         </div>
         <div class="row gx-5">
@@ -108,14 +108,14 @@
                 <p class="mb-5">Tempor erat elitr at rebum at at clita. Diam dolor diam ipsum et tempor sit. Clita erat ipsum et lorem et sit, sed stet no labore lorem sit. Sanctus clita duo justo et tempor eirmod magna dolore erat amet magna</p>
                 <div class="row g-5">
                     <div class="col-sm-6">
-                        <div class="d-flex align-items-center justify-content-center bg-primary border-inner mb-4" style="width: 90px; height: 90px;">
+                        <div class="d-flex align-items-center justify-content-center border-inner mb-4" style="width: 90px; height: 90px; background-color: #F598B0;">
                             <i class="fa fa-heartbeat fa-2x text-white"></i>
                         </div>
                         <h4 class="text-uppercase">100% Healthy</h4>
                         <p class="mb-0">Labore justo vero ipsum sit clita erat lorem magna clita nonumy dolor magna dolor vero</p>
                     </div>
                     <div class="col-sm-6">
-                        <div class="d-flex align-items-center justify-content-center bg-primary border-inner mb-4" style="width: 90px; height: 90px;">
+                        <div class="d-flex align-items-center justify-content-center border-inner mb-4" style="width: 90px; height: 90px;background-color: #F598B0;">
                             <i class="fa fa-award fa-2x text-white"></i>
                         </div>
                         <h4 class="text-uppercase">Award Winning</h4>
@@ -155,21 +155,21 @@
         <div class="container">
             <div class="row g-5">
                 <div class="col-lg-4 col-md-6">
-                    <div class="bg-primary border-inner text-center text-white p-5">
+                    <div class="border-inner text-center text-white p-5" style="background-color: #F598B0;">
                         <h4 class="text-uppercase mb-3">Birthday Cake</h4>
                         <p>Ipsum ipsum clita erat amet dolor sit justo sea eirmod diam stet sit justo amet tempor amet kasd lorem dolor ipsum</p>
                         <a class="text-uppercase text-dark" href="">Read More <i class="bi bi-arrow-right"></i></a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
-                    <div class="bg-primary border-inner text-center text-white p-5">
+                    <div class="border-inner text-center text-white p-5" style="background-color: #F598B0;">
                         <h4 class="text-uppercase mb-3">Wedding Cake</h4>
                         <p>Ipsum ipsum clita erat amet dolor sit justo sea eirmod diam stet sit justo amet tempor amet kasd lorem dolor ipsum</p>
                         <a class="text-uppercase text-dark" href="">Read More <i class="bi bi-arrow-right"></i></a>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
-                    <div class="bg-primary border-inner text-center text-white p-5">
+                    <div class="border-inner text-center text-white p-5" style="background-color: #F598B0;">
                         <h4 class="text-uppercase mb-3">Custom Cake</h4>
                         <p>Ipsum ipsum clita erat amet dolor sit justo sea eirmod diam stet sit justo amet tempor amet kasd lorem dolor ipsum</p>
                         <a class="text-uppercase text-dark" href="">Read More <i class="bi bi-arrow-right"></i></a>
@@ -188,7 +188,7 @@
 
 <!-- Need css for image and add some buttons-->
 <!-- Displaying Cake for users-->
-<h2 style="text-align: center;padding: 20px; color: #FAABBD; font-size: 40px;"><strong>Our Flavours</strong></h2>
+<h2 style="text-align: center;padding: 20px; color: #FAABBD; font-size: 40px;"><strong>Choose Your Cake</strong></h2>
 
 <div class="container3">
     <div class="custom-card-deck">
@@ -204,7 +204,18 @@
                 <div class="custom-card-body">
                     <h5 class="custom-card-title">{{ cake.name }}</h5>
                     <div class="custom-card-footer">
-                        {{ cake.price }}$
+                        {% if cake.get_discounted_price and cake.get_discounted_price < cake.price %}
+                            <span class="discounted-price" style="color:black; font-weight: bold;">
+                                {{ cake.get_discounted_price|floatformat:2 }}$
+                             </span>
+                            <span class="original-price" style="font-weight: 500;text-decoration: line-through; color:palevioletred; font-style: italic;font-size: 15px;margin-left: 15px;">
+                                {{ cake.price }}$
+                            </span>
+                        {% else %}
+                            <span class="original-price">
+                                {{ cake.price }}$
+                            </span>
+                        {% endif %}
                     </div>
                 </div>
             </a>
@@ -212,6 +223,8 @@
         {% endfor %}
     </div>
 </div>
+
+
 
 <section class="contact_section layout_padding">
     <div class="container-fluid">
