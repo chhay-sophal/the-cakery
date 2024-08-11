@@ -19,7 +19,7 @@
 <h3>Reviews:</h3>
 <ul>
     {% for review in cake_reviews %}
-        <li>{{ review.user.username }} - Rating: {{ review.rating }} - {{ review.comment }}</li>
+        <li>{{ review.user }} - Rating: {{ review.rating }} - {{ review.comment }}</li>
     {% empty %}
         <li>No reviews available for this cake.</li>
     {% endfor %}

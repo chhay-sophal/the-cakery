@@ -199,7 +199,7 @@
     <div class="custom-card-deck">
         {% for cake in cakes %}
         <div class="custom-card text-center">
-            <a href="#">
+            <a href="{% url 'cake_detail' cake.name %}">
                 <div class="custom-card-header">
                     {% for trending in cake.trendingcake_set.all %}
                         {{ trending.trend_type.name }}

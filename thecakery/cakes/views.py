@@ -1,5 +1,8 @@
 from django.shortcuts import render, get_object_or_404
+from django.contrib.contenttypes.models import ContentType
 from .models import Cake, CakeImage
+from reviews.models import Review
+from reviews.views import reviews
 
 def get_all_cakes(request): 
     cakes = Cake.objects.all()
@@ -10,7 +13,21 @@ def get_cake_detail(request, cake_name):
     cake = get_object_or_404(Cake, name=cake_name)  
     cake_images = cake.images.all()
     cake_sizes = cake.sizes.all()
-    cake_reviews = cake.reviews.all()
+    cake_content_type = ContentType.objects.get_for_model(Cake)
+    reviews = Review.objects.filter(content_type=cake_content_type, object_id=cake.id)
+
+    cake_reviews = []
+    for review in reviews:
+        review_data = {
+            'user': review.user.username,
+            'rating': review.rating,
+            'comment': review.comment,
+            'created_at': review.created_at.strftime("%d/%m/%Y, %H:%M:%S"),
+        }
+        cake_reviews.append(review_data)
+
+    if not cake_reviews:
+        cake_reviews.append({'message': f'No reviews for {cake}.'})
 
     context = {
         'cake': cake,
