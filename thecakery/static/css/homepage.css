@@ -1,11 +1,79 @@
 /********** Template CSS **********/
+/* Box Sizing */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+/* Prevent Horizontal Overflow */
+html, body {
+    overflow-x: hidden;
+}
+
+/* Ensure Containers Are 100% Wide */
+.container-fluid {
+    width: 100%;
+    padding: 0 15px; /* Adjust padding as needed */
+}
+
 :root {
     --primary: #E88F2A;
     --secondary: #FAF3EB;
     --light: #FFFFFF;
     --dark: #2B2825;
 }
+.promotion{
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+    height: 15px;
+    border: 1px solid #FAABBD;
+    color:#56091F;
+    padding:10px;
+}
+.promotion p{
+    padding:100px;
+}
+.navbar {
+background:pink;
+box-shadow: 0 4px 6px rgba(22, 22, 26, 0.18);
+position: relative; /* Ensure it is positioned relative to its default location */
+z-index: 10; /* Set a high z-index to ensure it is on top */
+}
+.navbar .navbar-nav .nav-link {
+color:#56091F;
+}
+.btn-outline-dark {
+border-radius: 0;
+}
+.btn-outline-dark:focus {
+box-shadow: none;
+}
+@media screen and (max-width: 768px) {
+.btn-outline-dark {
+    border: none;
+    padding: 0;
+    outline: none;
+}
 
+.btn-outline-dark:hover {
+    background: none;
+    color: gray;
+}
+}
+.btn-pink {
+background-color: #FAABBD;
+color: #FFFFFF;
+border-color: #FAABBD;
+}
+
+.btn-pink:hover {
+    background-color: #F598B0;
+    border-color: #F598B0;
+}
+.dropdown-menu .dropdown-item:hover {
+        background-color: pink; /
+}
 .font-secondary {
     font-family: 'Pacifico', cursive;
 }
@@ -34,14 +102,7 @@ h6,
     transition: .5s;
 }
 
-.promotion{
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-    height: 5vh;
-    border: 1px solid #FAABBD;
-}
+
 .hero-header {
     background: url(../image/hero1.jpg) no-repeat center center;
     background-size: cover;
@@ -49,7 +110,6 @@ h6,
     position: relative;
     z-index: 1;
 }
-
 
 .hero-header::before {
     content: '';
@@ -68,13 +128,7 @@ h6,
 }
 
 /* Zoom Animation */
-.zoom {
-    transition: transform 0.3s ease;
-}
 
-.zoom:hover {
-    transform: scale(1.1);
-}
 
 .image-container {
     position: relative;
@@ -323,6 +377,7 @@ button:hover {
     max-width: 16rem;
     flex: 0 0 auto;
     margin-right: 50px; /* Adjust the margin as needed */
+    overflow: hidden;
 }
 
 .custom-card:last-child {
@@ -346,12 +401,24 @@ button:hover {
     text-align: left;
 }
 
+.custom-card img {
+    display: block; /* Ensure image is block-level to prevent unwanted spacing */
+    width: 100%; /* Make sure the image fits within the container */
+    transition: transform 0.3s ease; /* Smooth transition for zoom effect */
+}
+
+.custom-card:hover img {
+    transform: scale(1.02); /* Zoom effect */
+    transform-origin: center; /* Zooms in from the center */
+}
+
 .custom-card {
     border: 2px solid white;
-    border-radius: 10px;
+    border-radius: 5px;
     padding: 10px;
     margin-bottom: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(58, 57, 57, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 3px 10px rgba(58, 57, 57, 0.1);
+    z-index: 1;
 }
 
 .custom-card-text {

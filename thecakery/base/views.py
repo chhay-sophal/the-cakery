@@ -17,5 +17,21 @@ def about(request):
 
 def contact(request):
     return render(request, 'base/contact_us.html')
+
 def catalog(request):
     return render(request, 'base/catalog.html')
+
+def chocolate(request):
+    return render(request, 'base/chocolate.html')
+
+def strawberry(request):
+    return render(request, 'base/strawberry.html')
+
+def vanilla(request):
+    return render(request, 'base/vanilla.html')
+
+def brownie(request):
+    return render(request, 'base/brownie.html')
+
+def sign_up(request):
+    return render(request,'base/signup.html')
