@@ -22,13 +22,32 @@ class Flavour(models.Model):
     def __str__(self):
         return self.name
     
+class Discount(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    description = models.TextField(blank=True)
+    percentage = models.DecimalField(max_digits=5, decimal_places=2)  # Allows up to 99.99% discount
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+    active = models.BooleanField(default=True)  # Whether the discount is currently active
+    cakes = models.ManyToManyField('Cake', related_name='discounts', blank=True)  # Connects to multiple cakes
+
+    def __str__(self):
+        return f"{self.name} ({self.percentage}% off)"
+
+    def is_active(self):
+        from django.utils import timezone
+        now = timezone.now()
+        return self.active and self.start_date <= now <= self.end_date
+
+    def get_discounted_price(self, original_price):
+        return original_price * (1 - (self.percentage / 100))
+    
 class Cake(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField(blank=True)
     cake_type = models.ForeignKey(CakeType, related_name='cakes', on_delete=models.CASCADE)
     flavours = models.ManyToManyField(Flavour, related_name='cakes', blank=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
-    discount_percentage = models.DecimalField(max_digits=3, decimal_places=2, default=0.00)
     stock = models.PositiveIntegerField()
     category = models.ForeignKey(Category, related_name='cakes', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -38,10 +57,11 @@ class Cake(models.Model):
     def __str__(self):
         return self.name
     
-    def get_discounted_price(self):
-        if self.discount_percentage > 0:
-            discount_amount = (self.discount_percentage / 100) * self.price
-            return self.price - discount_amount
+    def get_final_price(self):
+        active_discounts = self.discounts.filter(active=True, start_date__lte=models.functions.Now(), end_date__gte=models.functions.Now())
+        if active_discounts.exists():
+            max_discount = max(active_discounts, key=lambda d: d.percentage)
+            return max_discount.get_discounted_price(self.price)
         return self.price
 
 class CakeImage(models.Model):

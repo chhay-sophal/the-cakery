@@ -209,9 +209,9 @@
                 <div class="custom-card-body">
                     <h5 class="custom-card-title">{{ cake.name }}</h5>
                     <div class="custom-card-footer">
-                        {% if cake.get_discounted_price and cake.get_discounted_price < cake.price %}
+                        {% if cake.get_final_price and cake.get_final_price < cake.price %}
                             <span class="discounted-price" style="color:black; font-weight: bold;">
-                                {{ cake.get_discounted_price|floatformat:2 }}$
+                                {{ cake.get_final_price|floatformat:2 }}$
                              </span>
                             <span class="original-price" style="font-weight: 500;text-decoration: line-through; color:palevioletred; font-style: italic;font-size: 15px;margin-left: 15px;">
                                 {{ cake.price }}$
