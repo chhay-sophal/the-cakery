@@ -1,13 +1,21 @@
 from django.db import models
 
 class CakeType(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
+
+    def __str__(self):
+        return self.name
+    
+class Category(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    description = models.TextField(blank=True)
+    image = models.ImageField(upload_to='category_images/', blank=True, null=True)
 
     def __str__(self):
         return self.name
     
 class Flavour(models.Model):
-    name = models.CharField(max_length=100)
+    name = models.CharField(max_length=100, unique=True)
     description = models.TextField(blank=True)
     image = models.ImageField(upload_to='flavour_images/', blank=True, null=True)
 
@@ -22,8 +30,10 @@ class Cake(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2)
     discount_percentage = models.DecimalField(max_digits=3, decimal_places=2, default=0.00)
     stock = models.PositiveIntegerField()
+    category = models.ForeignKey(Category, related_name='cakes', on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    deleted_at = models.DateTimeField(blank=True, null=True)
 
     def __str__(self):
         return self.name

@@ -38,7 +38,7 @@
 
 5. **Add Test Data**:
    ```
-   python manage.py loaddata cakes/fixture_files/trendingtype_fixture.json
+   python manage.py create_test_data
    ```
 
 6. **Create a superuser for accessing the Django admin**:
