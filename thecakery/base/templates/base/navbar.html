@@ -103,20 +103,27 @@
                         <i class="fas fa-heart"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="cartDropdown" style="min-width: 400px;">
-                        <li class="d-flex align-items-center mb-2">
-                            <img src="{% static 'image/black.jpg' %}" class="img-fluid me-2" alt="Cake" style="width: 80px; height: auto;">
-                            <div>
-                                <p class="mb-0">Chocolate Mousse Tuffle</p>
-                            </div>
-                            <span class="ms-auto">$89</span>
-                            <a href="#" class="btn btn-pink btn-sm ms-2">
-                                <i class="fa fa-heart"></i>
-                            </a>
-                        </li>
-                        <li class="d-flex justify-content-between align-items-center">
-                            <span>Total:</span>
-                            <span class="fw-bold">$89</span>
-                        </li>
+                        {% if user.is_authenticated %}
+                            <li class="d-flex align-items-center mb-2">
+                                <img src="{% static 'image/black.jpg' %}" class="img-fluid me-2" alt="Cake" style="width: 80px; height: auto;">
+                                <div>
+                                    <p class="mb-0">Chocolate Mousse Tuffle</p>
+                                </div>
+                                <span class="ms-auto">$89</span>
+                                <a href="#" class="btn btn-pink btn-sm ms-2">
+                                    <i class="fa fa-heart"></i>
+                                </a>
+                            </li>
+                            <li class="d-flex justify-content-between align-items-center">
+                                <span>Total:</span>
+                                <span class="fw-bold">$89</span>
+                            </li>
+                        {% else %}
+                            <li class="text-center">Log in to see your favorite.</li>
+                            <li class="text-center mt-2">
+                                <a href="{% url 'login' %}" class="btn" style="background-color: #F598B0;">Login</a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </div>
                 <div class="dropdown">
@@ -124,24 +131,43 @@
                         <i class="fas fa-shopping-cart"></i>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="cartDropdown" style="min-width: 400px;">
-                        <li class="d-flex align-items-center mb-2">
-                            <img src="{% static 'image/black.jpg' %}" class="img-fluid me-2" alt="Cake" style="width: 80px; height: auto;">
-                            <div>
-                                <p class="mb-0">Chocolate Mousse Tuffle</p>
-                                <small>1 x $89</small>
-                            </div>
-                            <span class="ms-auto">$89</span>
-                            <a href="#" class="btn btn-danger btn-sm ms-2">
-                                <i class="fa fa-times"></i>
-                            </a>
-                        </li>
-                        <li class="d-flex justify-content-between align-items-center">
-                            <span>Total:</span>
-                            <span class="fw-bold">$89</span>
-                        </li>
-                        <li class="text-center mt-2">
-                            <a href="#" class="btn" style="background-color: #F598B0;">Checkout</a>
-                        </li>
+                        {% if user.is_authenticated %}
+                            {% if cart_items %}
+                                {% for item in cart_items %}
+                                    <li class="d-flex align-items-center mb-2">
+                                        {% if item.content_object.images.exists %}
+                                            {% with item.content_object.images.first as image %}
+                                                <img src="{{ image.image.url }}" class="img-fluid me-2" alt="{{ image.alt_text }}" style="width: 80px; height: auto;">
+                                            {% endwith %}
+                                        {% else %}
+                                            <img src="{% static 'image/placeholder.svg' %}" class="img-fluid me-2" alt="No image available" style="width: 80px; height: auto;">
+                                        {% endif %}
+                                        <div>
+                                            <p class="mb-0">{{ item.content_object.name }}</p>
+                                            <small>{{ item.quantity }} x ${{ item.get_price }}</small>
+                                        </div>
+                                        <span class="ms-auto">${{ item.get_price }}</span>
+                                        <a href="{% url 'remove_from_cart' item.id %}" class="btn btn-danger btn-sm ms-2">
+                                            <i class="fa fa-times"></i>
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                                <li class="d-flex justify-content-between align-items-center">
+                                    <span>Total:</span>
+                                    <span class="fw-bold">${{ total_price|floatformat:2 }}</span>
+                                </li>
+                            {% else %}
+                                <li class="text-center">Your cart is empty.</li>
+                            {% endif %}
+                            <li class="text-center mt-2">
+                                <a href="{% url 'checkout' %}" class="btn" style="background-color: #F598B0;">Checkout</a>
+                            </li>
+                        {% else %}
+                            <li class="text-center">Log in to see your cart.</li>
+                            <li class="text-center mt-2">
+                                <a href="{% url 'login' %}" class="btn" style="background-color: #F598B0;">Login</a>
+                            </li>
+                        {% endif %}
                     </ul>
                 </div>
                 <div>  
