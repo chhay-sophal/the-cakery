@@ -1,0 +1,15 @@
+{% extends "base/base.html" %}
+
+{% block title %}Profile{% endblock %}
+
+{% block content %}
+<h2>Your Profile</h2>
+
+<p><strong>First Name:</strong> {{ user.first_name }}</p>
+<p><strong>Last Name:</strong> {{ user.last_name }}</p>
+<p><strong>Username:</strong> {{ user.username }}</p>
+<p><strong>Email:</strong> {{ user.email }}</p>
+
+<!-- Add other details if needed -->
+<button><a class="text-white" href="{% url 'logout_confirm' %}">Logout</a></button>
+{% endblock %}

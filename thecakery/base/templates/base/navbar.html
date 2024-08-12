@@ -145,10 +145,18 @@
                     </ul>
                 </div>
                 <div>  
-                    <a class="btn btn-pink me-2" href="{% url 'sign_up' %}" id="profileDropdown">
-                        <i class="fas fa-user"></i>
-                    </a>
-                </div>                          
+                    {% if user.is_authenticated %}
+                        <!-- If the user is logged in, show the profile link -->
+                        <a class="btn btn-pink me-2" href="{% url 'profile' %}" id="profileDropdown">
+                            <i class="fas fa-user"></i>
+                        </a>
+                    {% else %}
+                        <!-- If the user is not logged in, show the login link -->
+                        <a class="btn btn-pink me-2" href="{% url 'login' %}" id="profileDropdown">
+                            <i class="fas fa-user"></i>
+                        </a>
+                    {% endif %}
+                </div>                                       
             </div>
         </div>
     </div>
