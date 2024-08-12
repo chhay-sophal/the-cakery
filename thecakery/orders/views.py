@@ -3,11 +3,26 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 from django.db import transaction
 from .models import Favorite, Cart, CartItem, Order, OrderItem
 from .forms import CheckoutForm
 from cakes.models import Cake, CakeSize
 from party_accessories.models import PartyAccessory
+
+@login_required
+@require_POST
+def toggle_favorite(request, cake_id):
+    cake = Cake.objects.get(id=cake_id)
+    favorite, created = Favorite.objects.get_or_create(user=request.user, cake=cake)
+
+    if not created:
+        favorite.delete()
+        is_favorite = False
+    else:
+        is_favorite = True
+
+    return JsonResponse({'success': True, 'is_favorite': is_favorite})
 
 @login_required
 def add_favorite(request, item_type, item_id):

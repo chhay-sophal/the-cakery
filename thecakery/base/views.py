@@ -19,7 +19,16 @@ def contact(request):
     return render(request, 'base/contact_us.html')
 
 def catalog(request):
-    return render(request, 'base/catalog.html')
+    cakes = Cake.objects.prefetch_related('trending_entries__trend_type', 'images').all()
+    user = request.user
+
+    # Pass cakes and user to the template
+    context = {
+        'cakes': cakes,
+        'user': user,
+    }
+
+    return render(request, 'base/catalog.html', context)
 
 def chocolate(request):
     return render(request, 'base/chocolate.html')

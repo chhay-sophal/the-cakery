@@ -11,70 +11,38 @@
 <div class="container3">
   <h3 class="font-secondary">Choose Your Cake</h3>
   <div class="card-deck">
+    {% for cake in cakes %}
     <div class="card text-center">
-      <a href="#">
+      {% if cake in favorite_cakes %}
+        <a href="{% url 'remove_favorite' 'cake' cake.id %}"><i class="fa fa-heart card-heart-icon clicked"></i></a>
+      {% else %}
+        <a href="{% url 'add_favorite' 'cake' cake.id %}"><i class="fa fa-heart card-heart-icon"></i></a>
+      {% endif %}
+      <a href="{% url 'cake_detail' cake.name %}">
         <div class="card-header">
-          Most Popular!
+          {% if cake.trending_entries.exists %}
+            {{ cake.trending_entries.first.trend_type.name }}
+          {% else %}
+            Most Popular!
+          {% endif %}
         </div>
-        <img class="card-img-top" src="{% static 'image/black.jpg' %}" alt="Card image">
-        <i class="fa fa-heart card-heart-icon"></i>
+        {% if cake.images.first %}
+          <img class="card-img-top" src="{{ cake.images.first.image.url }}" alt="{{ cake.images.first.alt_text }}">
+        {% else %}
+          <img class="card-img-top" src="default_image_url" alt="No image available">
+        {% endif %}
         <div class="card-body">
-          <p class="card-text text-muted">Category name</p>
-          <a href="#"><h5 class="card-title">Very long item name</h5></a>
+          <p class="card-text text-muted">{{ cake.category.name }}</p>
+          <a href="{% url 'cake_detail' cake.name %}">
+              <h5 class="card-title">{{ cake.name }}</h5>
+          </a>
           <div class="card-footer">
-            3000$
+              {{ cake.get_final_price|floatformat:2 }}$
           </div>
         </div>
       </a>
     </div>
-    <div class="card text-center">
-      <a href="#">
-        <div class="card-header">
-          Most Popular!
-        </div>
-        <img class="card-img-top" src="{% static 'image/strawchoco.jpg' %}" alt="Card image">
-        <i class="fa fa-heart card-heart-icon"></i>
-        <div class="card-body">
-          <p class="card-text text-muted">Category name</p>
-          <a href="#"><h5 class="card-title">Very long item name</h5></a>
-          <div class="card-footer">
-            3000$
-          </div>
-        </div>
-      </a>
-    </div>
-    <div class="card text-center">
-      <a href="#">
-        <div class="card-header">
-          Hottest!
-        </div>
-        <img class="card-img-top" src="{% static 'image/twotop.png' %}" alt="Card image">
-        <i class="fa fa-heart card-heart-icon"></i>
-        <div class="card-body">
-          <p class="card-text text-muted">Category name</p>
-          <a href="#"><h5 class="card-title">Very long item name</h5></a>
-          <div class="card-footer">
-            3000$
-          </div>
-        </div>
-      </a>
-    </div>
-    <div class="card text-center">
-      <a href="#">
-        <div class="card-header">
-          Most Recent!
-        </div>
-        <img class="card-img-top" src="{% static 'image/choco3.jpg' %}" alt="Card image">
-        <i class="fa fa-heart card-heart-icon"></i>
-        <div class="card-body">
-          <p class="card-text text-muted">Category name</p>
-          <a href="#"><h5 class="card-title">Very long item name</p></a>
-          <div class="card-footer">
-            3000$
-          </div>
-        </div>
-      </a>
-    </div>
+    {% endfor %}
   </div>
 </div>
 
