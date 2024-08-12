@@ -14,12 +14,16 @@ class CartAdmin(admin.ModelAdmin):
 # Register the CartItem model
 @admin.register(CartItem)
 class CartItemAdmin(admin.ModelAdmin):
-    list_display = ('cart', 'content_object', 'quantity', 'custom_text')
+    list_display = ('cart', 'content_object', 'quantity', 'size', 'get_price', 'custom_text')
     search_fields = ('cart__user__username', 'custom_text')
     list_filter = ('cart__user',)
     
     def content_object(self, obj):
         return str(obj.content_object)
+
+    def get_price(self, obj):
+        return obj.get_price()
+    get_price.short_description = 'Price'
 
 # Register the Order model
 @admin.register(Order)

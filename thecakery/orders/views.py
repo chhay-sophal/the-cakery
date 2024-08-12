@@ -6,15 +6,36 @@ from django.contrib.auth.decorators import login_required
 from django.db import transaction
 from .models import Cart, CartItem, Order, OrderItem
 from .forms import CheckoutForm
-from cakes.models import Cake
+from cakes.models import Cake, CakeSize
 from party_accessories.models import PartyAccessory
 
 @login_required
 def add_to_cart(request, item_type, item_id):
+    quantity = request.POST.get('quantity', 1)  # Get the quantity from POST data, default to 1
+    size_id = request.POST.get('size_id')  # Get the selected size ID from POST data
+
+    try:
+        quantity = int(quantity)
+        if quantity <= 0:
+            raise ValueError("Quantity must be a positive integer.")
+    except ValueError:
+        messages.error(request, "Invalid quantity.")
+        return redirect('home')
+
     if item_type == 'cake':
         item = get_object_or_404(Cake, pk=item_id)
+        size = None
+        if size_id:
+            size = get_object_or_404(CakeSize, pk=size_id, cake=item)
+        else:
+            # Automatically use the default size if none is selected
+            size = CakeSize.objects.filter(size='small', cake=item).first()
+            if not size:
+                messages.error(request, "No default size available for this cake.")
+                return redirect('cake_detail', cake_name=item.name)
     elif item_type == 'accessory':
         item = get_object_or_404(PartyAccessory, pk=item_id)
+        size = None
     else:
         messages.error(request, "Invalid item type.")
         return redirect('home')
@@ -26,15 +47,20 @@ def add_to_cart(request, item_type, item_id):
         cart=cart,
         content_type=content_type,
         object_id=item_id,
-        defaults={'quantity': 1}
+        size=size,  # Include size in the query
+        defaults={'quantity': quantity}
     )
 
     if not created:
-        cart_item.quantity += 1
+        cart_item.quantity += quantity
         cart_item.save()
 
-    messages.success(request, f"{item.name} added to your cart.")
-    return JsonResponse({"message": f"{item.name} added to your cart."})
+    # Calculate the total price based on the updated quantity
+    total_price = cart_item.get_price()
+
+    size_info = size.size if size else 'N/A'
+    messages.success(request, f"{quantity} x {item.name} ({size_info}) added to your cart.")
+    return JsonResponse({"message": f"{quantity} x {item.name} ({size_info}) added to your cart.", "total_price": total_price})
 
 @login_required
 def view_cart(request):

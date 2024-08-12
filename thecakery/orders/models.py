@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 from django.core.exceptions import ValidationError
+from decimal import Decimal
+from cakes.models import Cake, CakeSize
+from party_accessories.models import PartyAccessory
 
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -10,7 +13,7 @@ class Cart(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def total_price(self):
-        return sum(item.content_object.price * item.quantity for item in self.items.all())
+        return sum(item.get_price() for item in self.items.all())
 
     def __str__(self):
         return f"Cart of {self.user.username}"
@@ -22,6 +25,7 @@ class CartItem(models.Model):
     content_object = GenericForeignKey('content_type', 'object_id')
     quantity = models.PositiveIntegerField(default=1)
     custom_text = models.CharField(max_length=25, blank=True, null=True)
+    size = models.ForeignKey(CakeSize, null=False, blank=False, default=None, on_delete=models.CASCADE)
 
     def __str__(self):
         return f"{self.content_object} (x{self.quantity})"
@@ -31,8 +35,26 @@ class CartItem(models.Model):
             raise ValidationError('Custom text cannot exceed 25 characters.')
 
     def save(self, *args, **kwargs):
+        # Set default size if not provided
+        if not self.size:
+            default_size = CakeSize.objects.filter(size='small').first()
+            if default_size:
+                self.size = default_size
+            else:
+                raise ValidationError("Default size 'small' not found.")
         self.clean()
         super(CartItem, self).save(*args, **kwargs)
+
+    def get_price(self):
+        if isinstance(self.content_object, Cake):
+            unit_price = self.content_object.price
+            if self.size:
+                unit_price += self.size.additional_price
+        elif isinstance(self.content_object, PartyAccessory):
+            unit_price = self.content_object.price
+        else:
+            return 0
+        return unit_price * self.quantity
 
 class Order(models.Model):
     SHIPMENT_STATUS_CHOICES = [
