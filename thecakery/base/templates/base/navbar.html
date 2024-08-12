@@ -102,30 +102,55 @@
                     <a class="btn btn-pink me-2 dropdown-toggle" href="#" id="heartDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-heart"></i>
                     </a>
-                    <ul class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="cartDropdown" style="min-width: 400px;">
+                    <ul class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="heartDropdown" style="min-width: 400px;">
                         {% if user.is_authenticated %}
-                            <li class="d-flex align-items-center mb-2">
-                                <img src="{% static 'image/black.jpg' %}" class="img-fluid me-2" alt="Cake" style="width: 80px; height: auto;">
-                                <div>
-                                    <p class="mb-0">Chocolate Mousse Tuffle</p>
-                                </div>
-                                <span class="ms-auto">$89</span>
-                                <a href="#" class="btn btn-pink btn-sm ms-2">
-                                    <i class="fa fa-heart"></i>
-                                </a>
-                            </li>
-                            <li class="d-flex justify-content-between align-items-center">
-                                <span>Total:</span>
-                                <span class="fw-bold">$89</span>
-                            </li>
+                            {% if favorite_cakes or favorite_accessories %}
+                                {% for cake in favorite_cakes %}
+                                    <li class="d-flex align-items-center mb-2">
+                                        {% if cake.images.exists %}
+                                            {% with cake.images.first as image %}
+                                                <img src="{{ image.image.url }}" class="img-fluid me-2" alt="{{ image.alt_text }}" style="width: 80px; height: auto;">
+                                            {% endwith %}
+                                        {% else %}
+                                            <img src="{% static 'image/placeholder.svg' %}" class="img-fluid me-2" alt="No image available" style="width: 80px; height: auto;">
+                                        {% endif %}
+                                        <div>
+                                            <p class="mb-0">{{ cake.name }}</p>
+                                        </div>
+                                        <a href="{% url 'remove_favorite' 'cake' cake.id %}" class="btn btn-danger btn-sm ms-2">
+                                            <i class="fa fa-heart-broken"></i>
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                                {% for accessory in favorite_accessories %}
+                                    <li class="d-flex align-items-center mb-2">
+                                        {% if accessory.images.exists %}
+                                            {% with accessory.images.first as image %}
+                                                <img src="{{ image.image.url }}" class="img-fluid me-2" alt="{{ image.alt_text }}" style="width: 80px; height: auto;">
+                                            {% endwith %}
+                                        {% else %}
+                                            <img src="{% static 'image/placeholder.svg' %}" class="img-fluid me-2" alt="No image available" style="width: 80px; height: auto;">
+                                        {% endif %}
+                                        <div>
+                                            <p class="mb-0">{{ accessory.name }}</p>
+                                        </div>
+                                        <a href="{% url 'remove_favorite' 'accessory' accessory.id %}" class="btn btn-danger btn-sm ms-2">
+                                            <i class="fa fa-heart-broken"></i>
+                                        </a>
+                                    </li>
+                                {% endfor %}
+                            {% else %}
+                                <li class="text-center">You have no favorites.</li>
+                            {% endif %}
                         {% else %}
-                            <li class="text-center">Log in to see your favorite.</li>
+                            <li class="text-center">Log in to see your favorites.</li>
                             <li class="text-center mt-2">
                                 <a href="{% url 'login' %}" class="btn" style="background-color: #F598B0;">Login</a>
                             </li>
                         {% endif %}
                     </ul>
                 </div>
+                
                 <div class="dropdown">
                     <a class="btn btn-pink me-2 dropdown-toggle" href="#" id="cartDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         <i class="fas fa-shopping-cart"></i>
@@ -144,6 +169,9 @@
                                         {% endif %}
                                         <div>
                                             <p class="mb-0">{{ item.content_object.name }}</p>
+                                            {% if item.size %}
+                                                <small>Size: {{ item.size }}</small><br>
+                                            {% endif %}
                                             <small>{{ item.quantity }} x ${{ item.get_price }}</small>
                                         </div>
                                         <span class="ms-auto">${{ item.get_price }}</span>
@@ -169,7 +197,8 @@
                             </li>
                         {% endif %}
                     </ul>
-                </div>
+                </div>                
+
                 <div>  
                     {% if user.is_authenticated %}
                         <!-- If the user is logged in, show the profile link -->

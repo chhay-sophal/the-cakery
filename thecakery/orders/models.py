@@ -7,6 +7,23 @@ from decimal import Decimal
 from cakes.models import Cake, CakeSize
 from party_accessories.models import PartyAccessory
 
+class Favorite(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    cake = models.ForeignKey(Cake, null=True, blank=True, on_delete=models.CASCADE)
+    accessory = models.ForeignKey(PartyAccessory, null=True, blank=True, on_delete=models.CASCADE)
+
+    class Meta:
+        unique_together = ('user', 'cake', 'accessory')
+        verbose_name = 'Favorite'
+        verbose_name_plural = 'Favorites'
+
+    def __str__(self):
+        if self.cake:
+            return f"{self.user.username} - Favorite Cake: {self.cake.name}"
+        if self.accessory:
+            return f"{self.user.username} - Favorite Accessory: {self.accessory.name}"
+        return f"{self.user.username} - Favorite"
+
 class Cart(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)

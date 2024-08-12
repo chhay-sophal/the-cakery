@@ -4,10 +4,30 @@ from django.contrib import messages
 from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
-from .models import Cart, CartItem, Order, OrderItem
+from .models import Favorite, Cart, CartItem, Order, OrderItem
 from .forms import CheckoutForm
 from cakes.models import Cake, CakeSize
 from party_accessories.models import PartyAccessory
+
+@login_required
+def add_favorite(request, item_type, item_id):
+    if item_type == 'cake':
+        item = get_object_or_404(Cake, id=item_id)
+        Favorite.objects.get_or_create(user=request.user, cake=item)
+    elif item_type == 'accessory':
+        item = get_object_or_404(PartyAccessory, id=item_id)
+        Favorite.objects.get_or_create(user=request.user, accessory=item)
+    return redirect(request.META.get('HTTP_REFERER', 'home'))
+
+@login_required
+def remove_favorite(request, item_type, item_id):
+    if item_type == 'cake':
+        item = get_object_or_404(Cake, id=item_id)
+        Favorite.objects.filter(user=request.user, cake=item).delete()
+    elif item_type == 'accessory':
+        item = get_object_or_404(PartyAccessory, id=item_id)
+        Favorite.objects.filter(user=request.user, accessory=item).delete()
+    return redirect(request.META.get('HTTP_REFERER', 'home'))
 
 @login_required
 def add_to_cart(request, item_type, item_id):
@@ -20,7 +40,7 @@ def add_to_cart(request, item_type, item_id):
             raise ValueError("Quantity must be a positive integer.")
     except ValueError:
         messages.error(request, "Invalid quantity.")
-        return redirect('home')
+        return redirect(request.META.get('HTTP_REFERER', 'home'))
 
     if item_type == 'cake':
         item = get_object_or_404(Cake, pk=item_id)
@@ -38,7 +58,7 @@ def add_to_cart(request, item_type, item_id):
         size = None
     else:
         messages.error(request, "Invalid item type.")
-        return redirect('home')
+        return redirect(request.META.get('HTTP_REFERER', 'home'))
 
     cart, created = Cart.objects.get_or_create(user=request.user)
 
@@ -60,7 +80,16 @@ def add_to_cart(request, item_type, item_id):
 
     size_info = size.size if size else 'N/A'
     messages.success(request, f"{quantity} x {item.name} ({size_info}) added to your cart.")
-    return JsonResponse({"message": f"{quantity} x {item.name} ({size_info}) added to your cart.", "total_price": total_price})
+    return redirect(request.META.get('HTTP_REFERER', 'home'))
+
+@login_required
+def remove_from_cart(request, cart_item_id):
+    item_to_remove = get_object_or_404(CartItem, pk=cart_item_id)
+    item_name = str(item_to_remove.content_object)
+    item_to_remove.delete()
+
+    messages.success(request, f"{item_name} removed from your cart.")
+    return redirect(request.META.get('HTTP_REFERER', 'home'))
 
 @login_required
 def view_cart(request):
@@ -75,15 +104,6 @@ def view_cart(request):
         ))
     }
     return JsonResponse(data)
-
-@login_required
-def remove_from_cart(request, cart_item_id):
-    item_to_remove = get_object_or_404(CartItem, pk=cart_item_id)
-    item_name = str(item_to_remove.content_object)
-    item_to_remove.delete()
-
-    messages.success(request, f"{item_name} removed from your cart.")
-    return JsonResponse({"message": f"{item_name} added to your cart."})
 
 @login_required
 def checkout(request):

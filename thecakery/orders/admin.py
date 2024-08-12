@@ -2,6 +2,21 @@ from django.contrib import admin
 from .models import *
 
 # Register the Cart model
+@admin.register(Favorite)
+class FavoriteItemAdmin(admin.ModelAdmin):
+    list_display = ('user', 'cake', 'accessory')
+    list_filter = ('user', 'cake', 'accessory')
+    search_fields = ('user__username', 'cake__name', 'accessory__name')
+
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        # Optionally, you can customize the queryset here
+        return queryset
+
+    def save_model(self, request, obj, form, change):
+        # Optionally, you can override this method to customize saving behavior
+        super().save_model(request, obj, form, change)
+
 @admin.register(Cart)
 class CartAdmin(admin.ModelAdmin):
     list_display = ('user', 'created_at', 'updated_at', 'total_price')
