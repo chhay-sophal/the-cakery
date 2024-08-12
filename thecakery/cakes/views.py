@@ -26,9 +26,6 @@ def get_cake_detail(request, cake_name):
         }
         cake_reviews.append(review_data)
 
-    if not cake_reviews:
-        cake_reviews.append({'message': f'No reviews for {cake}.'})
-
     context = {
         'cake': cake,
         'cake_images': cake_images,
