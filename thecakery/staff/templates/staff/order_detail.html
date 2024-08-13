@@ -1,0 +1,112 @@
+{% extends "staff/base.html" %}
+
+{% block title %}
+<title>Order Detail</title>
+{% endblock %}
+
+{% block content %}
+<div class="container-xxl position-relative bg-white d-flex p-0">
+    {% include 'staff/components/spinning.html' %}
+    {% include 'staff/components/logout-modal.html' %}
+    {% include 'staff/components/sidebar.html' %}
+
+    <!-- Content Start -->
+    <div class="content">
+        {% include 'staff/components/navbar.html' %}
+
+        <div class="container mt-5">
+            <button class="btn btn-primary mb-3" onclick="history.back()">
+                <i class="fa fa-arrow-left me-2"></i>Back
+            </button>
+            <h2>Order Details</h2>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4>Order Information</h4>
+                    <p><strong>Order ID:</strong> {{ order.id }}</p>
+                    <p><strong>Order Date:</strong> {{ order.created_at }}</p>
+                    <p><strong>Total Price:</strong> ${{ order.total_price }}</p>
+                    <p><strong>Payment Method:</strong> {{ payment_method_display }}</p>
+                    <p><strong>Payment Status:</strong> {{ payment_status_display }}</p>
+                    <p><strong>Shipping Status:</strong> {{ shipping_status_display }}</p>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4>Shipping Address</h4>
+                    <p>
+                        {% if order.user.first_name or order.user.last_name %}
+                            <strong>Name:</strong> 
+                            {{ order.user.first_name }} {{ order.user.last_name }}
+                        {% else %}
+                            <strong>Username:</strong> 
+                            {{ order.user.username }}
+                        {% endif %}
+                    </p>
+                    <p><strong>Address:</strong> {{ order.destination.address }}</p>
+                    <p><strong>Contact Number:</strong> {{ order.destination.contact_number }}</p>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4>Order Items</h4>
+                    <ul class="list-group">
+                        {% for item in order_items %}
+                        <li class="list-group-item d-flex align-items-center">
+                            <!-- Display the image for Cake or PartyAccessory -->
+                            {% if item.content_type.model == 'cake' %}
+                                {% with image=item.content_object.images.first %}
+                                <img src="{{ image.image.url }}" alt="{{ image.alt_text }}" style="width: 50px; height: 50px; margin-right: 10px;">
+                                {% endwith %}
+                            {% elif item.content_type.model == 'partyaccessory' %}
+                                {% with image=item.content_object.images.first %}
+                                <img src="{{ image.image.url }}" alt="{{ image.alt_text }}" style="width: 50px; height: 50px; margin-right: 10px;">
+                                {% endwith %}
+                            {% endif %}
+                            
+                            <!-- Display the name, quantity, and price of the item -->
+                            <div>
+                                <strong>{{ item.content_object.name }}</strong> (x{{ item.quantity }}) - ${{ item.total_price }}
+                            </div>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
+                    <h4>Order Destination on Map</h4>
+                    <div id="map" style="height: 300px;"></div>
+                </div>
+            </div>
+
+        </div>
+
+        {% include 'staff/components/footer.html' %}
+    </div>
+    <!-- Content End -->
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+</div>
+
+{% block extra_scripts %}
+<script>
+    function initMap() {
+        var destination = {lat: {{ destination_latitude }}, lng: {{ destination_longitude }}};
+        var map = new google.maps.Map(document.getElementById('map'), {
+            zoom: 15,
+            center: destination
+        });
+        var marker = new google.maps.Marker({
+            position: destination,
+            map: map
+        });
+    }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap" async defer></script>
+{% endblock %}
+{% endblock %}

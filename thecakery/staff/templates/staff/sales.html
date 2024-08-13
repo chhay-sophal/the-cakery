@@ -3,7 +3,7 @@
 {% load static %}
 
 {% block title %}
-<title>Staff Dashboard</title>
+<title>Sales</title>
 {% endblock %}
 
 {% block content %}
@@ -18,56 +18,12 @@
     <div class="content">
         {% include 'staff/components/navbar.html' %}
 
-        <!-- Sale & Revenue Start -->
-        <div class="container-fluid pt-4 px-4">
-            <div class="row g-4">
-                <div class="col-sm-6 col-xl-6">
-                    <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                        <i class="fa fa-chart-line fa-3x text-primary"></i>
-                        <div class="ms-3">
-                            <p class="mb-2">Today Sale</p>
-                            <h6 class="mb-0">${{ today_sales|floatformat:2 }}</h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-xl-6">
-                    <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                        <i class="fa fa-chart-bar fa-3x text-primary"></i>
-                        <div class="ms-3">
-                            <p class="mb-2">Total Sale</p>
-                            <h6 class="mb-0">${{ total_sales|floatformat:2 }}</h6>
-                        </div>
-                    </div>
-                </div>
-                <!-- <div class="col-sm-6 col-xl-3">
-                    <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                        <i class="fa fa-chart-area fa-3x text-primary"></i>
-                        <div class="ms-3">
-                            <p class="mb-2">Today Revenue</p>
-                            <h6 class="mb-0">${{ today_revenue|floatformat:2 }}</h6>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-sm-6 col-xl-3">
-                    <div class="bg-light rounded d-flex align-items-center justify-content-between p-4">
-                        <i class="fa fa-chart-pie fa-3x text-primary"></i>
-                        <div class="ms-3">
-                            <p class="mb-2">Total Revenue</p>
-                            <h6 class="mb-0">${{ total_revenue|floatformat:2 }}</h6>
-                        </div>
-                    </div>
-                </div> -->
-            </div>
-        </div>
-        <!-- Sale & Revenue End -->
-
-
-        <!-- Recent Sales Start -->
+        <!-- Order Table -->
         <div class="container-fluid pt-4 px-4">
             <div class="bg-light text-center rounded p-4">
                 <div class="d-flex align-items-center justify-content-between mb-4">
-                    <h6 class="mb-0">Order Tracking</h6>
-                    <!-- <a href="{% url 'sales' %}">Show All</a>  -->
+                    <h6 class="mb-0">Sales</h6>
+                    <!-- <a href="{% url 'sales' %}">Show All</a> -->
                 </div>
                 <div class="table-responsive">
                     <table class="table text-start align-middle table-bordered table-hover mb-0">
@@ -84,7 +40,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {% for order in recent_orders %}
+                            {% for order in orders %}
                             <tr>
                                 <td><input class="form-check-input" type="checkbox"></td>
                                 <td>{{ order.created_at|date:"d M Y" }}</td>
@@ -108,9 +64,7 @@
                 </div>
             </div>
         </div>        
-        <!-- Recent Sales End -->
-
-        {% include 'staff/components/widgets.html' %}
+        <!-- Order Table End -->
 
         {% include 'staff/components/footer.html' %}
     </div>
