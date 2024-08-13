@@ -201,10 +201,17 @@
 
                 <div>  
                     {% if user.is_authenticated %}
-                        <!-- If the user is logged in, show the profile link -->
-                        <a class="btn btn-pink me-2" href="{% url 'profile' %}" id="profileDropdown">
-                            <i class="fas fa-user"></i>
-                        </a>
+                        {% if user.is_staff %}
+                            <!-- If the user is a staff member, show the staff profile link -->
+                            <a class="btn btn-pink me-2" href="{% url 'staff_dashboard' %}" id="profileDropdown">
+                                <i class="fas fa-user"></i>
+                            </a>
+                        {% else %}
+                            <!-- If the user is not a staff member, show the regular profile link -->
+                            <a class="btn btn-pink me-2" href="{% url 'profile' %}" id="profileDropdown">
+                                <i class="fas fa-user"></i>
+                            </a>
+                        {% endif %}
                     {% else %}
                         <!-- If the user is not logged in, show the login link -->
                         <a class="btn btn-pink me-2" href="{% url 'login' %}" id="profileDropdown">
