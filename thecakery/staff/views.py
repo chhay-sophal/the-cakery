@@ -39,6 +39,16 @@ def index(request):
     return render(request, 'staff/index.html', context)
 
 @user_passes_test(is_staff_user)
+def orders(request):
+    orders = Order.objects.filter(
+        ~Q(shipping_status__in=['delivered', 'cancelled'])
+    ).order_by('-created_at')
+    context = {
+        'orders': orders,
+    }
+    return render(request, 'staff/orders.html', context)
+
+@user_passes_test(is_staff_user)
 def sales(request):
     orders = Order.objects.all().order_by('-created_at')
     context = {
