@@ -1,17 +1,9 @@
 {% extends "base/base.html" %}
 
-{% block title %}Profile{% endblock %}
+{% block title %}Order History{% endblock %}
 
 {% block content %}
-<h2>Your Profile</h2>
-
-<p><strong>First Name:</strong> {{ user.first_name }}</p>
-<p><strong>Last Name:</strong> {{ user.last_name }}</p>
-<p><strong>Username:</strong> {{ user.username }}</p>
-<p><strong>Email:</strong> {{ user.email }}</p>
-
-<h1>Track Orders</h1>
-<a href="{% url 'order_history' %}"><h3>History</h3></a>
+<h2>Order History</h2>
 
 {% if orders %}
     <ul>
@@ -24,12 +16,14 @@
             <p><strong>Shipping Status:</strong> {{ order.get_shipping_status_display }}</p>
             <p><strong>Destination:</strong> {{ order.destination }}</p>
             <p><strong>Created At:</strong> {{ order.created_at }}</p>
+            <p><strong>Updated At:</strong> {{ order.updated_at }}</p>
+            <!-- Add more details if needed -->
         </li>
     {% endfor %}
     </ul>
 {% else %}
-    <p>You have no orders to track.</p>
+    <p>You have no orders in your history.</p>
 {% endif %}
 
-<button><a class="text-white" href="{% url 'logout_confirm' %}">Logout</a></button>
+<button><a class="text-white" href="{% url 'profile' %}">Back to Profile</a></button>
 {% endblock %}

@@ -1,0 +1,74 @@
+{% extends "base/base.html" %}
+
+{% block title %}Order Details{% endblock %}
+
+{% block content %}
+<h2>Order Details</h2>
+
+<p><strong>Order ID:</strong> {{ order.id }}</p>
+<p><strong>Total Price:</strong> ${{ order.total_price }}</p>
+<p><strong>Payment Status:</strong> {{ order.get_payment_status_display }}</p>
+<p><strong>Payment Method:</strong> {{ order.get_payment_method_display }}</p>
+<p><strong>Shipping Status:</strong> {{ order.get_shipping_status_display }}</p>
+<p><strong>Destination:</strong> {{ order.destination }}</p>
+<p><strong>Created At:</strong> {{ order.created_at }}</p>
+<p><strong>Updated At:</strong> {{ order.updated_at }}</p>
+
+<h3>Order Items</h3>
+<ul>
+{% for item in order_items %}
+    <li>
+        {% if item.content_type.model == 'cake' %}
+            <h4>{{ item.content_object.name }}</h4>
+            {% if item.content_object.images.exists %}
+                <img src="{{ item.content_object.images.first.image.url }}" alt="{{ item.content_object.images.first.alt_text }}" style="max-width: 200px; max-height: 200px;">
+            {% else %}
+                <p>No image available</p>
+            {% endif %}
+            <p>Price: ${{ item.content_object.price }}</p>
+            <p>Quantity: {{ item.quantity }}</p>
+        {% elif item.content_type.model == 'partyaccessory' %}
+            <h4>{{ item.content_object.name }}</h4>
+            {% if item.content_object.images.exists %}
+                <img src="{{ item.content_object.images.first.image.url }}" alt="{{ item.content_object.images.first.alt_text }}" style="max-width: 200px; max-height: 200px;">
+            {% else %}
+                <p>No image available</p>
+            {% endif %}
+            <p>Price: ${{ item.content_object.price }}</p>
+            <p>Quantity: {{ item.quantity }}</p>
+        {% endif %}
+    </li>
+{% endfor %}
+</ul>
+
+{% if destination_latitude and destination_longitude %}
+    <h3>Shipping Address on Map</h3>
+    <div id="map" style="height: 400px; width: 100%;"></div>
+
+    <script
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZJ79ZJH31Ut418wdeM3aUUl9XIHSOIy0&callback=initMap"
+        async
+    ></script>
+
+    <script>
+        function initMap() {
+            const location = { 
+                lat: {{ destination_latitude }}, 
+                lng: {{ destination_longitude }} 
+            };
+            const map = new google.maps.Map(document.getElementById('map'), {
+                zoom: 15,
+                center: location
+            });
+            new google.maps.Marker({
+                position: location,
+                map: map
+            });
+        }
+    </script>
+{% else %}
+    <p>Location information not available.</p>
+{% endif %}
+
+<button><a class="text-white" href="{% url 'order_history' %}">Back to Order History</a></button>
+{% endblock %}

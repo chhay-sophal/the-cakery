@@ -4,10 +4,13 @@ from django.views.generic import CreateView
 from .forms import CustomUserCreationForm 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LogoutView
+from orders.models import Order
 
 @login_required
 def profile(request):
-    return render(request, 'registration/profile.html', {'user': request.user})
+    user = request.user
+    orders = Order.objects.filter(user=user).exclude(shipping_status='delivered')
+    return render(request, 'registration/profile.html', {'user': user, 'orders': orders})
 
 class SignUpView(CreateView):
     form_class = CustomUserCreationForm

@@ -249,62 +249,19 @@ def order_confirmation(request, order_id):
 
 @login_required
 def order_history(request):
-    user_orders = Order.objects.filter(user=request.user)
-
-    orders_data = []
-    for order in user_orders:
-        # Prepare the items associated with the order
-        order_items = []
-        for item in order.order_items.all():
-            item_data = {
-                'item_name': str(item.content_object),
-                'quantity': item.quantity,
-                'price_per_item': float(item.content_object.price),
-                'total_price_for_item': float(item.content_object.price * item.quantity)
-            }
-            order_items.append(item_data)
-
-        # Prepare the order data
-        order_data = {
-            'id': order.id,
-            'total_price': float(order.total_price),
-            'destination': order.destination,
-            'payment_status': order.payment_status,
-            'shipping_status': order.shipping_status,
-            'created_at': order.created_at.strftime('%Y-%m-%d %H:%M:%S'),
-            'updated_at': order.updated_at.strftime('%Y-%m-%d %H:%M:%S'),
-            'items': order_items
-        }
-        orders_data.append(order_data)
-
-    return JsonResponse(orders_data, safe=False)
+    user = request.user
+    orders = Order.objects.filter(user=user).order_by('-created_at')
+    return render(request, 'orders/order_history.html', {'orders': orders})
 
 @login_required
-def view_order_details(request, order_id):
+def order_detail(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
-
-    # Constructing the response data
-    order_details = {
-        'order_id': order.id,
-        'user': order.user.username,
-        'total_price': float(order.total_price),  # Convert DecimalField to float for JSON serialization
-        'destination': order.destination,
-        'payment_status': order.payment_status,
-        'shipping_status': order.shipping_status,
-        'items': []
+    destination = order.destination
+    order_items = OrderItem.objects.filter(order=order)
+    context = {
+        'order': order,
+        'order_items': order_items,
+        'destination_latitude': destination.latitude,
+        'destination_longitude': destination.longitude,
     }
-
-    # Retrieve items and add them to the items list in the response
-    for item in order.order_items.all():
-        item_data = {
-            'item_name': str(item.content_object),
-            'quantity': item.quantity,
-            'price_per_item': float(item.content_object.price),  # Convert DecimalField to float
-            'total_price_for_item': float(item.content_object.price * item.quantity)  # Convert DecimalField to float
-        }
-        order_details['items'].append(item_data)
-
-    order_details['created_at'] = order.created_at.isoformat()
-    order_details['updated_at'] = order.updated_at.isoformat()
-
-    return JsonResponse(order_details)
+    return render(request, 'orders/order_detail.html', context)
