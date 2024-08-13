@@ -87,7 +87,7 @@ class ShippingAddress(models.Model):
 class Order(models.Model):
     SHIPMENT_STATUS_CHOICES = [
         ('pending', 'Pending'),
-        ('shipped', 'Shipped'),
+        ('processing', 'Processing'),
         ('in_transit', 'In Transit'),
         ('delivered', 'Delivered'),
         ('canceled', 'Canceled'),
