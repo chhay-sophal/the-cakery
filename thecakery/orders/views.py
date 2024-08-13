@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.forms import ValidationError
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
@@ -182,7 +183,12 @@ def checkout(request):
         # Redirect to a success page or order confirmation
         return redirect('order_confirmation', order_id=order.id)
 
-    return render(request, 'orders/checkout.html', {'cart': cart, 'qr_codes': qr_codes})
+    context = {
+        'cart': cart,
+        'qr_codes': qr_codes,
+        'google_maps_api_key': settings.GOOGLE_MAPS_API_KEY,
+    }
+    return render(request, 'orders/checkout.html', context)
 
 @login_required
 def create_order(request):
@@ -258,10 +264,13 @@ def order_detail(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
     destination = order.destination
     order_items = OrderItem.objects.filter(order=order)
+
     context = {
         'order': order,
         'order_items': order_items,
         'destination_latitude': destination.latitude,
         'destination_longitude': destination.longitude,
+        'google_maps_api_key': settings.GOOGLE_MAPS_API_KEY,
     }
+    
     return render(request, 'orders/order_detail.html', context)
