@@ -1,3 +1,4 @@
+from django.forms import ValidationError
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
@@ -5,8 +6,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.http import require_POST
 from django.db import transaction
-from .models import Favorite, Cart, CartItem, Order, OrderItem
-from .forms import CheckoutForm
+from .models import Favorite, Cart, CartItem, Order, OrderItem, PaymentQR, ShippingAddress
 from cakes.models import Cake, CakeSize
 from party_accessories.models import PartyAccessory
 
@@ -122,22 +122,67 @@ def view_cart(request):
 
 @login_required
 def checkout(request):
-    cart = get_object_or_404(Cart, user=request.user)
-    
-    if request.method == 'POST':
-        form = CheckoutForm(request.POST)
-        if form.is_valid():
-            # Process the form data (save shipping info, validate payment, etc.)
-            # Redirect to create_order view after successful validation
-            return redirect('create_order')
-    else:
-        form = CheckoutForm()
-    
-    context = {
-        'form': form,
-        'cart': cart,
-    }
-    return render(request, 'checkout.html', context)
+    cart = Cart.objects.get(user=request.user)
+    qr_codes = PaymentQR.objects.all()
+
+    if request.method == "POST":
+        contact_number = request.POST.get('contact_number')
+        shipping_address = request.POST.get('shipping_address')
+        latitude = request.POST.get('latitude')
+        longitude = request.POST.get('longitude')
+        payment_method = request.POST.get('payment_method')
+        payment_receipt = request.FILES.get('payment_receipt')  # For file uploads
+
+        if not shipping_address:
+            messages.error(request, "Shipping address is required.")
+            return render(request, 'orders/checkout.html', {'cart': cart, 'qr_codes': qr_codes})
+
+        if payment_method == 'qr_code' and not payment_receipt:
+            messages.error(request, "Payment receipt is required for QR code payments.")
+            return render(request, 'orders/checkout.html', {'cart': cart, 'qr_codes': qr_codes})
+
+        # Calculate the total price
+        total_price = cart.total_price()
+        if payment_method == 'qr_code':
+            payment_status = 'paid'
+        else:
+            payment_status = 'pending'
+
+        # Create the Order
+        user_address = ShippingAddress.objects.create(
+            user=request.user,
+            address=shipping_address,
+            contact_number=contact_number,
+            latitude=latitude,
+            longitude=longitude,
+            is_default=True
+        )
+        
+        order = Order.objects.create(
+            user=request.user,
+            total_price=total_price,
+            destination=user_address,
+            payment_method=payment_method,
+            payment_status=payment_status,
+            payment_receipt=payment_receipt if payment_method == 'qr_code' else None,
+        )
+
+        # Create OrderItems from CartItems
+        for cart_item in cart.items.all():
+            OrderItem.objects.create(
+                order=order,
+                content_type=cart_item.content_type,
+                object_id=cart_item.object_id,
+                quantity=cart_item.quantity,
+            )
+
+        # Optionally, clear the cart after order placement
+        cart.items.all().delete()
+
+        # Redirect to a success page or order confirmation
+        return redirect('order_confirmation', order_id=order.id)
+
+    return render(request, 'orders/checkout.html', {'cart': cart, 'qr_codes': qr_codes})
 
 @login_required
 def create_order(request):
@@ -179,11 +224,28 @@ def create_order(request):
         return redirect('cart_detail')
     
 @login_required
-def order_confirmation(request):
-    context = {
-        'message': 'Your order has been successfully placed. Thank you for shopping with us!'
-    }
-    return JsonResponse(context)
+def order_confirmation(request, order_id):
+    order = get_object_or_404(Order, id=order_id, user=request.user)
+    order_items = [
+        {
+            'name': item.content_object.name,
+            'quantity': item.quantity,
+            'price': item.content_object.price,
+            'total_price': item.content_object.price * item.quantity
+        }
+        for item in order.order_items.all()
+    ]
+    payment_method_display = order.get_payment_method_display()
+    payment_status_display = order.get_payment_status_display()
+    shipping_status_display = order.get_shipping_status_display()
+
+    return render(request, 'orders/order_confirmation.html', {
+        'order': order,
+        'order_items': order_items,
+        'payment_method_display': payment_method_display,
+        'payment_status_display': payment_status_display,
+        'shipping_status_display': shipping_status_display,
+    })
 
 @login_required
 def order_history(request):

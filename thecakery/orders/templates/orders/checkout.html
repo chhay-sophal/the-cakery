@@ -1,0 +1,198 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Checkout{% endblock %}
+
+{% block content %}
+<h2>Checkout</h2>
+<form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <label for="contact_number">Contact Number:</label>
+    <input type="tel" id="contact" name="contact_number" placeholder="0123456789" pattern="[0-9]*" inputmode="numeric" required>
+    <label for="shipping_address">Shipping Address:</label>
+    <input type="text" id="address" name="shipping_address" placeholder="Select an address" required>
+    <input type="hidden" id="latitude" name="latitude">
+    <input type="hidden" id="longitude" name="longitude">
+
+    <div id="map" style="height: 300px; width: 100%;"></div>
+    
+    <fieldset>
+        <legend>Payment Method:</legend>
+        <label>
+            <input type="radio" name="payment_method" value="qr_code" id="payment_method_qr_code">
+            QR Code
+        </label>
+        <label>
+            <input type="radio" name="payment_method" value="cash_on_delivery" id="payment_method_cash_on_delivery">
+            Cash on Delivery
+        </label>
+    </fieldset>
+    
+    <div id="qr-code-container" style="display: none;">
+        {% for qr in qr_codes %}
+            <div class="qr-code">
+                <h3>{{ qr.name }}</h3>
+                <img src="{{ qr.image.url }}" alt="{{ qr.name }}" style="max-width: 200px; max-height: 200px;">
+            </div>
+        {% empty %}
+            <p>No QR codes available.</p>
+        {% endfor %}
+    </div>
+    
+    <div id="payment-receipt-container" style="display: none;">
+        <label for="payment_receipt">Payment Receipt:</label>
+        <input type="file" name="payment_receipt" id="payment_receipt">
+    </div>
+    
+    <h3>Order Summary</h3>
+    <ul>
+        {% for item in cart.items.all %}
+        <li>{{ item.content_object.name }} - Quantity: {{ item.quantity }} - Price: ${{ item.get_price }}</li>
+        {% endfor %}
+    </ul>
+    <p>Total: ${{ cart.total_price }}</p>
+    <button type="submit" class="btn btn-success">Place Order</button>
+</form>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var qrCodeContainer = document.getElementById('qr-code-container');
+        var paymentReceiptContainer = document.getElementById('payment-receipt-container');
+        var paymentReceiptInput = document.getElementById('payment_receipt');
+        var paymentMethodRadios = document.querySelectorAll('input[name="payment_method"]');
+
+        function updateFormVisibility() {
+            var selectedPaymentMethod = document.querySelector('input[name="payment_method"]:checked');
+            if (selectedPaymentMethod) {
+                if (selectedPaymentMethod.value === 'qr_code') {
+                    qrCodeContainer.style.display = 'block';
+                    paymentReceiptContainer.style.display = 'block';
+                    paymentReceiptInput.setAttribute('required', 'required'); // Make payment_receipt required
+                } else {
+                    qrCodeContainer.style.display = 'none';
+                    paymentReceiptContainer.style.display = 'none';
+                    paymentReceiptInput.removeAttribute('required'); // Remove required attribute if not QR code
+                }
+            }
+        }
+
+        paymentMethodRadios.forEach(function(radio) {
+            radio.addEventListener('change', updateFormVisibility);
+        });
+
+        // Initialize the form visibility based on the current selected value
+        updateFormVisibility();
+    });
+
+    document.getElementById('contact').addEventListener('input', function (e) {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+
+    function initMap() {
+        var phnomPenh = { lat: 11.5564, lng: 104.9282 }; // Coordinates of Phnom Penh
+        var map = new google.maps.Map(document.getElementById('map'), {
+            center: phnomPenh,
+            zoom: 12
+        });
+
+        var geocoder = new google.maps.Geocoder();
+        var marker = new google.maps.Marker({
+            map: map
+        });
+
+        // Try to get the user's current location
+        if (navigator.geolocation) {
+            navigator.geolocation.getCurrentPosition(
+                function(position) {
+                    var userLocation = {
+                        lat: position.coords.latitude,
+                        lng: position.coords.longitude
+                    };
+                    map.setCenter(userLocation);
+                    marker.setPosition(userLocation);
+                    document.getElementById('latitude').value = userLocation.lat;
+                    document.getElementById('longitude').value = userLocation.lng;
+
+                    geocoder.geocode({ 'location': userLocation }, function(results, status) {
+                        if (status === 'OK') {
+                            if (results[0]) {
+                                document.getElementById('address').value = results[0].formatted_address;
+                            } else {
+                                window.alert('No results found');
+                            }
+                        } else {
+                            window.alert('Geocoder failed due to: ' + status);
+                        }
+                    });
+                },
+                function() {
+                    handleLocationError(true, map, phnomPenh);
+                }
+            );
+        } else {
+            // Browser doesn't support Geolocation
+            handleLocationError(false, map, phnomPenh);
+        }
+
+        map.addListener('click', function(event) {
+            placeMarkerAndPanTo(event.latLng, map);
+        });
+
+        function placeMarkerAndPanTo(latLng, map) {
+            marker.setPosition(latLng);
+            map.panTo(latLng);
+            document.getElementById('latitude').value = latLng.lat();
+            document.getElementById('longitude').value = latLng.lng();
+
+            geocoder.geocode({ 'location': latLng }, function(results, status) {
+                if (status === 'OK') {
+                    if (results[0]) {
+                        document.getElementById('address').value = results[0].formatted_address;
+                    } else {
+                        window.alert('No results found');
+                    }
+                } else {
+                    window.alert('Geocoder failed due to: ' + status);
+                }
+            });
+        }
+
+        function handleLocationError(browserHasGeolocation, map, fallbackLocation) {
+            map.setCenter(fallbackLocation);
+            marker.setPosition(fallbackLocation);
+            document.getElementById('latitude').value = fallbackLocation.lat;
+            document.getElementById('longitude').value = fallbackLocation.lng;
+            document.getElementById('address').value = "Phnom Penh, Cambodia"; // Default address for Phnom Penh
+        }
+    }
+
+    function initAutocomplete() {
+        // Create the autocomplete object, restricting the search to geographical location types.
+        var autocomplete = new google.maps.places.Autocomplete(
+            document.getElementById('address'), 
+            { types: ['geocode'] }
+        );
+
+        // When the user selects an address from the dropdown, populate the address fields.
+        autocomplete.addListener('place_changed', function() {
+            var place = autocomplete.getPlace();
+
+            // Fill the latitude and longitude fields
+            document.getElementById('latitude').value = place.geometry.location.lat();
+            document.getElementById('longitude').value = place.geometry.location.lng();
+        });
+    }
+
+    // Initialize the autocomplete function when the window loads
+    google.maps.event.addDomListener(window, 'load', initAutocomplete);
+
+    document.addEventListener('DOMContentLoaded', function() {
+        initAutocomplete();
+    });
+</script>
+
+<script
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBZJ79ZJH31Ut418wdeM3aUUl9XIHSOIy0&callback=initMap&v=weekly&solution_channel=GMP_CCS_geocodingservice_v2"
+    defer
+></script>
+{% endblock %}

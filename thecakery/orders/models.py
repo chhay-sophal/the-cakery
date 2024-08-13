@@ -73,6 +73,17 @@ class CartItem(models.Model):
             return 0
         return unit_price * self.quantity
 
+class ShippingAddress(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    address = models.CharField(max_length=255)
+    contact_number = models.CharField(null=True, max_length=10)
+    latitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    longitude = models.DecimalField(max_digits=9, decimal_places=6, null=True, blank=True)
+    is_default = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"{self.address} ({self.user.username})"
+
 class Order(models.Model):
     SHIPMENT_STATUS_CHOICES = [
         ('pending', 'Pending'),
@@ -82,10 +93,22 @@ class Order(models.Model):
         ('canceled', 'Canceled'),
     ]
 
+    PAYMENT_STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('paid', 'Paid'),
+    ]
+
+    PAYMENT_METHOD_CHOICES = [
+        ('cash_on_delivery', 'Cash on Delivery'),
+        ('qr_code', 'QR Code'),
+    ]
+
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
-    destination = models.CharField(max_length=255)
-    payment_status = models.CharField(max_length=50)
+    destination = models.ForeignKey(ShippingAddress, on_delete=models.SET_NULL, null=True, blank=True)
+    payment_status = models.CharField(max_length=20, choices=PAYMENT_STATUS_CHOICES, default='pending')
+    payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD_CHOICES, default='cash_on_delivery')
+    payment_receipt = models.ImageField(upload_to='payment_receipt/', blank=True, null=True)
     shipping_status = models.CharField(max_length=20, choices=SHIPMENT_STATUS_CHOICES, default='pending')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
@@ -106,3 +129,13 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.content_object} (x{self.quantity})"
+    
+    def total_price(self):
+        return self.content_object.price * self.quantity
+    
+class PaymentQR(models.Model):
+    name = models.CharField(max_length=50)
+    image = models.ImageField(upload_to='qr_images/')
+
+    def __str__(self):
+        return self.name

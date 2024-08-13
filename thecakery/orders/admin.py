@@ -59,3 +59,6 @@ class OrderItemAdmin(admin.ModelAdmin):
 
     def content_object(self, obj):
         return str(obj.content_object)
+    
+admin.site.register(PaymentQR)
+admin.site.register(ShippingAddress)

@@ -1,0 +1,28 @@
+{% extends 'base/base.html' %}
+
+{% block title %}Order Confirmation{% endblock %}
+
+{% block content %}
+<h2>Order Confirmation</h2>
+<p>Thank you for your order, {{ order.user.first_name }}!</p>
+
+<h3>Order Details</h3>
+<ul>
+    <li><strong>Order ID:</strong> {{ order.id }}</li>
+    <li><strong>Date:</strong> {{ order.created_at|date:"F j, Y, g:i a" }}</li>
+    <li><strong>Shipping Address:</strong> {{ order.destination.address }}</li>
+    <li><strong>Total Price:</strong> ${{ order.total_price }}</li>
+    <li><strong>Payment Method:</strong> {{ payment_method_display }}</li>
+    <li><strong>Payment Status:</strong> {{ payment_status_display }}</li>
+    <li><strong>Shipping Status:</strong> {{ shipping_status_display }}</li>
+</ul>
+
+<h3>Items Ordered</h3>
+<ul>
+    {% for item in order.order_items.all %}
+    <li>{{ item.content_object.name }} - Quantity: {{ item.quantity }} - Price: ${{ item.total_price }}</li>
+    {% endfor %}
+</ul>
+
+<p>Your order will be processed shortly. We will notify you when it has shipped.</p>
+{% endblock %}
