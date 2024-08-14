@@ -44,3 +44,6 @@ def brownie(request):
 
 def sign_up(request):
     return render(request,'base/signup.html')
+
+def dessert(request):
+    return render(request, 'base/dessert.html')
