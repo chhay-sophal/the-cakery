@@ -1,0 +1,100 @@
+{% extends "staff/base.html" %}
+
+{% load static %}
+
+{% block title %}
+<title>Sales</title>
+{% endblock %}
+
+{% block content %}
+<div class="container-xxl position-relative bg-white d-flex p-0">
+    {% include 'staff/components/spinning.html' %}
+
+    {% include 'staff/components/logout-modal.html' %}
+
+    {% include 'staff/components/sidebar.html' %}
+
+    <!-- Content Start -->
+    <div class="content">
+        {% include 'staff/components/navbar.html' %}
+
+        <!-- Review Table -->
+        <div class="container-fluid pt-4 px-4">
+            <div class="bg-light text-center rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h6 class="mb-0">Reviews</h6>
+                    <!-- <a href="{% url 'sales' %}">Show All</a> -->
+                </div>
+                <div class="table-responsive">
+                    <table class="table text-start align-middle table-bordered table-hover mb-0">
+                        <thead>
+                            <tr class="text-dark">
+                                <th scope="col">User</th>
+                                <th scope="col">Content Type</th>
+                                <th scope="col">Item</th>
+                                <th scope="col">Rating</th>
+                                <th scope="col">Comment</th>
+                                <th scope="col">Date</th>
+                                <!-- <th scope="col">Action</th> -->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for review in reviews %}
+                            <tr>
+                                <td>{{ review.user.username }}</td>
+                                <td>{{ review.content_type.name }}</td>
+                                <td>
+                                    {% if review.content_object %}
+                                        {{ review.content_object.name }}
+                                    {% else %}
+                                        N/A
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="star-rating" data-rating="{{ review.rating }}"></div>
+                                </td>
+                                <td>{{ review.comment }}</td>
+                                <td>{{ review.created_at|date:"d M Y" }}</td>
+                                <!-- <td> -->
+                                    <!-- Add any actions you might want to include for reviews -->
+                                    <!-- <a class="btn btn-sm btn-info" href="">Detail</a> -->
+                                    <!-- Example: For review management or actions, add more buttons as needed -->
+                                <!-- </td> -->
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="6">No reviews available.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>   
+        <!-- Review Table End -->
+
+
+        {% include 'staff/components/footer.html' %}
+    </div>
+    <!-- Content End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+</div>
+
+{% block extra_scripts %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('.star-rating').forEach(function(element) {
+            var rating = element.getAttribute('data-rating');
+            var stars = '';
+            for (var i = 0; i < 5; i++) {
+                stars += i < rating ? '<i class="fa fa-star"></i>' : '<i class="fa fa-star-o"></i>';
+            }
+            element.innerHTML = stars;
+        });
+    });
+</script>
+{% endblock %}
+{% endblock %}

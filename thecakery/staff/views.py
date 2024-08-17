@@ -7,6 +7,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from orders.models import Order, OrderItem
 from accounts.models import UserProfile
 from staff.forms import UpdateOrderForm
+from reviews.models import Review
 
 def is_staff_user(user):
     return user.is_staff
@@ -96,3 +97,21 @@ def order_detail(request, order_id):
     }
     
     return render(request, 'staff/order_detail.html', context)
+
+def reviews(request):
+    # Fetch all reviews, ordered by the most recent
+    reviews = Review.objects.order_by('-created_at')
+    
+    context = {
+        'reviews': reviews,
+    }
+    
+    return render(request, 'staff/reviews.html', context)
+    # reviews = Review.objects.all()
+
+    # # Prepare star rating data
+    # for review in reviews:
+    #     review.full_star_count = review.rating
+    #     review.empty_star_count = 5 - review.rating
+
+    # return render(request, 'staff/reviews.html', {'reviews': reviews})
