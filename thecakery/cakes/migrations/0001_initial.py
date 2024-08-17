@@ -105,17 +105,4 @@ class Migration(migrations.Migration):
                 'ordering': ['-trend_score', '-created_at'],
             },
         ),
-        migrations.CreateModel(
-            name='Discount',
-            fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100, unique=True)),
-                ('description', models.TextField(blank=True)),
-                ('percentage', models.DecimalField(decimal_places=2, max_digits=5)),
-                ('start_date', models.DateTimeField()),
-                ('end_date', models.DateTimeField()),
-                ('active', models.BooleanField(default=True)),
-                ('cakes', models.ManyToManyField(blank=True, related_name='discounts', to='cakes.cake')),
-            ],
-        ),
     ]

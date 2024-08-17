@@ -1,13 +1,9 @@
 from django.contrib import admin
-from .models import Cake, CakeType, Flavour, CakeImage, CakeSize, TrendingCake, TrendingType, Discount
+from .models import Cake, CakeType, Flavour, CakeImage, CakeSize, TrendingCake, TrendingType
 
 @admin.register(Cake)
 class CakeAdmin(admin.ModelAdmin):
     list_display = ('name', 'price', 'stock', 'created_at', 'updated_at')
-
-@admin.register(Discount)
-class DiscountAdmin(admin.ModelAdmin):
-    list_display = ('name', 'description', 'percentage', 'active')
 
 @admin.register(CakeType)
 class CakeTypeAdmin(admin.ModelAdmin):
