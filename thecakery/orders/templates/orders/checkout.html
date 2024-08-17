@@ -3,56 +3,85 @@
 {% block title %}Checkout{% endblock %}
 
 {% block content %}
-<h2>Checkout</h2>
-<form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    
-    <label for="contact_number">Contact Number:</label>
-    <input type="tel" id="contact" name="contact_number" placeholder="0123456789" pattern="[0-9]*" inputmode="numeric" required>
-    <label for="shipping_address">Shipping Address:</label>
-    <input type="text" id="address" name="shipping_address" placeholder="Select an address" required>
-    <input type="hidden" id="latitude" name="latitude">
-    <input type="hidden" id="longitude" name="longitude">
+<div class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm border-light" style="transition: none; transform: none;">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0">Checkout</h4>
+                </div>
+                <div class="card-body">
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="contact" class="form-label">Contact Number:</label>
+                            <input type="tel" id="contact" name="contact_number" class="form-control" placeholder="0123456789" pattern="[0-9]*" inputmode="numeric" required>
+                        </div>
 
-    <div id="map" style="height: 300px; width: 100%;"></div>
-    
-    <fieldset>
-        <legend>Payment Method:</legend>
-        <label>
-            <input type="radio" name="payment_method" value="qr_code" id="payment_method_qr_code">
-            QR Code
-        </label>
-        <label>
-            <input type="radio" name="payment_method" value="cash_on_delivery" id="payment_method_cash_on_delivery">
-            Cash on Delivery
-        </label>
-    </fieldset>
-    
-    <div id="qr-code-container" style="display: none;">
-        {% for qr in qr_codes %}
-            <div class="qr-code">
-                <h3>{{ qr.name }}</h3>
-                <img src="{{ qr.image.url }}" alt="{{ qr.name }}" style="max-width: 200px; max-height: 200px;">
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Shipping Address:</label>
+                            <input type="text" id="address" name="shipping_address" class="form-control" placeholder="Select an address" required>
+                            <input type="hidden" id="latitude" name="latitude">
+                            <input type="hidden" id="longitude" name="longitude">
+                        </div>
+
+                        <div id="map" style="height: 300px; width: 100%;" class="mb-4"></div>
+                        
+                        <fieldset class="mb-4">
+                            <legend class="form-label">Payment Method:</legend>
+                            <div class="form-check">
+                                <input type="radio" name="payment_method" value="qr_code" id="payment_method_qr_code" class="form-check-input">
+                                <label class="form-check-label" for="payment_method_qr_code">QR Code</label>
+                            </div>
+                            <div class="form-check">
+                                <input type="radio" name="payment_method" value="cash_on_delivery" id="payment_method_cash_on_delivery" class="form-check-input">
+                                <label class="form-check-label" for="payment_method_cash_on_delivery">Cash on Delivery</label>
+                            </div>
+                        </fieldset>
+                        
+                        <div id="qr-code-container" class="mb-4" style="display: none;">
+                            {% for qr in qr_codes %}
+                                <div class="qr-code mb-3">
+                                    <h5>{{ qr.name }}</h5>
+                                    <img src="{{ qr.image.url }}" alt="{{ qr.name }}" class="img-fluid" style="max-width: 200px; max-height: 200px;">
+                                </div>
+                            {% empty %}
+                                <p>No QR codes available.</p>
+                            {% endfor %}
+                        </div>
+                        
+                        <div id="payment-receipt-container" class="mb-4" style="display: none;">
+                            <label for="payment_receipt" class="form-label">Payment Receipt:</label>
+                            <input type="file" name="payment_receipt" id="payment_receipt" class="form-control">
+                        </div>
+                        
+                        <h4>Order Summary</h4>
+                        <ul class="list-group mb-4">
+                            {% for item in cart.items.all %}
+                                <li class="list-group-item d-flex align-items-center">
+                                    {% if item.content_object.images.exists %}
+                                        <img src="{{ item.content_object.images.first.image.url }}" alt="{{ item.content_object.images.first.alt_text }}" class="img-thumbnail me-3" style="width: 100px; height: auto;">
+                                    {% else %}
+                                        <p>No image available</p>
+                                    {% endif %}
+                                    <div>
+                                        <h5 class="mb-1">{{ item.content_object.name }}</h5>
+                                        <p class="mb-0">Quantity: {{ item.quantity }}</p>
+                                        <p class="mb-0">Price: ${{ item.get_price }}</p>
+                                    </div>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        <p class="fw-bold">Total: ${{ cart.total_price }}</p>
+                        
+                        <button type="submit" class="btn btn-success">Place Order</button>
+                    </form>
+                </div>
             </div>
-        {% empty %}
-            <p>No QR codes available.</p>
-        {% endfor %}
+        </div>
     </div>
-    
-    <div id="payment-receipt-container" style="display: none;">
-        <label for="payment_receipt">Payment Receipt:</label>
-        <input type="file" name="payment_receipt" id="payment_receipt">
-    </div>
-    
-    <h3>Order Summary</h3>
-    <ul>
-        {% for item in cart.items.all %}
-        <li>{{ item.content_object.name }} - Quantity: {{ item.quantity }} - Price: ${{ item.get_price }}</li>
-        {% endfor %}
-    </ul>
-    <p>Total: ${{ cart.total_price }}</p>
-    <button type="submit" class="btn btn-success">Place Order</button>
-</form>
+</div>
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -67,11 +96,11 @@
                 if (selectedPaymentMethod.value === 'qr_code') {
                     qrCodeContainer.style.display = 'block';
                     paymentReceiptContainer.style.display = 'block';
-                    paymentReceiptInput.setAttribute('required', 'required'); // Make payment_receipt required
+                    paymentReceiptInput.setAttribute('required', 'required');
                 } else {
                     qrCodeContainer.style.display = 'none';
                     paymentReceiptContainer.style.display = 'none';
-                    paymentReceiptInput.removeAttribute('required'); // Remove required attribute if not QR code
+                    paymentReceiptInput.removeAttribute('required');
                 }
             }
         }
@@ -80,16 +109,11 @@
             radio.addEventListener('change', updateFormVisibility);
         });
 
-        // Initialize the form visibility based on the current selected value
         updateFormVisibility();
     });
 
-    document.getElementById('contact').addEventListener('input', function (e) {
-        this.value = this.value.replace(/[^0-9]/g, '');
-    });
-
     function initMap() {
-        var phnomPenh = { lat: 11.5564, lng: 104.9282 }; // Coordinates of Phnom Penh
+        var phnomPenh = { lat: 11.5564, lng: 104.9282 };
         var map = new google.maps.Map(document.getElementById('map'), {
             center: phnomPenh,
             zoom: 12
@@ -100,7 +124,6 @@
             map: map
         });
 
-        // Try to get the user's current location
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 function(position) {
@@ -130,7 +153,6 @@
                 }
             );
         } else {
-            // Browser doesn't support Geolocation
             handleLocationError(false, map, phnomPenh);
         }
 
@@ -162,37 +184,28 @@
             marker.setPosition(fallbackLocation);
             document.getElementById('latitude').value = fallbackLocation.lat;
             document.getElementById('longitude').value = fallbackLocation.lng;
-            document.getElementById('address').value = "Phnom Penh, Cambodia"; // Default address for Phnom Penh
+            document.getElementById('address').value = "Phnom Penh, Cambodia";
         }
     }
 
     function initAutocomplete() {
-        // Create the autocomplete object, restricting the search to geographical location types.
         var autocomplete = new google.maps.places.Autocomplete(
             document.getElementById('address'), 
             { types: ['geocode'] }
         );
 
-        // When the user selects an address from the dropdown, populate the address fields.
         autocomplete.addListener('place_changed', function() {
             var place = autocomplete.getPlace();
-
-            // Fill the latitude and longitude fields
             document.getElementById('latitude').value = place.geometry.location.lat();
             document.getElementById('longitude').value = place.geometry.location.lng();
         });
     }
 
-    // Initialize the autocomplete function when the window loads
     google.maps.event.addDomListener(window, 'load', initAutocomplete);
-
-    document.addEventListener('DOMContentLoaded', function() {
-        initAutocomplete();
-    });
 </script>
 
 <script
-    src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap&v=weekly&solution_channel=GMP_CCS_geocodingservice_v2"
+    src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&libraries=places&callback=initMap&v=weekly"
     defer
 ></script>
 {% endblock %}
