@@ -8,6 +8,8 @@ from orders.models import Order, OrderItem
 from accounts.models import UserProfile
 from staff.forms import UpdateOrderForm
 from reviews.models import Review
+from cakes.models import Cake
+from party_accessories.models import PartyAccessory
 
 def is_staff_user(user):
     return user.is_staff
@@ -115,3 +117,11 @@ def reviews(request):
     #     review.empty_star_count = 5 - review.rating
 
     # return render(request, 'staff/reviews.html', {'reviews': reviews})
+
+def stock(request):
+    cakes = Cake.objects.all()
+    party_accessories = PartyAccessory.objects.all()
+    return render(request, 'staff/stock.html', {
+        'cakes': cakes,
+        'party_accessories': party_accessories,
+    })

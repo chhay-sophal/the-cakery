@@ -1,0 +1,118 @@
+{% extends "staff/base.html" %}
+{% load static %}
+
+{% block title %}
+<title>Product Stock</title>
+{% endblock %}
+
+{% block content %}
+<div class="container-xxl position-relative bg-white d-flex p-0">
+    {% include 'staff/components/spinning.html' %}
+    {% include 'staff/components/logout-modal.html' %}
+    {% include 'staff/components/sidebar.html' %}
+
+    <!-- Content Start -->
+    <div class="content">
+        {% include 'staff/components/navbar.html' %}
+
+        <!-- Product Stock Tabs -->
+        <div class="container-fluid pt-4 px-4">
+            <div class="bg-light text-center rounded p-4">
+                <div class="d-flex align-items-center justify-content-between mb-4">
+                    <h6 class="mb-0">Product Stock</h6>
+                </div>
+
+                <!-- Tabs Navigation -->
+                <ul class="nav nav-tabs mb-4" id="productStockTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="cakes-tab" data-bs-toggle="tab" href="#cakes" role="tab" aria-controls="cakes" aria-selected="true">Cakes</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="accessories-tab" data-bs-toggle="tab" href="#accessories" role="tab" aria-controls="accessories" aria-selected="false">Party Accessories</a>
+                    </li>
+                </ul>
+
+                <!-- Tabs Content -->
+                <div class="tab-content" id="productStockTabsContent">
+                    <!-- Cakes Tab -->
+                    <div class="tab-pane fade show active" id="cakes" role="tabpanel" aria-labelledby="cakes-tab">
+                        <div class="table-responsive">
+                            <table class="table text-start align-middle table-bordered table-hover mb-0">
+                                <thead>
+                                    <tr class="text-dark">
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Description</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Stock</th>
+                                        <th scope="col">Category</th>
+                                        <th scope="col">Created At</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for cake in cakes %}
+                                    <tr>
+                                        <td>{{ cake.name }}</td>
+                                        <td>{{ cake.description }}</td>
+                                        <td>${{ cake.price }}</td>
+                                        <td>{{ cake.stock }}</td>
+                                        <td>{{ cake.category.name }}</td>
+                                        <td>{{ cake.created_at|date:"d M Y" }}</td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="6">No cakes available.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Party Accessories Tab -->
+                    <div class="tab-pane fade" id="accessories" role="tabpanel" aria-labelledby="accessories-tab">
+                        <div class="table-responsive">
+                            <table class="table text-start align-middle table-bordered table-hover mb-0">
+                                <thead>
+                                    <tr class="text-dark">
+                                        <th scope="col">Name</th>
+                                        <th scope="col">Description</th>
+                                        <th scope="col">Price</th>
+                                        <th scope="col">Stock</th>
+                                        <th scope="col">Created At</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for accessory in party_accessories %}
+                                    <tr>
+                                        <td>{{ accessory.name }}</td>
+                                        <td>{{ accessory.description }}</td>
+                                        <td>${{ accessory.price }}</td>
+                                        <td>{{ accessory.stock }}</td>
+                                        <td>{{ accessory.created_at|date:"d M Y" }}</td>
+                                    </tr>
+                                    {% empty %}
+                                    <tr>
+                                        <td colspan="5">No party accessories available.</td>
+                                    </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Product Stock Tabs End -->
+
+        {% include 'staff/components/footer.html' %}
+    </div>
+    <!-- Content End -->
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square back-to-top"><i class="bi bi-arrow-up"></i></a>
+</div>
+
+{% block extra_scripts %}
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+{% endblock %}
+{% endblock %}
