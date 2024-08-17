@@ -78,6 +78,17 @@
 
             <div class="card mb-4">
                 <div class="card-body">
+                    <h4>Payment Receipt</h4>
+                    {% if order.payment_receipt %}
+                        <a href="{{ order.payment_receipt.url }}" class="btn btn-primary" target="_blank">View Receipt</a>
+                    {% else %}
+                        <p>No receipt available for this order.</p>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="card mb-4">
+                <div class="card-body">
                     <h4>Order Destination on Map</h4>
                     <div id="map" style="height: 300px;"></div>
                 </div>

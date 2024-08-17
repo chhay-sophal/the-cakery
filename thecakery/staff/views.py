@@ -77,7 +77,7 @@ def update_order(request, order_id):
 
 @user_passes_test(is_staff_user)
 def order_detail(request, order_id):
-    order = get_object_or_404(Order, id=order_id, user=request.user)
+    order = get_object_or_404(Order, id=order_id)
     destination = order.destination
     order_items = OrderItem.objects.filter(order=order)
     payment_method_display = order.get_payment_method_display()
