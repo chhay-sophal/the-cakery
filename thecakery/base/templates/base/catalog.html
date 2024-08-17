@@ -8,39 +8,41 @@
   <img src="{% static 'image/pink1.jpg' %}" alt="Cake Image" class="up">
 </div>
 
-<div class="container3">
+<div class="container">
   <h3 class="font-secondary">Choose Your Cake</h3>
-  <div class="card-deck">
+  <div class="row">
     {% for cake in cakes %}
-    <div class="card text-center">
-      {% if cake in favorite_cakes %}
-        <a href="{% url 'remove_favorite' 'cake' cake.id %}"><i class="fa fa-heart card-heart-icon clicked"></i></a>
-      {% else %}
-        <a href="{% url 'add_favorite' 'cake' cake.id %}"><i class="fa fa-heart card-heart-icon"></i></a>
-      {% endif %}
-      <a href="{% url 'cake_detail' cake.name %}">
-        <div class="card-header">
-          {% if cake.trending_entries.exists %}
-            {{ cake.trending_entries.first.trend_type.name }}
-          {% else %}
-            Most Popular!
-          {% endif %}
-        </div>
-        {% if cake.images.first %}
-          <img class="card-img-top" src="{{ cake.images.first.image.url }}" alt="{{ cake.images.first.alt_text }}">
+    <div class="col-md-3 mb-4">
+      <div class="card position-relative">
+        {% if cake in favorite_cakes %}
+          <a href="{% url 'remove_favorite' 'cake' cake.id %}"><i class="fa fa-heart card-heart-icon clicked"></i></a>
         {% else %}
-          <img class="card-img-top" src="default_image_url" alt="No image available">
+          <a href="{% url 'add_favorite' 'cake' cake.id %}"><i class="fa fa-heart card-heart-icon"></i></a>
         {% endif %}
-        <div class="card-body">
-          <p class="card-text text-muted">{{ cake.category.name }}</p>
-          <a href="{% url 'cake_detail' cake.name %}">
-              <h5 class="card-title">{{ cake.name }}</h5>
-          </a>
-          <div class="card-footer">
-              {{ cake.get_final_price|floatformat:2 }}$
+        <a href="{% url 'cake_detail' cake.name %}">
+          <div class="card-header">
+            {% if cake.trending_entries.exists %}
+              {{ cake.trending_entries.first.trend_type.name }}
+            {% else %}
+              Most Popular!
+            {% endif %}
           </div>
-        </div>
-      </a>
+          {% if cake.images.first %}
+            <img class="card-img-top" src="{{ cake.images.first.image.url }}" alt="{{ cake.images.first.alt_text }}">
+          {% else %}
+            <img class="card-img-top" src="default_image_url" alt="No image available">
+          {% endif %}
+          <div class="card-body">
+            <p class="card-text text-muted">{{ cake.category.name }}</p>
+            <a href="{% url 'cake_detail' cake.name %}">
+              <h5 class="card-title">{{ cake.name }}</h5>
+            </a>
+            <div class="card-footer">
+              {{ cake.get_final_price|floatformat:2 }}$
+            </div>
+          </div>
+        </a>
+      </div>
     </div>
     {% endfor %}
   </div>
@@ -54,7 +56,7 @@
 }
 
 body {
-  font-style: sans-serif;
+  font-family: sans-serif;
 }
 
 a {
@@ -69,57 +71,41 @@ h3 {
   line-height: 3em;
 }
 
-.card-deck {
-  display: flex;
-  justify-content: center;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-}
-
 .card {
-  max-width: 20rem;
-  flex: 0 0 auto;
-  margin-right: 50px;
-  position: relative;
+  border: none;
+  border-radius: 8px;
+  overflow: hidden;
+  max-width: 100%;
 }
 
-.card:last-child {
-  margin-right: 0;
+.card-img-top {
+  width: 100%;
+  height: 300px; /* Adjust height as needed */
+  object-fit: cover;
 }
 
-.card:hover {
-  box-shadow: 1px 2px 10px lightgray;
-  transition: 0.2s;
-}
-
-.card-header {
-  font-size: 13px;
-  color: gray;
-  background-color: white;
+.card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .card-title {
   color: #56091F;
+  margin-bottom: 0.5rem;
 }
 
 .text-muted {
-  font-size: 11px;
+  font-size: 14px;
+  margin-bottom: 0.5rem;
 }
 
 .card-footer {
   font-weight: bold;
   font-size: 18px;
   background-color: pink;
-}
-
-.card-img-wrapper {
-  position: relative;
-}
-
-.card-img-top {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+  border-top: none;
 }
 
 .card-heart-icon {
@@ -127,45 +113,40 @@ h3 {
   top: 10px;
   right: 10px;
   font-size: 24px;
-  color: white;
-  border: 2px solid #FAABBD;
-  border-radius: 50%;
-  padding: 5px;
-  background-color: #FAABBD;
-  display: none;
-}
-
-.card:hover .card-heart-icon {
-  display: block;
+  color: #FAABBD;
+  cursor: pointer;
+  transition: color 0.3s ease;
+  z-index: 2;
 }
 
 .card-heart-icon.clicked {
-  color: #FAABBD;
-  border-color: #FAABBD;
-  background-color: white;
+  color: #FF0000;
 }
 
-/* Responsive adjustments */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: 1;
+}
+
+.card:hover .overlay {
+  opacity: 1;
+}
+
 @media (max-width: 768px) {
-  .card-deck {
-    flex-wrap: wrap;
-  }
-
-  .card {
-    max-width: 100%;
-    margin-bottom: 20px; 
-    margin-right: 0; 
-  }
-
-  .card-header,
-  .card-title,
-  .text-muted,
-  .card-footer {
-    font-size: 14px; 
+  .card-title, .text-muted, .card-footer {
+    font-size: 14px;
   }
 
   .card-footer {
-    font-size: 16px; 
+    font-size: 16px;
   }
 }
 
@@ -174,11 +155,8 @@ h3 {
     height: 200px;
   }
 
-  .card-header,
-  .card-title,
-  .text-muted,
-  .card-footer {
-    font-size: 12px; 
+  .card-title, .text-muted, .card-footer {
+    font-size: 12px;
   }
 
   .card-footer {
@@ -187,18 +165,4 @@ h3 {
 }
 </style>
 
-<!-- Include Font Awesome for the heart icon -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js" integrity="sha512-h0qOdE3/8PjmMnvVf7RaVY4DxDSoq8KUBsEBW6+L2BqZf9ToFhpkzHfiF8cNc15yW7Hs4S1PzRZfs1TdvXtmA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
-<script>
-  document.addEventListener("DOMContentLoaded", function() {
-    const heartIcons = document.querySelectorAll(".card-heart-icon");
-  
-    heartIcons.forEach(function(icon) {
-      icon.addEventListener("click", function() {
-        icon.classList.toggle("clicked");
-      });
-    });
-  });
-  </script>
 {% endblock %}
