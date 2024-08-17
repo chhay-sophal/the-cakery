@@ -38,3 +38,6 @@ def sign_up(request):
 
 def dessert(request):
     return render(request, 'base/dessert.html')
+
+def detail(request):
+    return render(request, 'base/cake_detail.html')

@@ -20,37 +20,37 @@
 
 <!-- ****Add Slideshow for texts and images -->
 <div id="slideshow-container">
-    <div class="mySlides slide1">
-        <div class="content">
-            <div class="col-lg-6 text-left text-lg-start">
-                <h1 class="font-secondary mb-4" style="color:palevioletred">Sweet Taste</h1>
-                <h1 class="secondary-color"><strong>Dream and Fantasy</strong></h1>
-                <h1 class="secondary-color"><strong>Comes in Flavor</strong></h1>
-                <p id="desc1">Made with the finest ingredients and a touch of love, 
-                    each cake is a masterpiece of flavor and design. Browse our catalog, place your order, 
-                    and indulge in the perfect slice of happiness. At The Cakery, we turn every moment into a delicious memory.</p>
-                <div class="d-flex align-items-center justify-content-center justify-content-lg-start pt-5">
-                    <a href="" class="btn border-inner py-3 px-5 me-5" style="background-color: #FAABBD;">Read More</a>
-                </div>
-            </div>
+    <div class="mySlides slide1 active">
+      <div class="content">
+        <div class="col-lg-6 text-left text-lg-start">
+          <h1 class="font-secondary mb-4" style="color:palevioletred">Sweet Taste</h1>
+          <h1 class="secondary-color"><strong>Dream and Fantasy</strong></h1>
+          <h1 class="secondary-color"><strong>Comes in Flavor</strong></h1>
+          <p id="desc1">Made with the finest ingredients and a touch of love, 
+              each cake is a masterpiece of flavor and design. Browse our catalog, place your order, 
+              and indulge in the perfect slice of happiness. At The Cakery, we turn every moment into a delicious memory.</p>
+          <div class="d-flex align-items-center justify-content-center justify-content-lg-start pt-5">
+            <a href="" class="slideshow-btn">Buy Now</a>
+          </div>                              
         </div>
+      </div>
     </div>
     <div class="mySlides slide2">
-        <div class="content">
-            <div class="col-lg-6 text-left text-lg-start">
-                <h1 class="font-secondary mb-4" style="color:palevioletred">Sweet Taste</h1>
-                <h1 class="secondary-color"><strong>Indulge in Cream</strong></h1>
-                <h1 class="secondary-color"><strong>Strawberry Flavours</strong></h1>
-                <p id="desc1">Made with the finest ingredients and a touch of love, 
-                    each cake is a masterpiece of flavor and design. Browse our catalog, place your order, 
-                    and indulge in the perfect slice of happiness. At The Cakery, we turn every moment into a delicious memory.</p>
-                <div class="d-flex align-items-center justify-content-center justify-content-lg-start pt-5">
-                    <a href="" class="btn border-inner py-3 px-5 me-5" style="background-color: #FAABBD;">Read More</a>
-                </div>
-            </div>
+      <div class="content">
+        <div class="col-lg-6 text-left text-lg-start">
+          <h1 class="font-secondary mb-4" style="color:palevioletred">Sweet Taste</h1>
+          <h1 class="secondary-color"><strong>Indulge in Cream</strong></h1>
+          <h1 class="secondary-color"><strong>Strawberry Flavours</strong></h1>
+          <p id="desc1">Made with the finest ingredients and a touch of love, 
+              each cake is a masterpiece of flavor and design. Browse our catalog, place your order, 
+              and indulge in the perfect slice of happiness. At The Cakery, we turn every moment into a delicious memory.</p>
+          <div class="d-flex align-items-center justify-content-center justify-content-lg-start pt-5">
+            <a href="" class="slideshow-btn">Buy Now</a>
+          </div>                               
         </div>
+      </div>
     </div>
-</div>
+  </div>  
 
 
 <script>
@@ -66,7 +66,7 @@
         slideIndex++;
         if (slideIndex > slides.length) {slideIndex = 1}    
         slides[slideIndex-1].style.display = "block";  
-        setTimeout(showSlides, 5000); // Change slide every 5 seconds
+        setTimeout(showSlides, 6000); // Change slide every 5 seconds
     }
 </script>
     
@@ -328,144 +328,20 @@
       }
     });
   </script>
-  
-  <section id="testimonials" class="testimonials section">
-
-    <!-- Section Title -->
-    <div class="container section-title" data-aos="fade-up">
-      <h2>Testimonials</h2>
-      <p>What they are saying about us</p>
-    </div><!-- End Section Title -->
-
-    <div class="container" data-aos="fade-up" data-aos-delay="100">
-
-      <div class="swiper init-swiper">
-        <script type="application/json" class="swiper-config">
-          {
-            "loop": true,
-            "speed": 600,
-            "autoplay": {
-              "delay": 5000
-            },
-            "slidesPerView": "auto",
-            "pagination": {
-              "el": ".swiper-pagination",
-              "type": "bullets",
-              "clickable": true
-            },
-            "breakpoints": {
-              "320": {
-                "slidesPerView": 1,
-                "spaceBetween": 40
-              },
-              "1200": {
-                "slidesPerView": 3,
-                "spaceBetween": 10
-              }
-            }
-          }
-        </script>
-        <div class="swiper-wrapper">
-
-          <div class="swiper-slide">
-            <div class="testimonial-item">
-              <img src="{% static 'homepage/assets/img/testimonials/testimonials-1.jpg' %}" class="testimonial-img" alt="">
-              <h3>Saul Goodman</h3>
-              <h4>Ceo &amp; Founder</h4>
-              <div class="stars">
-                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-              </div>
-              <p>
-                <i class="bi bi-quote quote-icon-left"></i>
-                <span>Proin iaculis purus consequat sem cure digni ssim donec porttitora entum suscipit rhoncus. Accusantium quam, ultricies eget id, aliquam eget nibh et. Maecen aliquam, risus at semper.</span>
-                <i class="bi bi-quote quote-icon-right"></i>
-              </p>
-            </div>
-          </div><!-- End testimonial item -->
-
-          <div class="swiper-slide">
-            <div class="testimonial-item">
-              <img src="{% static 'homepage/assets/img/testimonials/testimonials-2.jpg' %}" class="testimonial-img" alt="">
-              <h3>Sara Wilsson</h3>
-              <h4>Designer</h4>
-              <div class="stars">
-                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-              </div>
-              <p>
-                <i class="bi bi-quote quote-icon-left"></i>
-                <span>Export tempor illum tamen malis malis eram quae irure esse labore quem cillum quid cillum eram malis quorum velit fore eram velit sunt aliqua noster fugiat irure amet legam anim culpa.</span>
-                <i class="bi bi-quote quote-icon-right"></i>
-              </p>
-            </div>
-          </div><!-- End testimonial item -->
-
-          <div class="swiper-slide">
-            <div class="testimonial-item">
-              <img src="{% static 'homepage/assets/img/testimonials/testimonials-3.jpg' %}" class="testimonial-img" alt="">
-              <h3>Jena Karlis</h3>
-              <h4>Store Owner</h4>
-              <div class="stars">
-                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-              </div>
-              <p>
-                <i class="bi bi-quote quote-icon-left"></i>
-                <span>Enim nisi quem export duis labore cillum quae magna enim sint quorum nulla quem veniam duis minim tempor labore quem eram duis noster aute amet eram fore quis sint minim.</span>
-                <i class="bi bi-quote quote-icon-right"></i>
-              </p>
-            </div>
-          </div><!-- End testimonial item -->
-
-          <div class="swiper-slide">
-            <div class="testimonial-item">
-              <img src="{% static 'homepage/assets/img/testimonials/testimonials-4.jpg' %}" class="testimonial-img" alt="">
-              <h3>Matt Brandon</h3>
-              <h4>Freelancer</h4>
-              <div class="stars">
-                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-              </div>
-              <p>
-                <i class="bi bi-quote quote-icon-left"></i>
-                <span>Fugiat enim eram quae cillum dolore dolor amet nulla culpa multos export minim fugiat minim velit minim dolor enim duis veniam ipsum anim magna sunt elit fore quem dolore labore illum veniam.</span>
-                <i class="bi bi-quote quote-icon-right"></i>
-              </p>
-            </div>
-          </div><!-- End testimonial item -->
-
-          <div class="swiper-slide">
-            <div class="testimonial-item">
-              <img src="{% static 'homepage/assets/img/testimonials/testimonials-5.jpg' %}" class="testimonial-img" alt="">
-              <h3>John Larson</h3>
-              <h4>Entrepreneur</h4>
-              <div class="stars">
-                <i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i><i class="bi bi-star-fill"></i>
-              </div>
-              <p>
-                <i class="bi bi-quote quote-icon-left"></i>
-                <span>Quis quorum aliqua sint quem legam fore sunt eram irure aliqua veniam tempor noster veniam enim culpa labore duis sunt culpa nulla illum cillum fugiat legam esse veniam culpa fore nisi cillum quid.</span>
-                <i class="bi bi-quote quote-icon-right"></i>
-              </p>
-            </div>
-          </div><!-- End testimonial item -->
-
-        </div>
-        <div class="swiper-pagination"></div>
-      </div>
-
-    </div>
-
-  </section><!-- /Testimonials Section -->
-  <script></script>
+  <!-- End Cake Display-->
 
   
 
 
+
+<!-- Contact Section -->
 <section class="contact_section layout_padding">
     <div class="container-fluid">
       <div class="row">
         <div class="col-md-5 col-lg-4 offset-md-1 offset-lg-2">
           <div class="form_container">
             <div class="heading_container">
-              <h2>
+              <h2 style="padding: 20px; color: #FAABBD; font-size: 40px; margin-top: 80px;">
                 Contact Us
               </h2>
             </div>
@@ -490,19 +366,17 @@
             </form>
           </div>
         </div>
-        <div class="col-md-6  px-0">
-          <div class="map_container">
-            <div class="map">
-              <div id="googleMap"></div>
-            </div>
+        <!-- Image Section -->
+        <div class="col-md-6 px-0 d-flex justify-content-center align-items-center">
+          <div class="image_container" style="max-width: 80%; max-height: 80%;">
+            <img src="{% static 'image/cat5.jpg' %}" alt="Contact Us Image" class="img-fluid" style="width: 100%; height: auto; object-fit: contain;">
           </div>
         </div>
       </div>
     </div>
   </section>
-
   <!-- end contact section -->
-
+  
 
 <script>
 document.addEventListener("DOMContentLoaded", function() {
