@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
-from .forms import CustomUserCreationForm, UserProfileForm 
+from .forms import CustomPasswordChangeForm, CustomUserCreationForm, UserProfileForm 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import LogoutView, PasswordChangeView, PasswordResetView, PasswordResetDoneView, PasswordResetConfirmView, PasswordResetCompleteView, PasswordChangeDoneView
@@ -33,3 +33,8 @@ def modify_profile(request):
         form = UserProfileForm(instance=user)
     
     return render(request, 'registration/modify_profile.html', {'form': form})
+
+class CustomPasswordChangeView(PasswordChangeView):
+    form_class = CustomPasswordChangeForm
+    success_url = reverse_lazy('password_change_done')  # Redirect to a success page after change
+    template_name = 'registration/custom_password_change_form.html'
