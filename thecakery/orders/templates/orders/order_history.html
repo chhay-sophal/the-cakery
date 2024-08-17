@@ -2,28 +2,49 @@
 
 {% block title %}Order History{% endblock %}
 
+{% block style %}
+<style>
+    .alert-info {
+        border-radius: 10px;
+        padding: 1rem;
+        text-align: center;
+    }
+</style>
+{% endblock %}
 {% block content %}
-<h2>Order History</h2>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <a href="{% url 'profile' %}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Back to Profile
+        </a>
+        <h2 class="mb-0">Order History</h2>
+    </div>
 
-{% if orders %}
-    <ul>
-    {% for order in orders %}
-        <li>
-            <a href="{% url 'order_detail' order.id %}"><h3>Order #{{ order.id }}</h3></a>
-            <p><strong>Total Price:</strong> ${{ order.total_price }}</p>
-            <p><strong>Payment Status:</strong> {{ order.payment_status }}</p>
-            <p><strong>Payment Method:</strong> {{ order.get_payment_method_display }}</p>
-            <p><strong>Shipping Status:</strong> {{ order.get_shipping_status_display }}</p>
-            <p><strong>Destination:</strong> {{ order.destination }}</p>
-            <p><strong>Created At:</strong> {{ order.created_at }}</p>
-            <p><strong>Updated At:</strong> {{ order.updated_at }}</p>
-            <!-- Add more details if needed -->
-        </li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>You have no orders in your history.</p>
-{% endif %}
-
-<button><a class="text-white" href="{% url 'profile' %}">Back to Profile</a></button>
+    {% if orders %}
+        <div class="row">
+            {% for order in orders %}
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100">
+                        <div class="card-body">
+                            <a href="{% url 'order_detail' order.id %}">
+                                <h3 class="card-title">Order #{{ order.id }}</h3>
+                            </a>
+                            <p><strong>Total Price:</strong> ${{ order.total_price }}</p>
+                            <p><strong>Payment Status:</strong> {{ order.get_payment_status_display }}</p>
+                            <p><strong>Payment Method:</strong> {{ order.get_payment_method_display }}</p>
+                            <p><strong>Shipping Status:</strong> {{ order.get_shipping_status_display }}</p>
+                            <p><strong>Destination:</strong> {{ order.destination }}</p>
+                            <p><strong>Created At:</strong> {{ order.created_at }}</p>
+                            <p><strong>Updated At:</strong> {{ order.updated_at }}</p>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info" role="alert">
+            You have no orders in your history.
+        </div>
+    {% endif %}
+</div>
 {% endblock %}

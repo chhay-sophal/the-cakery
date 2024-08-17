@@ -4,131 +4,129 @@
 
 {% block style %}
 <style>
-    .modal {
-        display: none; 
-        position: fixed; 
-        z-index: 1; 
-        left: 0;
-        top: 0;
-        width: 100%; 
-        height: 100%; 
-        overflow: auto; 
-        background-color: rgb(0,0,0); 
-        background-color: rgba(0,0,0,0.4); 
-        padding-top: 60px;
+    .modal .modal-header {
+        border-bottom: none;
     }
-    
-    .modal-content {
-        background-color: #fefefe;
-        margin: 5% auto;
-        padding: 20px;
-        border: 1px solid #888;
-        width: 80%;
+
+    .modal .modal-footer {
+        border-top: none;
     }
-    
-    .close {
-        color: #aaa;
-        float: right;
-        font-size: 28px;
-        font-weight: bold;
+
+    .modal .btn {
+        min-width: 100px;
     }
-    
-    .close:hover,
-    .close:focus {
-        color: black;
-        text-decoration: none;
-        cursor: pointer;
-    }
-    
-    button {
-        padding: 10px;
-        margin: 5px;
-        cursor: pointer;
-    }
-</style>    
+</style>
 {% endblock %}
 
 {% block content %}
-<h2>Your Profile</h2>
-
-<p><strong>First Name:</strong> {{ user.first_name }}</p>
-<p><strong>Last Name:</strong> {{ user.last_name }}</p>
-<p><strong>Username:</strong> {{ user.username }}</p>
-<p><strong>Email:</strong> {{ user.email }}</p>
-
-<h1>Track Orders</h1>
-<a href="{% url 'order_history' %}"><h3>History</h3></a>
-
-{% if orders %}
-    <ul>
-    {% for order in orders %}
-        <li>
-            <a href="{% url 'order_detail' order.id %}"><h3>Order #{{ order.id }}</h3></a>
-            <p><strong>Total Price:</strong> ${{ order.total_price }}</p>
-            <p><strong>Payment Status:</strong> {{ order.payment_status }}</p>
-            <p><strong>Payment Method:</strong> {{ order.get_payment_method_display }}</p>
-            <p><strong>Shipping Status:</strong> {{ order.get_shipping_status_display }}</p>
-            <p><strong>Destination:</strong> {{ order.destination }}</p>
-            <p><strong>Created At:</strong> {{ order.created_at }}</p>
-        </li>
-    {% endfor %}
-    </ul>
-{% else %}
-    <p>You have no orders to track.</p>
-{% endif %}
-
-<button><a class="text-white" href="{% url 'password_change' %}">Change Password</a></button>
-<button id="logoutBtn" class="text-white">Logout</button>
-
-<!-- Logout Confirmation Modal -->
-<div id="logoutModal" class="modal" style="display: none;">
-    <div class="modal-content">
-        <form id="logout-form" method="POST" action="{% url 'logout' %}" style="display: inline;">
-            {% csrf_token %}
-            <h2>Are you sure you want to logout?</h2>
-            <button type="button" id="cancelLogout" class="text-white">Cancel</button>
-            <button type="submit" class="text-white">
-                Yes, Logout
-            </button>
-        </form>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <a href="{% url 'home' %}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Back to Home
+        </a>
+        <h2 class="mb-0">Your Profile</h2>
     </div>
+
+    <div class="card mb-4 shadow-sm" style="transition: none; transform: none;">
+        <div class="card-header bg-primary text-white">
+            <h5 class="mb-0"><i class="bi bi-person-circle me-2"></i>Your Profile</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-person-fill me-2 text-primary"></i>
+                        <p class="mb-0"><strong>First Name:</strong> {{ user.first_name }}</p>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-person-fill me-2 text-primary"></i>
+                        <p class="mb-0"><strong>Last Name:</strong> {{ user.last_name }}</p>
+                    </div>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-person-badge-fill me-2 text-primary"></i>
+                        <p class="mb-0"><strong>Username:</strong> {{ user.username }}</p>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="d-flex align-items-center">
+                        <i class="bi bi-envelope-fill me-2 text-primary"></i>
+                        <p class="mb-0"><strong>Email:</strong> {{ user.email }}</p>
+                    </div>
+                </div>
+            </div>
+    
+            <!-- Action Buttons Section -->
+            <div class="mt-4">
+                <h5 class="mb-3"><i class="bi bi-gear-fill me-2"></i>Account Settings</h5>
+                <div class="d-flex justify-content-between">
+                    <a href="{% url 'password_change' %}" class="btn btn-warning">
+                        <i class="bi bi-key-fill me-1"></i> Change Password
+                    </a>
+                    <a href="" class="btn btn-info text-white">
+                        <i class="bi bi-pencil-square me-1"></i> Modify Information
+                    </a>
+                    <button id="logoutBtn" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#logoutModal">
+                        <i class="bi bi-box-arrow-right me-1"></i> Logout
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <h3>Track Orders</h3>
+
+    {% if orders %}
+        <div class="row">
+            {% for order in orders %}
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card h-100 shadow-sm border-0">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="bi bi-receipt me-2"></i>Order #{{ order.id }}</h5>
+                            <p class="card-text">
+                                <strong>Total Price:</strong> ${{ order.total_price }}<br>
+                                <strong>Payment Status:</strong> {{ order.get_payment_status_display }}<br>
+                                <strong>Shipping Status:</strong> {{ order.get_shipping_status_display }}<br>
+                                <strong>Destination:</strong> {{ order.destination }}<br>
+                                <small class="text-muted"><i class="bi bi-calendar3 me-1"></i>Created At: {{ order.created_at }}</small>
+                            </p>
+                            <a href="{% url 'order_detail' order.id %}" class="btn btn-primary w-100">
+                                <i class="bi bi-info-circle me-1"></i> View Details
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-warning" role="alert">
+            <i class="bi bi-exclamation-circle me-2"></i>You have no orders to track.
+        </div>
+    {% endif %}
 </div>
 
-{% endblock %}
-
-{% block extra_js %}
-<script>
-    // Get modal and buttons
-    var logoutModal = document.getElementById("logoutModal");
-    var logoutBtn = document.getElementById("logoutBtn");
-    var cancelLogout = document.getElementById("cancelLogout");
-    var span = document.getElementsByClassName("close")[0];
-
-    // When the user clicks the logout button, open the modal 
-    logoutBtn.onclick = function() {
-        logoutModal.style.display = "block";
-    }
-
-    // When the user clicks on cancel, close the modal
-    cancelLogout.onclick = function() {
-        logoutModal.style.display = "none";
-    }
-
-    // When the user clicks on the close button (x), close the modal
-    span.onclick = function() {
-        logoutModal.style.display = "none";
-    }
-
-    // // When the user clicks outside of the modal, close it
-    window.onclick = function(event) {
-        if (event.target == logoutModal) {
-            logoutModal.style.display = "none";
-        }
-    }
-
-    document.getElementById('cancelLogout').addEventListener('click', function(event) {
-        event.preventDefault(); // Prevent the default form submission behavior
-        document.getElementById('logoutModal').style.display = 'none'; // Close the modal
-    });
-</script>
+<!-- Logout Confirmation Modal -->
+<div class="modal fade" id="logoutModal" tabindex="-1" aria-labelledby="logoutModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="logoutModalLabel">Confirm Logout</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                Are you sure you want to logout?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <form id="logout-form" method="POST" action="{% url 'logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Yes, Logout</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}

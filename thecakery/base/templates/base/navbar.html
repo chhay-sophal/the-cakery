@@ -184,12 +184,12 @@
                                     <span>Total:</span>
                                     <span class="fw-bold">${{ total_price|floatformat:2 }}</span>
                                 </li>
+                                <li class="text-center mt-2">
+                                    <a href="{% url 'checkout' %}" class="btn" style="background-color: #F598B0;">Checkout</a>
+                                </li>
                             {% else %}
                                 <li class="text-center">Your cart is empty.</li>
                             {% endif %}
-                            <li class="text-center mt-2">
-                                <a href="{% url 'checkout' %}" class="btn" style="background-color: #F598B0;">Checkout</a>
-                            </li>
                         {% else %}
                             <li class="text-center">Log in to see your cart.</li>
                             <li class="text-center mt-2">

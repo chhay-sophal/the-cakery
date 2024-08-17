@@ -2,18 +2,128 @@
 
 {% block title %}Log In{% endblock %}
 
+{% block style %}
+<style>
+    .login-container {
+        max-width: 400px;
+        margin: auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .login-container h2 {
+        margin-bottom: 20px;
+        color: #F598B0;
+    }
+
+    .login-container form {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .login-container form .form-group {
+        margin-bottom: 15px;
+    }
+
+    .login-container form .form-group label {
+        font-weight: bold;
+        color: #6c757d;
+    }
+
+    .login-container form .form-group input {
+        border-radius: 4px;
+        border: 1px solid #ced4da;
+        padding: 10px;
+    }
+
+    .login-container form .form-group input:focus {
+        border-color: #e83e8c; 
+        outline: none;
+        box-shadow: 0 0 0 0.2rem rgba(232, 62, 140, 0.25);
+    }
+
+    .login-container button {
+        background-color: #F598B0;
+        color: #fff;
+        border: none;
+        padding: 10px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+    .login-container button:hover {
+        background-color: #e83e8c; /* Darker #F598B0 on hover */
+    }
+
+    .login-container .forgot-password {
+        margin-top: 10px;
+        text-align: center;
+    }
+
+    .login-container .forgot-password a {
+        color: #F598B0; /* #F598B0 theme color */
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+    .login-container .forgot-password a:hover {
+        text-decoration: underline;
+    }
+
+    .login-container .create-account {
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .login-container .create-account button {
+        background-color: #F598B0; /* #F598B0 theme color */
+        color: #fff;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+    }
+
+    .login-container .create-account button a {
+        color: #fff;
+        text-decoration: none;
+    }
+
+    .login-container .create-account button:hover {
+        background-color: #e83e8c; /* Darker pink on hover */
+    }
+</style>
+{% endblock %}
+
 {% block content %}
-<h2>Log In</h2>
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Log In</button>
-</form>
+<div class="login-container mt-5">
+    <h2>Log In</h2>
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            {{ form.username.label_tag }}
+            {{ form.username }}
+        </div>
+        <div class="form-group">
+            {{ form.password.label_tag }}
+            {{ form.password }}
+        </div>
+        <button type="submit">Log In</button>
+    </form>
 
-<a class="" href="{% url 'password_reset' %}">Forgot password</a>
+    <div class="forgot-password">
+        <a href="{% url 'password_reset' %}">Forgot password?</a>
+    </div>
 
-<p>New here? 
-  <button><a class="text-white" href="{% url 'signup' %}">Create an account</a></button>
-</p>
-
+    <div class="create-account">
+        <p>New here? 
+            <button><a href="{% url 'signup' %}">Create an account</a></button>
+        </p>
+    </div>
+</div>
 {% endblock %}

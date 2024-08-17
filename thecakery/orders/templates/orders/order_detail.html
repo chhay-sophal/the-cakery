@@ -2,73 +2,141 @@
 
 {% block title %}Order Details{% endblock %}
 
+{% block style %}
+<style>
+    .status-indicator {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+    }
+    
+    .status-cell {
+        flex: 1;
+        text-align: center;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        margin: 0 5px;
+        color: #4d4d4d;
+    }
+    
+    .status-cell.active {
+        background-color: #f78da7; /* Pink color for the active status */
+        color: #fff;
+    }
+    
+    .status-cell:not(.active) {
+        background-color: #eee;
+    }
+</style>
+{% endblock %}
+
+
+
+
 {% block content %}
-<h2>Order Details</h2>
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <a href="{% url 'profile' %}" class="btn btn-outline-secondary">
+            <i class="bi bi-arrow-left"></i> Back to Profile
+        </a>
+        <h2 class="mb-0">Order Details</h2>
+    </div>
 
-<p><strong>Order ID:</strong> {{ order.id }}</p>
-<p><strong>Total Price:</strong> ${{ order.total_price }}</p>
-<p><strong>Payment Status:</strong> {{ order.get_payment_status_display }}</p>
-<p><strong>Payment Method:</strong> {{ order.get_payment_method_display }}</p>
-<p><strong>Shipping Status:</strong> {{ order.get_shipping_status_display }}</p>
-<p><strong>Destination:</strong> {{ order.destination }}</p>
-<p><strong>Created At:</strong> {{ order.created_at }}</p>
-<p><strong>Updated At:</strong> {{ order.updated_at }}</p>
-
-<h3>Order Items</h3>
-<ul>
-{% for item in order_items %}
-    <li>
-        {% if item.content_type.model == 'cake' %}
-            <h4>{{ item.content_object.name }}</h4>
-            {% if item.content_object.images.exists %}
-                <img src="{{ item.content_object.images.first.image.url }}" alt="{{ item.content_object.images.first.alt_text }}" style="max-width: 200px; max-height: 200px;">
-            {% else %}
-                <p>No image available</p>
+    <!-- Shipping Status Line Indicator -->
+    <div class="status-indicator mb-4">
+        {% for status in shipment_status_choices %}
+            {% if status.0 != 'canceled' %}
+                <div class="status-cell {% if order.shipping_status == status.0 %}active{% endif %}">
+                    {{ status.1 }}
+                </div>
             {% endif %}
-            <p>Price: ${{ item.content_object.price }}</p>
-            <p>Quantity: {{ item.quantity }}</p>
-        {% elif item.content_type.model == 'partyaccessory' %}
-            <h4>{{ item.content_object.name }}</h4>
-            {% if item.content_object.images.exists %}
-                <img src="{{ item.content_object.images.first.image.url }}" alt="{{ item.content_object.images.first.alt_text }}" style="max-width: 200px; max-height: 200px;">
-            {% else %}
-                <p>No image available</p>
-            {% endif %}
-            <p>Price: ${{ item.content_object.price }}</p>
-            <p>Quantity: {{ item.quantity }}</p>
-        {% endif %}
-    </li>
-{% endfor %}
-</ul>
+        {% endfor %}
+    </div>
 
-{% if destination_latitude and destination_longitude %}
-    <h3>Shipping Address on Map</h3>
-    <div id="map" style="height: 400px; width: 100%;"></div>
+    <div class="card mb-4 shadow-sm border-light" style="transition: none; transform: none;">
+        <div class="card-header bg-light">
+            <h5 class="mb-0"><i class="bi bi-box me-2"></i>Order Details</h5>
+        </div>
+        <div class="card-body">
+            <dl class="row mb-0 text-start">
+                <dt class="col-sm-4"><strong>Order ID:</strong></dt>
+                <dd class="col-sm-8">{{ order.id }}</dd>
+    
+                <dt class="col-sm-4"><strong>Total Price:</strong></dt>
+                <dd class="col-sm-8">${{ order.total_price }}</dd>
+    
+                <dt class="col-sm-4"><strong>Payment Status:</strong></dt>
+                <dd class="col-sm-8">{{ order.get_payment_status_display }}</dd>
+    
+                <dt class="col-sm-4"><strong>Payment Method:</strong></dt>
+                <dd class="col-sm-8">{{ order.get_payment_method_display }}</dd>
+    
+                <dt class="col-sm-4"><strong>Shipping Status:</strong></dt>
+                <dd class="col-sm-8">{{ order.get_shipping_status_display }}</dd>
+    
+                <dt class="col-sm-4"><strong>Destination:</strong></dt>
+                <dd class="col-sm-8">{{ order.destination }}</dd>
+    
+                <dt class="col-sm-4"><strong>Created At:</strong></dt>
+                <dd class="col-sm-8">{{ order.created_at }}</dd>
+    
+                <dt class="col-sm-4"><strong>Updated At:</strong></dt>
+                <dd class="col-sm-8">{{ order.updated_at }}</dd>
+            </dl>
+        </div>
+    </div>    
 
-    <script
-        src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap"
-        async
-    ></script>
+    <h3>Order Items</h3>
+    <ul class="list-group mb-4">
+        {% for item in order_items %}
+            <li class="list-group-item">
+                <div class="d-flex align-items-center">
+                    <div class="me-3">
+                        {% if item.content_object.images.exists %}
+                            <img src="{{ item.content_object.images.first.image.url }}" alt="{{ item.content_object.images.first.alt_text }}" class="img-thumbnail" style="max-width: 150px;">
+                        {% else %}
+                            <p>No image available</p>
+                        {% endif %}
+                    </div>
+                    <div>
+                        <h5>{{ item.content_object.name }}</h5>
+                        <p>Size: {{ item.content_object.sizes.first.size }}</p>
+                        <p>Price: ${{ item.content_object.price }}</p>
+                        <p>Quantity: {{ item.quantity }}</p>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
 
-    <script>
-        function initMap() {
-            const location = { 
-                lat: {{ destination_latitude }}, 
-                lng: {{ destination_longitude }} 
-            };
-            const map = new google.maps.Map(document.getElementById('map'), {
-                zoom: 15,
-                center: location
-            });
-            new google.maps.Marker({
-                position: location,
-                map: map
-            });
-        }
-    </script>
-{% else %}
-    <p>Location information not available.</p>
-{% endif %}
+    {% if destination_latitude and destination_longitude %}
+        <h3>Shipping Address on Map</h3>
+        <div id="map" style="height: 400px; width: 100%;" class="mb-4"></div>
 
-<button><a class="text-white" href="{% url 'order_history' %}">Back to Order History</a></button>
+        <script
+            src="https://maps.googleapis.com/maps/api/js?key={{ google_maps_api_key }}&callback=initMap"
+            async
+        ></script>
+
+        <script>
+            function initMap() {
+                const location = { 
+                    lat: {{ destination_latitude }}, 
+                    lng: {{ destination_longitude }} 
+                };
+                const map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 15,
+                    center: location
+                });
+                new google.maps.Marker({
+                    position: location,
+                    map: map
+                });
+            }
+        </script>
+    {% else %}
+        <p>Location information not available.</p>
+    {% endif %}
+</div>
 {% endblock %}

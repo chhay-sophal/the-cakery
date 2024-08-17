@@ -181,7 +181,7 @@ def checkout(request):
         cart.items.all().delete()
 
         # Redirect to a success page or order confirmation
-        return redirect('order_confirmation', order_id=order.id)
+        return redirect('order_detail', order_id=order.id)
 
     context = {
         'cart': cart,
@@ -264,6 +264,7 @@ def order_detail(request, order_id):
     order = get_object_or_404(Order, id=order_id, user=request.user)
     destination = order.destination
     order_items = OrderItem.objects.filter(order=order)
+    shipment_status_choices = Order.SHIPMENT_STATUS_CHOICES
 
     context = {
         'order': order,
@@ -271,6 +272,7 @@ def order_detail(request, order_id):
         'destination_latitude': destination.latitude,
         'destination_longitude': destination.longitude,
         'google_maps_api_key': settings.GOOGLE_MAPS_API_KEY,
+        'shipment_status_choices': shipment_status_choices,
     }
     
     return render(request, 'orders/order_detail.html', context)
