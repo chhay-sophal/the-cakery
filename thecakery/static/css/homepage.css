@@ -1,66 +1,11 @@
 /********** Template CSS **********/
-/* Box Sizing */
-*, *::before, *::after {
-    box-sizing: border-box;
-}
-
-/* Prevent Horizontal Overflow */
-html, body {
-    overflow-x: hidden;
-}
-
-/* Ensure Containers Are 100% Wide */
-.container-fluid {
-    width: 100%;
-    padding: 0 15px; /* Adjust padding as needed */
-}
-
 :root {
     --primary: #E88F2A;
     --secondary: #FAF3EB;
     --light: #FFFFFF;
     --dark: #2B2825;
 }
-.navbar {
-background:pink;
-box-shadow: 0 4px 6px rgba(22, 22, 26, 0.18);
-position: relative; /* Ensure it is positioned relative to its default location */
-z-index: 10; /* Set a high z-index to ensure it is on top */
-}
-.navbar .navbar-nav .nav-link {
-color:#56091F;
-}
-.btn-outline-dark {
-border-radius: 0;
-}
-.btn-outline-dark:focus {
-box-shadow: none;
-}
-@media screen and (max-width: 768px) {
-.btn-outline-dark {
-    border: none;
-    padding: 0;
-    outline: none;
-}
 
-.btn-outline-dark:hover {
-    background: none;
-    color: gray;
-}
-}
-.btn-pink {
-background-color: #FAABBD;
-color: #FFFFFF;
-border-color: #FAABBD;
-}
-
-.btn-pink:hover {
-    background-color: #F598B0;
-    border-color: #F598B0;
-}
-.dropdown-menu .dropdown-item:hover {
-        background-color: pink; /
-}
 .font-secondary {
     font-family: 'Pacifico', cursive;
 }
@@ -89,257 +34,119 @@ h6,
     transition: .5s;
 }
 
-
-/*--------------------------------------------------------------
-# Slide For Hero Page
---------------------------------------------------------------*/
-#slideshow-container {
-  position: relative;
-  width: 100%;
-  height: 85vh;
-  overflow: hidden;
-}
-
-/* Style for each slide */
-.mySlides {
-  display: none;
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  transition: opacity 1.5s ease-in-out; /* Smooth transition */
-}
-
-/* Active slide to fade in */
-.mySlides.active {
-  display: block; /* Ensure the slide is visible */
-  opacity: 1; /* Fully visible */
-}
-
-/* Animation for the content */
-@keyframes fadeInUp {
-  from {
-      transform: translateY(20px);
-      opacity: 0;
-  }
-  to {
-      transform: translateY(0);
-      opacity: 1;
-  }
-}
-
-.content {
-  position: absolute;
-  top: 20%;
-  left: 10%;
-  transform: translate(-50%, -50%);
-  color: white;
-  padding: 20px;
-  text-align: justify;
-  max-width: 1200px;
-  opacity: 0; /* Initially hidden */
-  animation: fadeInUp 1s ease-in-out forwards 0.5s; /* Content animation */
-  z-index: 2;
-}
-
-/* Specific background images for each slide */
-.slide1 {
-  background-image: url('../image/hero1.jpg');
-}
-
-.mySlides::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.2); /* Semi-transparent black overlay */
-  z-index: 1; /* Place it above the image but below the content */
-}
-
-.slide2 {
-  background-image: url('../image/hero3.jpg');
-}
-.slideshow-btn {
-  background-color: #FAABBD; /* Default background color */
-  color: white; /* Text color */
-  border: 2px solid #FAABBD; /* Border color matching the background */
-  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease; /* Smooth transition for hover effect */
-  padding: 10px 20px;
-  text-decoration: none;
-  border-radius: 5px;
-  display: inline-block;
-  font-size: 16px;
-}
-
-/* Button hover effect */
-.slideshow-btn:hover {
-  background-color: white; /* Background color on hover */
-  color: #FAABBD; /* Text color on hover */
-  border-color: #FAABBD; /* Border color on hover */
-}
-
-/* Animation for fading in from above */
-@keyframes fadeInDownwards {
-  from {
-      transform: translateY(-20px); /* Start 20px above */
-      opacity: 0; /* Start transparent */
-  }
-  to {
-      transform: translateY(0); /* End at original position */
-      opacity: 1; /* Fully visible */
-  }
-}
-
-#desc1, .d-flex {
-  animation: fadeInDownwards 1s ease-in-out forwards 0.5s; /* Apply the animation */
-}
-
-/* Responsive adjustments for smaller screens */
-@media (max-width: 768px) {
-  .content {
-      font-size: 14px;
-      width: 95%;
-  }
-
-  .mySlides {
-      height: 60vh;
-  }
-}
-
-@media (max-width: 576px) {
-  .content {
-      font-size: 12px;
-      padding: 10px;
-  }
-}
-
-
-
-
-/*--------------------------------------------------------------
-# Flavour Homepage
---------------------------------------------------------------*/
-.container2 {
-    text-align: center;
-}
-
-.container6 {
+.promotion{
     display: flex;
-    justify-content: center;
-}
-
-.row {
-    display: flex;
-    justify-content: center;
-}
-
-.col-md-4 {
-    flex: 0 0 33.333%; 
-    max-width: 33.333%; 
-    padding: 10px; 
-}
-
-.card {
-    position: relative;
     text-align: center;
-    border: 1px solid #ddd;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    padding: 15px;
-    background-color: white;
-    border-radius: 10px;
-    transition: transform 0.3s ease, box-shadow 0.3s ease; /* Add transition for the hover effect */
+    justify-content: center;
+    align-items: center;
+    height: 5vh;
+    border: 1px solid #FAABBD;
 }
-
-.card-img-container {
-    height: 220px;
-    overflow: hidden;
-    margin-bottom: 10px;
+.hero-header {
+    background: url(../image/hero1.jpg) no-repeat center center;
+    background-size: cover;
+    color: white; /* Ensures text is visible over the background */
     position: relative;
+    z-index: 1;
 }
 
-.card-img-top {
-    height: 100%;
-    width: auto;
-    object-fit: cover;
-}
 
-.see-more-btn {
+.hero-header::before {
+    content: '';
     position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3); /* Adjust the opacity as needed */
+    z-index: -1;
+}
+
+.container-fluid {
+    position: relative;
+    z-index: 2;
+}
+
+/* Zoom Animation */
+.zoom {
+    transition: transform 0.3s ease;
+}
+
+.zoom:hover {
+    transform: scale(1.1);
+}
+
+.image-container {
+    position: relative;
+    overflow: hidden; /* Ensure the zoomed image doesn't overflow the container */
+}
+
+.zoom1 {
+    transition: transform 0.3s ease;
+}
+
+.zoom1:hover {
+    transform: scale(1.1);
+}
+
+button.buy1 {
     background-color: #FAABBD;
     border: none;
-    color: white;
-    padding: 8px 16px;
-    border-radius: 5px;
+    padding: 5px 30px;
+    border-radius: 15px;
     cursor: pointer;
-    transition: opacity 0.3s ease, background-color 0.3s ease;
-    opacity: 0;
-    visibility: hidden;
 }
 
-.card:hover .see-more-btn {
-    opacity: 1;
-    visibility: visible;
+button.buy1:hover {
+    background-color:#FFFFB7;
+}
+.image-container {
+    position: relative;
+    overflow: hidden;
+}
+.container-custom {
+    padding: 0 25px; /* Adjust the padding as needed */
 }
 
-.card-text-container {
-    text-align: center;
-    padding: 5px;
-    margin-top: 5px;
+img.img-fluid {
+    max-width: 100%;
+    height: auto;
+    max-height: 400px; /* You can adjust this value as needed */
+}
+image-container:hover .overlay {
+    transform: scale(1.1);
+}
+button.see {
+    background-color: #FAABBD;
+    border: none;
+    padding: 5px 20px;
+    border-radius: 15px;
+    cursor: pointer;
+    border: 2px solid #FAABBD;
+}
+button.see:hover {
+    background-color: white;
+    border: 2px solid #FAABBD; /* Add border properties */
+    border-radius: 15px;
+    cursor: pointer;
+}
+.container4 {
+    display: flex;
+    justify-content: center; 
+    align-items: center; 
+    min-height: 80vh; 
+    background-color:white; 
 }
 
-.card-title {
-    margin-bottom: 5px;
+#middle .ico{
+    background-color: #FAABBD;
+}
+#left .ico{
+    background-color:#ffffb7 ;
+}
+#left .fa{
     color: #FAABBD;
-    font-weight: bolder;
 }
-
-.card-text {
-    font-size: 13px;
-    color: #333;
-    margin-bottom: 10px;
-}
-
-.card:hover {
-    transform: scale(1.05); /* Slightly enlarge the container on hover */
-    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2); /* Add a larger shadow for the pop-up effect */
-}
-
-.container6 .row + .row {
-    margin-top: 30px;
-}
-/* Responsive adjustments */
-@media (max-width: 992px) {
-    .col-md-4, .col-lg-4 {
-        flex: 0 0 50%; /* 2 columns per row on medium screens */
-        max-width: 50%;
-    }
-}
-
-@media (max-width: 768px) {
-    .col-md-4, .col-lg-4 {
-        flex: 0 0 100%; /* 1 column per row on small screens */
-        max-width: 100%;
-    }
-
-    .card {
-        width: 100%; /* Full width on small screens */
-    }
-}
-
-@media (max-width: 576px) {
-    .card {
-        width: 100%; /* Full width on extra small screens */
-    }
-}
-/*End Of FLavour*/
-
 
 .section-title::before {
     position: absolute;
@@ -349,7 +156,7 @@ h6,
     left: 50%;
     bottom: 0;
     margin-left: -30px;
-    background:#FAABBD;
+    background: var(--primary);
 }
 
 .section-title::after {
@@ -360,7 +167,7 @@ h6,
     left: 50%;
     bottom: 4px;
     margin-left: -90px;
-    background:#FAABBD; ;
+    background: var(--primary);
 }
 
 .service::after,
@@ -387,262 +194,18 @@ h6,
     transition: transform 0.3s ease-in-out;
 }
 
-.container3 {
-    position: relative;
+.up {
     width: 100%;
-    overflow: hidden;
-  }
-  
-  .carousel-wrapper {
-    display: flex;
-    align-items: center;
-    position: relative;
-  }
-  
-  .carousel {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
-    will-change: transform;
-  }
-  
-  .carousel-items {
-    display: flex;
-    width: calc(100% * 2); /* Width to accommodate duplicated items */
-  }
-  
-  .custom-card {
+    height: 250px; /* Adjust height as needed */
+    object-fit: cover;
+}
+
+.custom-card {
+    max-width: 20rem; /* Adjust the maximum width of each card */
     flex: 0 0 auto;
-    width: 300px; /* Adjust as needed */
-    margin-right: 15px; /* Space between cards */
-  }
-  
-  .carousel-button {
-    position: absolute;
-    top: 50%;
-    background-color: #FAABBD;
-    border: none;
-    color: white;
-    padding: 10px;
-    cursor: pointer;
-    border-radius: 5px;
-    z-index: 10;
-    transform: translateY(-50%);
-  }
-  
-  .carousel-button.prev {
-    left: 10px;
-  }
-  
-  .carousel-button.next {
-    right: 10px;
-  }
-  .custom-card img.up {
-    width: 100%; /* Ensure image fits the card */
-    height: 80%; /* Adjust image height as needed */
-    object-fit: cover; /* Ensure the image covers the area without stretching */
-  }
-  
-
-.carousel1 img1 {
-  width: 70px;
-  max-height: 70px;
-  border-radius: 50%;
-  margin-right: 1rem;
-  overflow: hidden;
+    margin-right: 30px; /* Adjust the margin as needed */
+    margin-bottom: 30px; /* Add margin at the bottom for spacing */
 }
-
-.carousel-inner1 {
-  padding: 1em;
-}
-
-@media screen and (min-width: 576px) {
-  .carousel-inner1 {
-    display: flex;
-    width: 90%;
-    margin-inline: auto;
-    padding: 1em 0;
-    overflow: hidden;
-  }
-  .carousel-item1 {
-    display: block;
-    margin-right: 0;
-    flex: 0 0 calc(100% / 2);
-  }
-}
-
-@media screen and (min-width: 768px) {
-  .carousel-item1 {
-    display: block;
-    margin-right: 0;
-    flex: 0 0 calc(100% / 3);
-  }
-}
-
-.carousel1 .card1 {
-  margin: 0 0.5em;
-  border: 0;
-}
-
-.carousel1-control-prev1,
-.carousel-control-next1 {
-  width: 3rem;
-  height: 3rem;
-  background-color: grey;
-  border-radius: 50%;
-  top: 50%;
-  transform: translateY(-50%);
-}
-.carousel1 img {
-    width: 70px;
-    max-height: 70px;
-    border-radius: 50%;
-    margin-right: 1rem;
-    overflow: hidden;
-  }
-  
-  .carousel-inner1 {
-    padding: 1em;
-  }
-  
-  @media screen and (min-width: 576px) {
-    .carousel-inner1 {
-      display: flex;
-      width: 90%;
-      margin-inline: auto;
-      padding: 1em 0;
-      overflow: hidden;
-    }
-    .carousel-item1 {
-      display: block;
-      margin-right: 0;
-      flex: 0 0 calc(100% / 2);
-    }
-  }
-  
-  @media screen and (min-width: 768px) {
-    .carousel-item1 {
-      display: block;
-      margin-right: 0;
-      flex: 0 0 calc(100% / 3);
-    }
-  }
-  
-  .carousel1 .card1 {
-    margin: 0 0.5em;
-    border: 0;
-  }
-  
-  .carousel-control-prev1,
-  .carousel-control-next1 {
-    width: 3rem;
-    height: 3rem;
-    background-color: grey;
-    border-radius: 50%;
-    top: 50%;
-    transform: translateY(-50%);
-  }
-  
-/*--------------------------------------------------------------
-# Testimonials Section
---------------------------------------------------------------*/
-.testimonials .testimonial-item {
-    background-color: var(--surface-color);
-    box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.1);
-    box-sizing: content-box;
-    padding: 30px;
-    margin: 30px 15px;
-    position: relative;
-    height: 100%;
-  }
-  
-  .testimonials .testimonial-item .testimonial-img {
-    width: 90px;
-    border-radius: 50px;
-    margin-right: 15px;
-  }
-  
-  .testimonials .testimonial-item h3 {
-    font-size: 18px;
-    font-weight: bold;
-    margin: 10px 0 5px 0;
-  }
-  
-  .testimonials .testimonial-item h4 {
-    font-size: 14px;
-    color: color-mix(in srgb, var(--default-color), transparent 40%);
-    margin: 0;
-  }
-  
-  .testimonials .testimonial-item .stars {
-    margin: 10px 0;
-  }
-  
-  .testimonials .testimonial-item .stars i {
-    color: #ffc107;
-    margin: 0 1px;
-  }
-  
-  .testimonials .testimonial-item .quote-icon-left,
-  .testimonials .testimonial-item .quote-icon-right {
-    color: color-mix(in srgb, var(--accent-color), transparent 50%);
-    font-size: 26px;
-    line-height: 0;
-  }
-  
-  .testimonials .testimonial-item .quote-icon-left {
-    display: inline-block;
-    left: -5px;
-    position: relative;
-  }
-  
-  .testimonials .testimonial-item .quote-icon-right {
-    display: inline-block;
-    right: -5px;
-    position: relative;
-    top: 10px;
-    transform: scale(-1, -1);
-  }
-  
-  .testimonials .testimonial-item p {
-    font-style: italic;
-    margin: 15px auto 15px auto;
-  }
-  
-  .testimonials .swiper-wrapper {
-    height: auto;
-  }
-  
-  .testimonials .swiper-pagination {
-    margin-top: 20px;
-    position: relative;
-  }
-  
-  .testimonials .swiper-pagination .swiper-pagination-bullet {
-    width: 12px;
-    height: 12px;
-    background-color: color-mix(in srgb, var(--default-color), transparent 85%);
-    opacity: 1;
-  }
-  
-  .testimonials .swiper-pagination .swiper-pagination-bullet-active {
-    background-color: var(--accent-color);
-  }
-  
-  @media (max-width: 767px) {
-    .testimonials .testimonial-wrap {
-      padding-left: 0;
-    }
-  
-    .testimonials .testimonial-item {
-      padding: 30px;
-      margin: 15px;
-    }
-  
-    .testimonials .testimonial-item .testimonial-img {
-      position: static;
-      left: auto;
-    }
-  }
   
   body {
     font-style: sans-serif;
@@ -659,7 +222,48 @@ h6,
   h3 {
     line-height: 3em;
   }
+  .card {
+    position: relative;
+    overflow: hidden;
+    text-align: center; /* Center the content within the card */
+    height: 100%; /* Ensure the card takes full height */
+}
+.card-img-container {
+    position: relative;
+    height: 200px; /* Set a fixed height for the image container */
+}
+.card-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Semi-transparent black overlay */
+    color: #fff;
+    padding: 20px;
+    box-sizing: border-box;
+    opacity: 0; /* Initially hidden */
+    transition: opacity 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
 
+.card:hover .card-overlay {
+    opacity: 1; /* Show overlay on hover */
+}
+
+.card-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+
+.card-text {
+    font-size: 16px;
+    text-align: center;
+    margin-bottom: 15px;
+}
 
 button {
     background-color: #FAABBD;
@@ -719,7 +323,6 @@ button:hover {
     max-width: 16rem;
     flex: 0 0 auto;
     margin-right: 50px; /* Adjust the margin as needed */
-    overflow: hidden;
 }
 
 .custom-card:last-child {
@@ -732,35 +335,13 @@ button:hover {
 }
 
 .custom-card-header {
-    font-size: 10px;
+    font-size: 13px;
     color: gray;
     background-color: white;
 }
 
 .custom-card-title {
-    font-size: 17px;
     color: #56091F;
-    text-align: left;
-}
-
-.custom-card img {
-    display: block; /* Ensure image is block-level to prevent unwanted spacing */
-    width: 100%; /* Make sure the image fits within the container */
-    transition: transform 0.3s ease; /* Smooth transition for zoom effect */
-}
-
-.custom-card:hover img {
-    transform: scale(1.02); /* Zoom effect */
-    transform-origin: center; /* Zooms in from the center */
-}
-
-.custom-card {
-    border: 2px solid white;
-    border-radius: 5px;
-    padding: 10px;
-    margin-bottom: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1), 0 3px 10px rgba(58, 57, 57, 0.1);
-    z-index: 1;
 }
 
 .custom-card-text {
@@ -768,10 +349,9 @@ button:hover {
 }
 
 .custom-card-footer {
-    color:black;
     font-weight: bold;
-    text-align: left;
-    font-size: 16px;
+    font-size: 18px;
+    background-color: pink;
 }
 
 .table img {
@@ -979,7 +559,7 @@ button:hover {
   }
   
   .contact_section form {
-    margin-top: 50px;
+    margin-top: 25px;
   }
   
   .contact_section input {
