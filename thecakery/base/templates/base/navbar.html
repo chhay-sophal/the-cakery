@@ -3,12 +3,13 @@
 
 <head>
     <meta charset="utf-8">
-    <title>CakeZone - Cake Shop Website Template</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
 
     <!-- Favicon -->
     <link href="img/favicon.ico" rel="icon">
-
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/5.1.3/css/bootstrap.min.css" rel="stylesheet">
+    <!-- FontAwesome CSS for icons -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" rel="stylesheet">
     <!-- Google Web Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,35 +28,20 @@
     <!-- Template Stylesheet -->
     <link href="{% static 'css/homepage.css' %}" rel="stylesheet">
 </head>
-<style>
-    .promotion{
-    display: flex;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-    height: 15px;
-    border: 1px solid #FAABBD;
-    color:#56091F;
-    padding:10px;
-}
-.promotion p{
-    padding:100px;
-}
-</style>
 
 <!-- Topbar Start -->
 <div class="container-fluid px-0 d-none d-lg-block">
     <div class="row gx-0">
         <div class="col-lg-4 text-center py-3" style="background-color: #FBF7D0;">
             <div class="d-inline-flex align-items-center justify-content-center">
-                <i class="bi bi-envelope fs-1 text-primary me-3"></i>
+                <i class="bi bi-envelope fs-1 me-3" style="color:pink"></i>
                 <div class="text-start">
                     <h6 class="text-uppercase mb-1">Email Us</h6>
-                    <span>info@example.com</span>
+                    <span>thecakery@cambodia.com</span>
                 </div>
             </div>
         </div>
-        <div class="col-lg-4 text-center bg-primary border-inner py-3">
+        <div class="col-lg-4 text-center border-inner py-3" style="background-color: #F598B0;">
             <div class="d-inline-flex align-items-center justify-content-center">
                 <a href="{% url 'home' %}" class="navbar-brand">
                     <h1 class="m-0 text-uppercase text-white"><i class="fa fa-birthday-cake fs-1 me-3" style="color: #56091F;"></i>The Cakery</h1>
@@ -64,7 +50,7 @@
         </div>
         <div class="col-lg-4 text-center py-3" style="background-color: #FBF7D0;">
             <div class="d-inline-flex align-items-center justify-content-center">
-                <i class="bi bi-phone-vibrate fs-1 text-primary me-3"></i>
+                <i class="bi bi-phone-vibrate fs-1 me-3" style="color: #F598B0;"></i>
                 <div class="text-start">
                     <h6 class="text-uppercase mb-1">Call Us</h6>
                     <span>+012 345 6789</span>
@@ -74,7 +60,7 @@
     </div>
 </div>
 
-    <!-- Topbar End -->
+<!-- Topbar End -->
 
 <nav class="navbar navbar-expand-lg navbar-light">
     <div class="container-fluid">
@@ -92,74 +78,83 @@
                         Choose Your Cake
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="#">Chocolate Mousse</a></li>
-                        <li><a class="dropdown-item" href="#">Tropical Vanilla</a></li>
-                        <li><a class="dropdown-item" href="#">Chestnut and Brownie</a></li>
-                        <li><a class="dropdown-item" href="#">Strawberry</a></li>
-                        <li><a class="dropdown-item" href="#">Cupcake</a></li>
+                        <li><a class="dropdown-item" href="{% url 'chocolate' %}">Chocolate Mousse</a></li>
+                        <li><a class="dropdown-item" href="{% url 'vanilla' %}">Tropical Vanilla</a></li>
+                        <li><a class="dropdown-item" href="{% url 'brownie' %}">Chestnut and Brownie</a></li>
+                        <li><a class="dropdown-item" href="{% url 'strawberry' %}">Strawberry</a></li>
                     </ul>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'about' %}">About Us</a>
+                    <a class="nav-link" href="{% url 'dessert' %}">Desserts & Sweets</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'about' %}">Decoration</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'about' %}">About</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'contact' %}">Contact Us</a>
                 </li>
             </ul>
             <div class="d-flex">
-                <a class="btn btn-pink me-2" href="#">
-                    <i class="fas fa-heart"></i>
-                </a>
-                <a class="btn btn-pink me-2" href="#">
-                    <i class="fas fa-shopping-cart"></i>
-                </a>
-                <a class="btn btn-pink" href="#">
-                    <i class="fas fa-user"></i>
-                </a>
+                <div class="dropdown">
+                    <a class="btn btn-pink me-2 dropdown-toggle" href="#" id="heartDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-heart"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="cartDropdown" style="min-width: 400px;">
+                        <li class="d-flex align-items-center mb-2">
+                            <img src="{% static 'image/black.jpg' %}" class="img-fluid me-2" alt="Cake" style="width: 80px; height: auto;">
+                            <div>
+                                <p class="mb-0">Chocolate Mousse Tuffle</p>
+                            </div>
+                            <span class="ms-auto">$89</span>
+                            <a href="#" class="btn btn-pink btn-sm ms-2">
+                                <i class="fa fa-heart"></i>
+                            </a>
+                        </li>
+                        <li class="d-flex justify-content-between align-items-center">
+                            <span>Total:</span>
+                            <span class="fw-bold">$89</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="dropdown">
+                    <a class="btn btn-pink me-2 dropdown-toggle" href="#" id="cartDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="fas fa-shopping-cart"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end p-3" aria-labelledby="cartDropdown" style="min-width: 400px;">
+                        <li class="d-flex align-items-center mb-2">
+                            <img src="{% static 'image/black.jpg' %}" class="img-fluid me-2" alt="Cake" style="width: 80px; height: auto;">
+                            <div>
+                                <p class="mb-0">Chocolate Mousse Tuffle</p>
+                                <small>1 x $89</small>
+                            </div>
+                            <span class="ms-auto">$89</span>
+                            <a href="#" class="btn btn-danger btn-sm ms-2">
+                                <i class="fa fa-times"></i>
+                            </a>
+                        </li>
+                        <li class="d-flex justify-content-between align-items-center">
+                            <span>Total:</span>
+                            <span class="fw-bold">$89</span>
+                        </li>
+                        <li class="text-center mt-2">
+                            <a href="#" class="btn" style="background-color: #F598B0;">Checkout</a>
+                        </li>
+                    </ul>
+                </div>
+                <div>  
+                    <a class="btn btn-pink me-2" href="{% url 'sign_up' %}" id="profileDropdown">
+                        <i class="fas fa-user"></i>
+                    </a>
+                </div>                          
             </div>
         </div>
     </div>
 </nav>
 
-
-
-  <style>
-    .navbar {
-    background:pink;
-    box-shadow: 0 4px 6px rgba(22, 22, 26, 0.18);
-    }
-    .navbar .navbar-nav .nav-link {
-    color:#56091F;
-    }
-    .btn-outline-dark {
-    border-radius: 0;
-    }
-    .btn-outline-dark:focus {
-    box-shadow: none;
-    }
-    @media screen and (max-width: 768px) {
-    .btn-outline-dark {
-        border: none;
-        padding: 0;
-        outline: none;
-    }
-
-    .btn-outline-dark:hover {
-        background: none;
-        color: gray;
-    }
-    }
-    .btn-pink {
-    background-color: #FAABBD;
-    color: #FFFFFF;
-    border-color: #FAABBD;
-    }
-
-    .btn-pink:hover {
-        background-color: #F598B0;
-        border-color: #F598B0;
-    }
-    .dropdown-menu .dropdown-item:hover {
-            background-color: pink; /
-    }
-  </style>
+<!-- Include Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/5.1.3/js/bootstrap.min.js"></script>

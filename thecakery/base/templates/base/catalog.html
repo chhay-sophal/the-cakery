@@ -1,70 +1,64 @@
 {% extends "base/base.html" %}
 {% load static %}
-{% block title %}Contact Us{% endblock %}
+{% block title %}Cake Catalog{% endblock %}
 
 {% block content %}
-
 <div>
   <img src="{% static 'image/pink1.jpg' %}" alt="Cake Image" class="up">
 </div>
 
-<div class="container3">
-    <h3>Catalog</h3>
-    <div class="card-deck">
-      <div class="card text-center">
-        <a href="#">
-          <div class="card-header">
-            Most Popular!
-          </div>
+<div class="container">
+  <h3 class="font-secondary">Choose Your Cake</h3>
+  <div class="row">
+    <div class="col-md-3 mb-4">
+      <div class="card">
+        <a href="{% url 'detail' %}">
           <img class="card-img-top" src="{% static 'image/black.jpg' %}" alt="Card image">
           <div class="card-body">
+            <h5 class="card-title">Very long item name</h5>
             <p class="card-text text-muted">Category name</p>
-            <a href="#"><h5 class="card-title">Very long item name</h5></a>
             <div class="card-footer">
               3000$
             </div>
           </div>
         </a>
       </div>
-      <div class="card text-center">
+    </div>
+    <div class="col-md-3 mb-4">
+      <div class="card">
         <a href="#">
-          <div class="card-header">
-            Most Popular!
-          </div>
           <img class="card-img-top" src="{% static 'image/strawchoco.jpg' %}" alt="Card image">
           <div class="card-body">
+            <h5 class="card-title">Very long item name</h5>
             <p class="card-text text-muted">Category name</p>
-            <a href="#"><h5 class="card-title">Very long item name</h5></a>
             <div class="card-footer">
               3000$
             </div>
           </div>
         </a>
       </div>
-      <div class="card text-center">
+    </div>
+    <div class="col-md-3 mb-4">
+      <div class="card">
         <a href="#">
-          <div class="card-header">
-            Hottest!
-          </div>
           <img class="card-img-top" src="{% static 'image/twotop.png' %}" alt="Card image">
           <div class="card-body">
+            <h5 class="card-title">Very long item name</h5>
             <p class="card-text text-muted">Category name</p>
-            <a href="#"><h5 class="card-title">Very long item name</h5></a>
             <div class="card-footer">
               3000$
             </div>
           </div>
         </a>
       </div>
-      <div class="card text-center">
+    </div>
+    <div class="col-md-3 mb-4">
+      <div class="card">
         <a href="#">
-          <div class="card-header">
-            Most Recent!
-          </div>
           <img class="card-img-top" src="{% static 'image/choco3.jpg' %}" alt="Card image">
           <div class="card-body">
+            <h5 class="card-title">Very long item name</h5>
             <p class="card-text text-muted">Category name</p>
-            <a href="#"><h5 class="card-title">Very long item name</p></a>
             <div class="card-footer">
               3000$
             </div>
@@ -73,6 +67,7 @@
       </div>
     </div>
   </div>
+</div>
 
 <style>
 .up {
@@ -97,47 +92,79 @@ h3 {
   line-height: 3em;
 }
 
-.card-deck {
-  display: flex;
-  justify-content: center;
-  flex-wrap: nowrap;
-  overflow-x: auto;
-}
-
 .card {
-  max-width: 16rem;
-  flex: 0 0 auto;
-  margin-right: 50px; /* Adjust the margin as needed */
+  border: none;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
-.card:last-child {
-  margin-right: 0; /* Remove the margin for the last card */
+.card-img-top {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
 }
 
-.card:hover {
-  box-shadow: 1px 2px 10px lightgray;
-  transition: 0.2s;
+.card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
-.card-header {
-  font-size: 13px;
-  color: gray;
-  background-color: white;
-}
-.card-title{
-  color:#56091F;
+.card-title {
+  color: #56091F;
+  margin-bottom: 0.5rem;
 }
 
 .text-muted {
-  font-size: 11px;
-  
+  font-size: 14px;
+  margin-bottom: 0.5rem;
 }
 
 .card-footer {
   font-weight: bold;
   font-size: 18px;
   background-color: pink;
+  border-top: none;
+}
+
+@media (max-width: 768px) {
+  .card-title, .text-muted, .card-footer {
+    font-size: 14px;
+  }
+
+  .card-footer {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 576px) {
+  .up {
+    height: 200px;
+  }
+
+  .card-title, .text-muted, .card-footer {
+    font-size: 12px;
+  }
+
+  .card-footer {
+    font-size: 14px;
+  }
 }
 </style>
 
+<!-- Include Font Awesome for the heart icon -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/js/all.min.js" integrity="sha512-h0qOdE3/8PjmMnvVf7RaVY4DxDSoq8KUBsEBW6+L2BqZf9ToFhpkzHfiF8cNc15yW7Hs4S1PzRZfs1TdvXtmA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    const heartIcons = document.querySelectorAll(".card-heart-icon");
+  
+    heartIcons.forEach(function(icon) {
+      icon.addEventListener("click", function() {
+        icon.classList.toggle("clicked");
+      });
+    });
+  });
+  </script>
 {% endblock %}

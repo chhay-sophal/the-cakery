@@ -9,7 +9,7 @@
 </div>
 
 <div class="container3">
-  <h3 class="font-secondary">Choose Your Cake</h3>
+  <h3 class="font-secondary">Sweet and Delicious Desserts</h3>
   <div class="card-deck">
     <div class="card text-center">
       <a href="#">
@@ -49,6 +49,7 @@
           Hottest!
         </div>
         <img class="card-img-top" src="{% static 'image/twotop.png' %}" alt="Card image">
+        <i class="fa fa-heart card-heart-icon"></i>
         <div class="card-body">
           <p class="card-text text-muted">Category name</p>
           <a href="#"><h5 class="card-title">Very long item name</h5></a>
@@ -64,6 +65,7 @@
           Most Recent!
         </div>
         <img class="card-img-top" src="{% static 'image/choco3.jpg' %}" alt="Card image">
+        <i class="fa fa-heart card-heart-icon"></i>
         <div class="card-body">
           <p class="card-text text-muted">Category name</p>
           <a href="#"><h5 class="card-title">Very long item name</p></a>
@@ -107,14 +109,14 @@ h3 {
 }
 
 .card {
-  max-width: 20rem; /* Increase the card width */
+  max-width: 20rem;
   flex: 0 0 auto;
-  margin-right: 50px; /* Adjust the margin as needed */
-  position: relative; /* Ensure the heart icon is positioned correctly */
+  margin-right: 50px;
+  position: relative;
 }
 
 .card:last-child {
-  margin-right: 0; /* Remove the margin for the last card */
+  margin-right: 0;
 }
 
 .card:hover {
@@ -148,7 +150,7 @@ h3 {
 
 .card-img-top {
   width: 100%;
-  height: 100%; /* Ensure the image covers the card */
+  height: 100%;
   object-fit: cover;
 }
 
@@ -157,22 +159,63 @@ h3 {
   top: 10px;
   right: 10px;
   font-size: 24px;
-  color: white; /* Initial color */
-  border: 2px solid #FAABBD; /* Border color */
-  border-radius: 50%; /* Make the heart icon circular */
-  padding: 5px; /* Adjust padding to make the icon more visible */
-  background-color: #FAABBD; /* Background color */
-  display: none; /* Hide the heart icon initially */
+  color: white;
+  border: 2px solid #FAABBD;
+  border-radius: 50%;
+  padding: 5px;
+  background-color: #FAABBD;
+  display: none;
 }
 
 .card:hover .card-heart-icon {
-  display: block; /* Show the heart icon on hover */
+  display: block;
 }
 
 .card-heart-icon.clicked {
-  color: #FAABBD; /* Change to red on click */
-  border-color: #FAABBD; /* Change border color to red on click */
-  background-color: white; /* Change background color on click */
+  color: #FAABBD;
+  border-color: #FAABBD;
+  background-color: white;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .card-deck {
+    flex-wrap: wrap;
+  }
+
+  .card {
+    max-width: 100%;
+    margin-bottom: 20px; 
+    margin-right: 0; 
+  }
+
+  .card-header,
+  .card-title,
+  .text-muted,
+  .card-footer {
+    font-size: 14px; 
+  }
+
+  .card-footer {
+    font-size: 16px; 
+  }
+}
+
+@media (max-width: 576px) {
+  .up {
+    height: 200px;
+  }
+
+  .card-header,
+  .card-title,
+  .text-muted,
+  .card-footer {
+    font-size: 12px; 
+  }
+
+  .card-footer {
+    font-size: 14px;
+  }
 }
 </style>
 
