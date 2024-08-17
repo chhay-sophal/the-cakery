@@ -82,7 +82,13 @@
                 {% else %}
                     <img class="rounded-circle me-lg-2" src="{% static 'image/user-profile-default.jpg' %}" alt="" style="width: 40px; height: 40px;">
                 {% endif %}
-                <span class="d-none d-lg-inline-flex">John Doe</span>
+                <span class="d-none d-lg-inline-flex">
+                    {% if user.first_name and user.last_name %}
+                        {{ user.first_name }} {{ user.last_name }}
+                    {% else %}
+                        {{ user.username }}
+                    {% endif %}
+                </span>
             </a>
             <div class="dropdown-menu dropdown-menu-end bg-light border-0 rounded-0 rounded-bottom m-0">
                 <a href="#" class="dropdown-item">My Profile</a>

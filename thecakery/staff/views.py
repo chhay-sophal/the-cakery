@@ -69,7 +69,7 @@ def update_order(request, order_id):
         form = UpdateOrderForm(request.POST, request.FILES, instance=order)
         if form.is_valid():
             form.save()
-            return redirect('staff_order_tracking')
+            return redirect('orders')
     else:
         form = UpdateOrderForm(instance=order)
 

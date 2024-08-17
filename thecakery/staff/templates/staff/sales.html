@@ -47,8 +47,8 @@
                                 <td>INV-{{ order.id }}</td>
                                 <td>{{ order.user.username }}</td>
                                 <td>${{ order.total_price }}</td>
-                                <td>{{ order.shipping_status }}</td>
                                 <td>{{ order.payment_status }}</td>
+                                <td>{{ order.shipping_status }}</td>
                                 <td>
                                     <a class="btn btn-sm btn-primary" href="{% url 'staff_order_detail' order.id %}">Detail</a>
                                     <a class="btn btn-sm btn-primary" href="{% url 'update_order' order.id %}">Update</a>
