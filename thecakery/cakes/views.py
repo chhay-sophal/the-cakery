@@ -34,3 +34,5 @@ def get_cake_detail(request, cake_name):
     }
 
     return render(request, 'cakes/cake_detail.html', context)
+def chocolate(request):
+    return render(request, 'cakes/cake_detail.html',chocolate)
