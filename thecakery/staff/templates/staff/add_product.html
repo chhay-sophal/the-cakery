@@ -1,0 +1,108 @@
+{% extends "staff/base.html" %}
+{% load static %}
+
+{% block title %}
+<title>Add Product</title>
+{% endblock %}
+
+{% block content %}
+<div class="container-xxl position-relative bg-white d-flex p-0">
+    {% include 'staff/components/spinning.html' %}
+    {% include 'staff/components/logout-modal.html' %}
+    {% include 'staff/components/sidebar.html' %}
+
+    <div class="content">
+        {% include 'staff/components/navbar.html' %}
+
+        <div class="container-fluid pt-4 px-4">
+            <div class="bg-light text-center rounded p-4">
+                <h6 class="mb-4">Add Product</h6>
+                
+                <ul class="nav nav-tabs mb-4" id="addProductTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link active" id="cake-tab" data-bs-toggle="tab" href="#cake" role="tab" aria-controls="cake" aria-selected="true">Add Cake</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <a class="nav-link" id="accessory-tab" data-bs-toggle="tab" href="#accessory" role="tab" aria-controls="accessory" aria-selected="false">Add Party Accessory</a>
+                    </li>
+                </ul>
+
+                <div class="tab-content" id="addProductTabsContent">
+                    <!-- Cake Form -->
+                    <div class="tab-pane fade show active" id="cake" role="tabpanel" aria-labelledby="cake-tab">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ cake_form.non_field_errors }}
+                            
+                            <div class="mb-3">
+                                {{ cake_form.name.label_tag }}
+                                {{ cake_form.name }}
+                                {{ cake_form.name.errors }}
+                            </div>
+                            
+                            <div class="mb-3">
+                                {{ cake_form.description.label_tag }}
+                                {{ cake_form.description }}
+                                {{ cake_form.description.errors }}
+                            </div>
+                            
+                            <div class="mb-3">
+                                {{ cake_form.cake_type.label_tag }}
+                                {{ cake_form.cake_type }}
+                                {{ cake_form.cake_type.errors }}
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label>Flavours</label>
+                                {% for flavour in cake_form.flavours %}
+                                    <div class="form-check text-start">
+                                        {{ flavour.tag }}
+                                        <label class="form-check-label">{{ flavour.choice_label }}</label>
+                                    </div>
+                                {% endfor %}
+                            </div>
+                            
+                            <div class="mb-3">
+                                {{ cake_form.price.label_tag }}
+                                {{ cake_form.price }}
+                                {{ cake_form.price.errors }}
+                            </div>
+
+                            <div class="mb-3">
+                                {{ cake_form.stock.label_tag }}
+                                {{ cake_form.stock }}
+                                {{ cake_form.stock.errors }}
+                            </div>
+                            
+                            <div class="mb-3">
+                                {{ cake_form.category.label_tag }}
+                                {{ cake_form.category }}
+                                {{ cake_form.category.errors }}
+                            </div>
+                            
+                            <div class="mb-3">
+                                {{ cake_form.images.label_tag }}
+                                {{ cake_form.images }}
+                                {{ cake_form.images.errors }}
+                            </div>
+                            
+                            <button type="submit" name="save_cake" class="btn btn-primary">Save Cake</button>
+                        </form>                        
+                    </div>
+
+                    <!-- Accessory Form -->
+                    <div class="tab-pane fade" id="accessory" role="tabpanel" aria-labelledby="accessory-tab">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ accessory_form.as_p }}
+                            <button type="submit" name="save_accessory" class="btn btn-primary">Save Party Accessory</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% include 'staff/components/footer.html' %}
+    </div>
+</div>
+{% endblock %}

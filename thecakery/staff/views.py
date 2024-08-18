@@ -1,15 +1,18 @@
 from pyexpat.errors import messages
 from django.conf import settings
+from django.forms import modelformset_factory
+from django.urls import reverse_lazy
 from django.utils import timezone
 from django.db.models import Q, Sum
 from django.contrib.auth.decorators import user_passes_test
 from django.shortcuts import get_object_or_404, redirect, render
 from orders.models import Order, OrderItem
 from accounts.models import UserProfile
-from staff.forms import UpdateOrderForm
 from reviews.models import Review
-from cakes.models import Cake
-from party_accessories.models import PartyAccessory
+from cakes.models import Cake, CakeImage, CakeSize
+from party_accessories.models import PartyAccessory, PartyAccessoryImage
+from django.views.generic import CreateView
+from .forms import CakeForm, PartyAccessoryForm, UpdateOrderForm
 
 def is_staff_user(user):
     return user.is_staff
@@ -125,3 +128,39 @@ def stock(request):
         'cakes': cakes,
         'party_accessories': party_accessories,
     })
+
+class AddProductView(CreateView):
+    template_name = "staff/add_product.html"
+
+    def get(self, request, *args, **kwargs):
+        cake_form = CakeForm(prefix="cake")
+        accessory_form = PartyAccessoryForm(prefix="accessory")
+        return render(request, self.template_name, {
+            'cake_form': cake_form,
+            'accessory_form': accessory_form,
+        })
+
+    def post(self, request, *args, **kwargs):
+        cake_form = CakeForm(request.POST, request.FILES, prefix="cake")
+        accessory_form = PartyAccessoryForm(request.POST, request.FILES, prefix="accessory")
+
+        if cake_form.is_valid():
+            cake = cake_form.save()
+                
+            # Save images
+            for image in request.FILES.getlist('cake_form-images'):
+                CakeImage.objects.create(cake=cake, image=image)
+                
+            return redirect('stock')
+
+        if accessory_form.is_valid():
+            accessory = accessory_form.save()
+            for image in request.FILES.getlist('accessory_form-images'):
+                PartyAccessoryImage.objects.create(accessory=accessory, image=image)
+            return redirect('stock')
+
+        return render(request, self.template_name, {
+            'cake_form': cake_form,
+            'accessory_form': accessory_form,
+        })
+    
