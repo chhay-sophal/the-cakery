@@ -47,6 +47,7 @@
                                         <th scope="col">Stock</th>
                                         <th scope="col">Category</th>
                                         <th scope="col">Created At</th>
+                                        <th scope="col">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -58,10 +59,13 @@
                                         <td>{{ cake.stock }}</td>
                                         <td>{{ cake.category.name }}</td>
                                         <td>{{ cake.created_at|date:"d M Y" }}</td>
+                                        <td>
+                                            <a class="btn btn-sm btn-primary" href="{% url 'product_detail' 'cake' cake.id %}">Detail</a>
+                                        </td>
                                     </tr>
                                     {% empty %}
                                     <tr>
-                                        <td colspan="6">No cakes available.</td>
+                                        <td colspan="7">No cakes available.</td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>
@@ -80,6 +84,7 @@
                                         <th scope="col">Price</th>
                                         <th scope="col">Stock</th>
                                         <th scope="col">Created At</th>
+                                        <th scope="col">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -90,10 +95,13 @@
                                         <td>${{ accessory.price }}</td>
                                         <td>{{ accessory.stock }}</td>
                                         <td>{{ accessory.created_at|date:"d M Y" }}</td>
+                                        <td>
+                                            <a class="btn btn-sm btn-primary" href="{% url 'product_detail' 'accessory' accessory.id %}">Detail</a>
+                                        </td>
                                     </tr>
                                     {% empty %}
                                     <tr>
-                                        <td colspan="5">No party accessories available.</td>
+                                        <td colspan="6">No party accessories available.</td>
                                     </tr>
                                     {% endfor %}
                                 </tbody>

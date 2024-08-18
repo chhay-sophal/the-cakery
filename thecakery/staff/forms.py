@@ -64,3 +64,22 @@ class PartyAccessoryForm(forms.ModelForm):
             'price': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter price'}),
             'stock': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Enter stock quantity'}),
         }
+
+class ModifyCakeForm(forms.ModelForm):
+    class Meta:
+        model = Cake
+        fields = ['name', 'description', 'cake_type', 'flavours', 'price', 'stock', 'category']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['flavours'].widget = forms.CheckboxSelectMultiple()
+        self.fields['images'].widget = forms.ClearableFileInput(attrs={'multiple': True})
+
+class ModifyPartyAccessoryForm(forms.ModelForm):
+    class Meta:
+        model = PartyAccessory
+        fields = ['name', 'description', 'price', 'stock']
+        
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['images'].widget = forms.ClearableFileInput(attrs={'multiple': True})

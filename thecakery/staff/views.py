@@ -12,7 +12,11 @@ from reviews.models import Review
 from cakes.models import Cake, CakeImage, CakeSize
 from party_accessories.models import PartyAccessory, PartyAccessoryImage
 from django.views.generic import CreateView
-from .forms import CakeForm, PartyAccessoryForm, UpdateOrderForm
+from django.views.generic.detail import DetailView
+from django.views.generic.edit import UpdateView
+from django.contrib.contenttypes.models import ContentType
+from .forms import CakeForm, PartyAccessoryForm, UpdateOrderForm, ModifyCakeForm, ModifyPartyAccessoryForm
+from django.contrib.auth.decorators import login_required
 
 def is_staff_user(user):
     return user.is_staff
@@ -124,9 +128,15 @@ def reviews(request):
 def stock(request):
     cakes = Cake.objects.all()
     party_accessories = PartyAccessory.objects.all()
+    content_types = {
+        'Cake': ContentType.objects.get_for_model(Cake).id,
+        'PartyAccessory': ContentType.objects.get_for_model(PartyAccessory).id,
+    }
+
     return render(request, 'staff/stock.html', {
         'cakes': cakes,
         'party_accessories': party_accessories,
+        'content_types': content_types,
     })
 
 class AddProductView(CreateView):
@@ -164,3 +174,43 @@ class AddProductView(CreateView):
             'accessory_form': accessory_form,
         })
     
+def product_detail(request, pk, product_type):
+    if product_type == 'cake':
+        object = get_object_or_404(Cake, pk=pk)
+        product_type = 'cake'
+    elif product_type == 'accessory':
+        object = get_object_or_404(PartyAccessory, pk=pk)
+        product_type = 'accessory'
+    else:
+        object = None
+    
+    context = {
+        'object': object,
+        'product_type': product_type,
+    }
+    return render(request, 'staff/product_detail.html', context)
+    
+@login_required
+def modify_product(request, product_type, pk):
+    if product_type == 'cake':
+        product = get_object_or_404(Cake, pk=pk)
+        form_class = CakeForm
+    elif product_type == 'accessory':
+        product = get_object_or_404(PartyAccessory, pk=pk)
+        form_class = PartyAccessoryForm
+    else:
+        return redirect('product_stock')  # Redirect to stock if invalid product type
+
+    if request.method == 'POST':
+        form = form_class(request.POST, request.FILES, instance=product)
+        if form.is_valid():
+            form.save()
+            return redirect('product_detail', product_type=product_type, pk=product.pk)
+    else:
+        form = form_class(instance=product)
+
+    return render(request, 'staff/modify_product.html', {
+        'form': form,
+        'product_type': product_type,
+        'product': product
+    })
