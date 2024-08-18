@@ -16,21 +16,21 @@
         <!-- Back Button -->
         <a href="javascript:history.back()" class="back-btn">Back</a>
 
-        <!-- Existing Product Details Section -->
+        <!-- Product Details Section -->
         <div class="heading-section">
-            <h2>Product Details</h2>
+            <h2>{{ cake.name }}</h2>
         </div>
         <div class="row">
             <div class="col-md-6">
                 <!-- Single Image Display -->
                 <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80" alt="Product Image" class="img-fluid">
+                    <img src="{{ cake_images.first.image.url }}" alt="{{ cake.name }} Image" class="img-fluid">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="product-dtl">
                     <div class="product-info">
-                        <div class="product-name">Variable Product</div>
+                        <div class="product-name">{{ cake.name }}</div>
                         <div class="reviews-counter">
                             <div class="rate">
                                 <input type="radio" id="star5" name="rate" value="5" checked />
@@ -44,30 +44,35 @@
                                 <input type="radio" id="star1" name="rate" value="1" />
                                 <label for="star1" title="text">1 star</label>
                             </div>
-                            <span>3 Reviews</span>
+                            <span>{{ cake_reviews|length }} Reviews</span>
                         </div>
-                        <div class="product-price-discount"><span>$39.00</span><span class="line-through">$29.00</span></div>
-                    </div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                    <div class="product-options d-flex">
-                        <div class="form-group">
-                            <label for="size">Size</label>
-                            <select id="size" name="size" class="form-control">
-                                <option>S</option>
-                                <option>M</option>
-                                <option>L</option>
-                                <option>XL</option>
-                            </select>
+                        <div class="product-price-discount">
+                            <span>${{ cake.price }}</span>
+                            {% if cake.discount_price %}
+                                <span class="line-through">${{ cake.discount_price }}</span>
+                            {% endif %}
                         </div>
                     </div>
+                    <p>{{ cake.description }}</p>
                     <div class="product-count d-flex align-items-center mt-3">
-                        <form action="#" class="d-flex align-items-center mr-3">
-                            <div class="qtyminus">-</div>
-                            <input type="text" name="quantity" value="1" class="qty mx-2">
-                            <div class="qtyplus">+</div>
+                        <form action="{% url 'add_to_cart' item_type='cake' item_id=cake.id %}" method="post">
+                            {% csrf_token %}
+                            <div class="product-count d-flex align-items-center mt-3">
+                                <div class="form-group">
+                                    <label for="size">Choose a size:</label>
+                                    <select name="size_id" id="size" class="form-control">
+                                        {% for size in cake.sizes.all %}
+                                            <option value="{{ size.id }}">{{ size.size }} ( +{{ size.additional_price }}$ )</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="quantity">Quantity:</label>
+                                    <input type="number" name="quantity" id="quantity" value="1" min="1" class="form-control">
+                                </div>
+                                <button type="submit" class="round-black-btn">Add to Cart</button>
+                            </div>
                         </form>
-                        <a href="#" class="round-black-btn">Add to Cart</a>
-
                     </div>
                     
                 </div>
@@ -79,16 +84,28 @@
                     <a class="nav-link active" style="color: #430404;" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">Description</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" style="color: #430404;" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review" aria-selected="false">Reviews (0)</a>
+                    <a class="nav-link" style="color: #430404;" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review" aria-selected="false">Reviews ({{ cake_reviews|length }})</a>
                 </li>
             </ul>
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.
+                    {{ cake.description }}
                 </div>
                 <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
                     <div class="review-heading">REVIEWS</div>
-                    <p class="mb-20">There are no reviews yet.</p>
+                    {% if cake_reviews %}
+                        <p class="mb-20">There are {{ cake_reviews|length }} reviews.</p>
+                        {% for review in cake_reviews %}
+                            <div class="review">
+                                <div class="review-user">{{ review.user }}</div>
+                                <div class="review-rating">Rating: {{ review.rating }} stars</div>
+                                <div class="review-comment">{{ review.comment }}</div>
+                                <div class="review-date">{{ review.created_at }}</div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p class="mb-20">There are no reviews yet.</p>
+                    {% endif %}
                     <form class="review-form">
                         <div class="form-group">
                             <label>Your rating</label>
@@ -120,7 +137,14 @@
 </div>
 
 
+
 <style>
+.rating .fa-star {
+    color: #FFD700; /* Gold color for the stars */
+    font-size: 20px; /* Adjust size of stars */
+    margin-right: 2px; /* Space between stars */
+}
+
 .pd-wrap {
     padding: 40px 0;
     font-family: 'Poppins', sans-serif;

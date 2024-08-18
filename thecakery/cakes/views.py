@@ -26,11 +26,14 @@ def get_cake_detail(request, cake_name):
         }
         cake_reviews.append(review_data)
 
+    # Pass a range object to the context
     context = {
         'cake': cake,
         'cake_images': cake_images,
         'cake_sizes': cake_sizes,
         'cake_reviews': cake_reviews,
+        'number_range': range(1, 6),  # For example, numbers 1 through 5
     }
 
     return render(request, 'cakes/cake_detail.html', context)
+
