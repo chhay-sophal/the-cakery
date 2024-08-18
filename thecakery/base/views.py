@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from cakes.models import Cake, CakeImage, Flavour
+from party_accessories.models import PartyAccessory
 
 def home_page(request):
     cakes = Cake.objects.all()
@@ -47,3 +48,7 @@ def sign_up(request):
 
 def dessert(request):
     return render(request, 'base/dessert.html')
+
+def accessory_list(request):
+    accessories = PartyAccessory.objects.all()
+    return render(request, 'base/accessory.html', {'accessories': accessories})

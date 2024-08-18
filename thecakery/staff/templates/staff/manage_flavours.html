@@ -1,0 +1,58 @@
+{% extends "staff/base.html" %}
+{% load static %}
+
+{% block title %}
+<title>Manage Flavours</title>
+{% endblock %}
+
+{% block content %}
+<div class="container-xxl position-relative bg-white d-flex p-0">
+    {% include 'staff/components/spinning.html' %}
+    {% include 'staff/components/logout-modal.html' %}
+    {% include 'staff/components/sidebar.html' %}
+
+    <div class="content">
+        {% include 'staff/components/navbar.html' %}
+
+        <div class="container-fluid pt-4 px-4">
+            <div class="bg-light text-center rounded p-4">
+                <h6 class="mb-4">Manage Flavours for {{ object.name }}</h6>
+                
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h2 class="card-title">Flavours</h2>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <strong>Existing Flavours:</strong>
+                            <ul class="list-group">
+                                {% for flavour in object.flavours.all %}
+                                    <li class="list-group-item">
+                                        {{ flavour.name }}
+                                        <form method="POST" style="display:inline;">
+                                            {% csrf_token %}
+                                            <input type="hidden" name="flavour_id" value="{{ flavour.id }}">
+                                            <button type="submit" name="remove_flavour" class="btn btn-danger btn-sm">Remove</button>
+                                        </form>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <form method="POST" class="mt-3">
+                            {% csrf_token %}
+                            {{ flavour_form.as_p }}
+                            <button type="submit" name="add_flavour" class="btn btn-primary">Add Flavour</button>
+                        </form>
+                    </div>
+                    <div class="card-footer text-end">
+                        <a href="{% url 'product_detail' product_type='cake' pk=object.pk %}" class="btn btn-primary">Back to Details</a>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        {% include 'staff/components/footer.html' %}
+    </div>
+</div>
+{% endblock %}

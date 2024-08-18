@@ -1,5 +1,7 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.contenttypes.models import ContentType
+
+from reviews.forms import ReviewForm
 from .models import Cake, CakeImage
 from reviews.models import Review
 from reviews.views import reviews
@@ -26,11 +28,26 @@ def get_cake_detail(request, cake_name):
         }
         cake_reviews.append(review_data)
 
+    if request.method == 'POST':
+        form = ReviewForm(request.POST)
+        if form.is_valid():
+            review = form.save(commit=False)
+            review.content_type = cake_content_type
+            review.object_id = cake.id
+            review.user = request.user
+            review.save()
+            return redirect('cake_detail', cake_name=cake_name)  # Redirect to the same page to show the updated reviews
+    else:
+        form = ReviewForm()
+
+    # Pass a range object to the context
     context = {
         'cake': cake,
         'cake_images': cake_images,
         'cake_sizes': cake_sizes,
         'cake_reviews': cake_reviews,
+        'number_range': range(1, 6),  # For example, numbers 1 through 5
+        'form_reviews': form, 
     }
 
     return render(request, 'cakes/cake_detail.html', context)

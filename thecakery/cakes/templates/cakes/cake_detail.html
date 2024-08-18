@@ -16,22 +16,22 @@
         <!-- Back Button -->
         <a href="javascript:history.back()" class="back-btn">Back</a>
 
-        <!-- Existing Product Details Section -->
+        <!-- Product Details Section -->
         <div class="heading-section">
-            <h2>Product Details</h2>
+            <h2>{{ cake.name }}</h2>
         </div>
         <div class="row">
             <div class="col-md-6">
                 <!-- Single Image Display -->
                 <div class="product-image">
-                    <img src="https://images.unsplash.com/photo-1505740420928-5e560c06d30e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&w=1000&q=80" alt="Product Image" class="img-fluid">
+                    <img src="{{ cake_images.first.image.url }}" alt="{{ cake.name }} Image" class="img-fluid">
                 </div>
             </div>
             <div class="col-md-6">
                 <div class="product-dtl">
                     <div class="product-info">
-                        <div class="product-name">Variable Product</div>
-                        <div class="reviews-counter">
+                        <div class="product-name">{{ cake.name }}</div>
+                        <!-- <div class="reviews-counter">
                             <div class="rate">
                                 <input type="radio" id="star5" name="rate" value="5" checked />
                                 <label for="star5" title="text">5 stars</label>
@@ -44,30 +44,35 @@
                                 <input type="radio" id="star1" name="rate" value="1" />
                                 <label for="star1" title="text">1 star</label>
                             </div>
-                            <span>3 Reviews</span>
-                        </div>
-                        <div class="product-price-discount"><span>$39.00</span><span class="line-through">$29.00</span></div>
-                    </div>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                    <div class="product-options d-flex">
-                        <div class="form-group">
-                            <label for="size">Size</label>
-                            <select id="size" name="size" class="form-control">
-                                <option>S</option>
-                                <option>M</option>
-                                <option>L</option>
-                                <option>XL</option>
-                            </select>
+                            <span>{{ cake_reviews|length }} Reviews</span>
+                        </div> -->
+                        <div class="product-price-discount">
+                            <span>${{ cake.price }}</span>
+                            {% if cake.discount_price %}
+                                <span class="line-through">${{ cake.discount_price }}</span>
+                            {% endif %}
                         </div>
                     </div>
+                    <p>{{ cake.description }}</p>
                     <div class="product-count d-flex align-items-center mt-3">
-                        <form action="#" class="d-flex align-items-center mr-3">
-                            <div class="qtyminus">-</div>
-                            <input type="text" name="quantity" value="1" class="qty mx-2">
-                            <div class="qtyplus">+</div>
+                        <form action="{% url 'add_to_cart' item_type='cake' item_id=cake.id %}" method="post">
+                            {% csrf_token %}
+                            <div class="product-count d-flex align-items-center mt-3">
+                                <div class="form-group">
+                                    <label for="size">Choose a size:</label>
+                                    <select name="size_id" id="size" class="form-control">
+                                        {% for size in cake.sizes.all %}
+                                            <option value="{{ size.id }}">{{ size.size }} ( +{{ size.additional_price }}$ )</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="quantity">Quantity:</label>
+                                    <input type="number" name="quantity" id="quantity" value="1" min="1" class="form-control">
+                                </div>
+                                <button type="submit" class="round-black-btn">Add to Cart</button>
+                            </div>
                         </form>
-                        <a href="#" class="round-black-btn">Add to Cart</a>
-
                     </div>
                     
                 </div>
@@ -79,48 +84,128 @@
                     <a class="nav-link active" style="color: #430404;" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true">Description</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" style="color: #430404;" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review" aria-selected="false">Reviews (0)</a>
+                    <a class="nav-link" style="color: #430404;" id="review-tab" data-toggle="tab" href="#review" role="tab" aria-controls="review" aria-selected="false">Reviews ({{ cake_reviews|length }})</a>
                 </li>
             </ul>
             <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade show active" id="description" role="tabpanel" aria-labelledby="description-tab">
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.
+                    <h2>Description</h2>
+                    <p>{{ cake.description }}</p>
                 </div>
                 <div class="tab-pane fade" id="review" role="tabpanel" aria-labelledby="review-tab">
-                    <div class="review-heading">REVIEWS</div>
-                    <p class="mb-20">There are no reviews yet.</p>
-                    <form class="review-form">
-                        <div class="form-group">
-                            <label>Your rating</label>
-                            <div class="reviews-counter">
-                                <div class="rate">
-                                    <input type="radio" id="star5" name="rate" value="5" />
-                                    <label for="star5" title="text">5 stars</label>
-                                    <input type="radio" id="star4" name="rate" value="4" />
-                                    <label for="star4" title="text">4 stars</label>
-                                    <input type="radio" id="star3" name="rate" value="3" />
-                                    <label for="star3" title="text">3 stars</label>
-                                    <input type="radio" id="star2" name="rate" value="2" />
-                                    <label for="star2" title="text">2 stars</label>
-                                    <input type="radio" id="star1" name="rate" value="1" />
-                                    <label for="star1" title="text">1 star</label>
+                    <div class="review-heading">
+                        <h2>REVIEWS</h2>
+                    </div>
+                    {% if cake_reviews %}
+                        <p class="mb-20">There are {{ cake_reviews|length }} review{{ cake_reviews|length|pluralize }}.</p>
+                        <div class="reviews">
+                            {% for review in cake_reviews %}
+                                <div class="review mb-3 p-3 border rounded">
+                                    <div class="review-header d-flex justify-content-between align-items-center mb-2">
+                                        <strong>{{ review.user }}</strong>
+                                        <div class="stars">
+                                            {% for i in number_range %}
+                                                {% if review.rating >= i %}
+                                                    <i class="fas fa-star"></i>
+                                                {% else %}
+                                                    <i class="far fa-star"></i>
+                                                {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <p>{{ review.comment }}</p>
+                                    <p><small class="text-muted">{{ review.created_at }}</small></p>
                                 </div>
-                            </div>
+                            {% empty %}
+                                <p>No reviews yet.</p>
+                            {% endfor %}
                         </div>
-                        <div class="form-group">
-                            <label>Your message</label>
-                            <textarea class="form-control" rows="10"></textarea>
-                        </div>
-                        <button class="round-black-btn">Submit Review</button>
+                    {% else %}
+                        <p class="mb-20">There are no reviews yet.</p>
+                    {% endif %}
+                    <h3 class="mt-4">Submit Your Review</h3>
+                    <form action="{% url 'cake_detail' cake_name=cake.name %}" method="post" class="review-form p-4 border rounded">
+                        {% csrf_token %}
+                        {{ form_reviews.as_p }}
+                        <button type="submit" class="btn btn-primary">Submit Review</button>
                     </form>
                 </div>
             </div>
+            
+            
         </div>
     </div>
 </div>
 
 
+
 <style>
+    /* Star rating */
+.rating {
+    display: flex;
+    gap: 5px;
+    margin-bottom: 10px;
+}
+
+.rating input[type="radio"] {
+    display: none;
+}
+
+.rating label {
+    cursor: pointer;
+    font-size: 24px;
+    color: #ddd;
+}
+
+.rating input[type="radio"]:checked ~ label {
+    color: gold;
+}
+
+.review-heading h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.reviews {
+    margin-top: 20px;
+}
+
+.review {
+    border: 1px solid #ddd;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.review-header {
+    border-bottom: 1px solid #ddd;
+    padding-bottom: 10px;
+}
+
+.review-header .stars {
+    color: gold;
+}
+
+.review-header .fa-star {
+    font-size: 18px;
+}
+
+.btn-primary {
+    background-color: #ff69b4;
+    border-color: #ff69b4;
+}
+
+.btn-primary:hover {
+    background-color: #ff1493;
+    border-color: #ff1493;
+}
+
+.rating .fa-star {
+    color: #FFD700; /* Gold color for the stars */
+    font-size: 20px; /* Adjust size of stars */
+    margin-right: 2px; /* Space between stars */
+}
+
 .pd-wrap {
     padding: 40px 0;
     font-family: 'Poppins', sans-serif;
@@ -378,87 +463,43 @@
 
 
 </style>
+
 <script>
-    $(document).ready(function() {
-        var slider = $("#slider");
-        var thumb = $("#thumb");
-        var slidesPerPage = 4; //globaly define number of elements per page
-        var syncedSecondary = true;
-        slider.owlCarousel({
-            items: 1,
-            slideSpeed: 2000,
-            nav: false,
-            autoplay: false, 
-            dots: false,
-            loop: true,
-            responsiveRefreshRate: 200
-        }).on('changed.owl.carousel', syncPosition);
-        thumb
-            .on('initialized.owl.carousel', function() {
-                thumb.find(".owl-item").eq(0).addClass("current");
-            })
-            .owlCarousel({
-                items: slidesPerPage,
-                dots: false,
-                nav: true,
-                item: 4,
-                smartSpeed: 200,
-                slideSpeed: 500,
-                slideBy: slidesPerPage, 
-              navText: ['<svg width="18px" height="18px" viewBox="0 0 11 20"><path style="fill:none;stroke-width: 1px;stroke: #000;" d="M9.554,1.001l-8.607,8.607l8.607,8.606"/></svg>', '<svg width="25px" height="25px" viewBox="0 0 11 20" version="1.1"><path style="fill:none;stroke-width: 1px;stroke: #000;" d="M1.054,18.214l8.606,-8.606l-8.606,-8.607"/></svg>'],
-                responsiveRefreshRate: 100
-            }).on('changed.owl.carousel', syncPosition2);
-        function syncPosition(el) {
-            var count = el.item.count - 1;
-            var current = Math.round(el.item.index - (el.item.count / 2) - .5);
-            if (current < 0) {
-                current = count;
-            }
-            if (current > count) {
-                current = 0;
-            }
-            thumb
-                .find(".owl-item")
-                .removeClass("current")
-                .eq(current)
-                .addClass("current");
-            var onscreen = thumb.find('.owl-item.active').length - 1;
-            var start = thumb.find('.owl-item.active').first().index();
-            var end = thumb.find('.owl-item.active').last().index();
-            if (current > end) {
-                thumb.data('owl.carousel').to(current, 100, true);
-            }
-            if (current < start) {
-                thumb.data('owl.carousel').to(current - onscreen, 100, true);
-            }
-        }
-        function syncPosition2(el) {
-            if (syncedSecondary) {
-                var number = el.item.index;
-                slider.data('owl.carousel').to(number, 100, true);
-            }
-        }
-        thumb.on("click", ".owl-item", function(e) {
-            e.preventDefault();
-            var number = $(this).index();
-            slider.data('owl.carousel').to(number, 300, true);
-        });
-
-
-            $(".qtyminus").on("click",function(){
-                var now = $(".qty").val();
-                if ($.isNumeric(now)){
-                    if (parseInt(now) -1> 0)
-                    { now--;}
-                    $(".qty").val(now);
-                }
-            })            
-            $(".qtyplus").on("click",function(){
-                var now = $(".qty").val();
-                if ($.isNumeric(now)){
-                    $(".qty").val(parseInt(now)+1);
+    document.addEventListener('DOMContentLoaded', function() {
+        const stars = document.querySelectorAll('.rating input[type="radio"]');
+        const starLabels = document.querySelectorAll('.rating label');
+    
+        // Function to update the star rating display
+        function updateStars(rating) {
+            starLabels.forEach((label, index) => {
+                if (index < rating) {
+                    label.classList.add('filled');
+                } else {
+                    label.classList.remove('filled');
                 }
             });
+        }
+    
+        // Event listeners for mouseover and click events
+        stars.forEach(star => {
+            star.addEventListener('change', function() {
+                const rating = parseInt(this.value);
+                updateStars(rating);
+            });
+        });
+    
+        // Optional: Update stars on hover (for visual feedback)
+        starLabels.forEach((label, index) => {
+            label.addEventListener('mouseover', function() {
+                updateStars(index + 1);
+            });
+            label.addEventListener('mouseout', function() {
+                const checkedStar = document.querySelector('.rating input[type="radio"]:checked');
+                const rating = checkedStar ? parseInt(checkedStar.value) : 0;
+                updateStars(rating);
+            });
+        });
     });
-</script>
+    </script>
+    
 {% endblock %}

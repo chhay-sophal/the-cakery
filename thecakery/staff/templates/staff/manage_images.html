@@ -1,0 +1,60 @@
+{% extends "staff/base.html" %}
+{% load static %}
+
+{% block title %}
+<title>Manage Images</title>
+{% endblock %}
+
+{% block content %}
+<div class="container-xxl position-relative bg-white d-flex p-0">
+    {% include 'staff/components/spinning.html' %}
+    {% include 'staff/components/logout-modal.html' %}
+    {% include 'staff/components/sidebar.html' %}
+
+    <div class="content">
+        {% include 'staff/components/navbar.html' %}
+
+        <div class="container-fluid pt-4 px-4">
+            <div class="bg-light text-center rounded p-4">
+                <h6 class="mb-4">Manage Images for {{ object.name }}</h6>
+                
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h2 class="card-title">Images</h2>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <button type="submit" name="add_image" class="btn btn-primary">Add Image</button>
+                        </form>
+                        <div class="mb-3">
+                            <strong>Existing Images:</strong>
+                            <div class="text-center">
+                                <div class="row justify-content-center">
+                                    {% for image in images %}
+                                        <div class="col-md-3 mb-2">
+                                            <img src="{{ image.image.url }}" alt="{{ image.alt_text }}" class="img-fluid rounded shadow-sm mx-auto">
+                                            <form method="POST" style="display:inline;">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="image_id" value="{{ image.id }}">
+                                                <button type="submit" name="remove_image" class="btn btn-danger btn-sm">Remove</button>
+                                            </form>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-footer text-end">
+                        <a href="{% url 'product_detail' product_type=product_type pk=object.pk %}" class="btn btn-primary">Back to Details</a>
+                    </div>
+                </div>
+                
+            </div>
+        </div>
+
+        {% include 'staff/components/footer.html' %}
+    </div>
+</div>
+{% endblock %}
