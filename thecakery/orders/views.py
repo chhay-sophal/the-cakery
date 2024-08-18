@@ -71,21 +71,24 @@ def add_to_cart(request, item_type, item_id):
                 return redirect('cake_detail', cake_name=item.name)
     elif item_type == 'accessory':
         item = get_object_or_404(PartyAccessory, pk=item_id)
-        size = None
+        size = None  # Set size to None for accessories
     else:
         messages.error(request, "Invalid item type.")
         return redirect(request.META.get('HTTP_REFERER', 'home'))
 
     cart, created = Cart.objects.get_or_create(user=request.user)
-
     content_type = ContentType.objects.get_for_model(item)
+
     cart_item, created = CartItem.objects.get_or_create(
         cart=cart,
         content_type=content_type,
         object_id=item_id,
-        size=size,  # Include size in the query
         defaults={'quantity': quantity}
     )
+
+    if item_type == 'cake' and size:
+        cart_item.size = size
+        cart_item.save()
 
     if not created:
         cart_item.quantity += quantity
