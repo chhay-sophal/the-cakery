@@ -26,15 +26,9 @@ def view_all_accessories(request):
 
 def get_accessory_details(request, item_id):
     accessory = get_object_or_404(PartyAccessory, pk=item_id)
-
-    accessory_data = {
-        'id': accessory.id,
-        'name': accessory.name,
-        'description': accessory.description,
-        'price': float(accessory.price),
-        'stock': accessory.stock,
-        'created_at': accessory.created_at.strftime('%Y-%m-%d %H:%M:%S'),
-        'updated_at': accessory.updated_at.strftime('%Y-%m-%d %H:%M:%S'),
+    
+    context = {
+        'accessory': accessory,
     }
 
-    return JsonResponse(accessory_data, safe=False)
+    return render(request, 'party_accessories/accessory_detail.html', context)
