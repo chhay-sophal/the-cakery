@@ -1,0 +1,25 @@
+{% extends 'base/base.html' %}
+
+{% block title %}{{ cake.name }} Details - My Website{% endblock %}
+
+{% block content %}
+    <h2>{{ cake.name }}</h2>
+    <p>Description: {{ cake.description }}</p>
+    <p>Price: {{ cake.price }}</p>
+    <p>Stock: {{ cake.stock }}</p>
+
+    <form action="{% url 'add_to_cart' item_type='cake' item_id=cake.id %}" method="post">
+        {% csrf_token %}
+        <label for="size">Choose a size:</label>
+        <select name="size_id" id="size">
+            {% for size in cake.sizes.all %}
+                <option value="{{ size.id }}">{{ size.size }} ( +{{ size.additional_price }}$ )</option>
+            {% endfor %}
+        </select>
+        <input type="number" name="quantity" value="1" min="1">
+        <button type="submit">Add to Cart</button>
+    </form>
+    
+    <!-- Include images, sizes, and reviews -->
+    {% include 'cakes/includes/cake_details_include.html' %}
+{% endblock %}
