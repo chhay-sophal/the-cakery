@@ -30,17 +30,17 @@ def catalog(request):
 
     return render(request, 'base/catalog.html', context)
 
-def chocolate(request):
-    return render(request, 'base/chocolate.html')
+def birthday(request):
+    return render(request, 'base/birthday.html')
 
-def strawberry(request):
-    return render(request, 'base/strawberry.html')
+def wedding(request):
+    return render(request, 'base/wedding.html')
 
-def vanilla(request):
-    return render(request, 'base/vanilla.html')
+def anniversary(request):
+    return render(request, 'base/anniversary.html')
 
-def brownie(request):
-    return render(request, 'base/brownie.html')
+def celebration(request):
+    return render(request, 'base/celebration.html')
 
 def sign_up(request):
     return render(request,'base/signup.html')
