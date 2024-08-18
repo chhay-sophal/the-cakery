@@ -29,9 +29,9 @@
                 <p id="desc1">Made with the finest ingredients and a touch of love, 
                     each cake is a masterpiece of flavor and design. Browse our catalog, place your order, 
                     and indulge in the perfect slice of happiness. At The Cakery, we turn every moment into a delicious memory.</p>
-                <div class="d-flex align-items-center justify-content-center justify-content-lg-start pt-5">
+                <!-- <div class="d-flex align-items-center justify-content-center justify-content-lg-start pt-5">
                     <a href="{% url 'catalog' %}" class="btn border-inner py-3 px-5 me-5" style="background-color: #FAABBD;">Buy Now</a>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -44,9 +44,9 @@
                 <p id="desc1">Made with the finest ingredients and a touch of love, 
                     each cake is a masterpiece of flavor and design. Browse our catalog, place your order, 
                     and indulge in the perfect slice of happiness. At The Cakery, we turn every moment into a delicious memory.</p>
-                <div class="d-flex align-items-center justify-content-center justify-content-lg-start pt-5">
+                <!-- <div class="d-flex align-items-center justify-content-center justify-content-lg-start pt-5">
                     <a href="" class="btn border-inner py-3 px-5 me-5" style="background-color: #FAABBD;">Read More</a>
-                </div>
+                </div> -->
             </div>
         </div>
     </div>
@@ -83,7 +83,7 @@
                         <img src="{% if flavour.image %}{{ flavour.image.url }}{% else %}{% static 'image/placeholder.webp' %}{% endif %}" 
                             class="card-img-top" 
                             alt="{{ flavour.name }}">
-                        <button class="see-more-btn">See More</button>
+                        <!-- <button class="see-more-btn">See More</button> -->
                     </div>
                     <div class="card-text-container">
                         <h5 class="card-title">{{ flavour.name }}</h5>
@@ -183,7 +183,7 @@
                 </div>
                 <div class="col-lg-12 col-md-6 text-center">
                     <h1 class="text-uppercase text-light mb-4">30% Discount For This Summer</h1>
-                    <a href="" class="btn border-inner py-3 px-5" style="background-color: #FAABBD;">Order Now</a>
+                    <a href="{% url 'catalog' %}" class="btn border-inner py-3 px-5" style="background-color: #FAABBD;">Order Now</a>
                 </div>
             </div>
         </div>
