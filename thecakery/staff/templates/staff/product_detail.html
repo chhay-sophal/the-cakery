@@ -91,8 +91,12 @@
                         <div class="card-footer text-end">
                             <a href="javascript:history.back()" class="btn btn-primary">Back</a>
                             {% if product_type == 'cake' %}
+                                <a href="{% url 'manage_images' product_type=product_type pk=object.pk %}" class="btn btn-info">Manage Images</a>
+                                <a href="{% url 'manage_flavours' pk=object.pk %}" class="btn btn-info">Manage Flavours</a>
+                                <a href="{% url 'manage_sizes' pk=object.pk %}" class="btn btn-info">Manage Sizes</a>
                                 <a href="{% url 'modify_product' 'cake' object.pk %}" class="btn btn-warning">Modify Product</a>
                             {% elif product_type == 'accessory' %}
+                                <a href="{% url 'manage_images' product_type=product_type pk=object.pk %}" class="btn btn-info">Manage Images</a>
                                 <a href="{% url 'modify_product' 'accessory' object.pk %}" class="btn btn-warning">Modify Product</a>
                             {% endif %}
                         </div>

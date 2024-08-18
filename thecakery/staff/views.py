@@ -9,13 +9,13 @@ from django.shortcuts import get_object_or_404, redirect, render
 from orders.models import Order, OrderItem
 from accounts.models import UserProfile
 from reviews.models import Review
-from cakes.models import Cake, CakeImage, CakeSize
+from cakes.models import Cake, CakeImage, CakeSize, Flavour
 from party_accessories.models import PartyAccessory, PartyAccessoryImage
 from django.views.generic import CreateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
 from django.contrib.contenttypes.models import ContentType
-from .forms import CakeForm, PartyAccessoryForm, UpdateOrderForm, ModifyCakeForm, ModifyPartyAccessoryForm
+from .forms import CakeForm, CakeImageForm, CakeSizeForm, FlavourForm, PartyAccessoryForm, PartyAccessoryImageForm, UpdateOrderForm, ModifyCakeForm, ModifyPartyAccessoryForm
 from django.contrib.auth.decorators import login_required
 
 def is_staff_user(user):
@@ -214,3 +214,92 @@ def modify_product(request, product_type, pk):
         'product_type': product_type,
         'product': product
     })
+
+@login_required
+def manage_images(request, pk, product_type):
+    if product_type == 'cake':
+        obj = get_object_or_404(Cake, pk=pk)
+        ImageModel = CakeImage
+        form_class = CakeImageForm
+    elif product_type == 'accessory':
+        obj = get_object_or_404(PartyAccessory, pk=pk)
+        ImageModel = PartyAccessoryImage
+        form_class = PartyAccessoryImageForm
+    else:
+        return redirect('product_detail', pk=pk, product_type=product_type)
+    
+    if request.method == 'POST':
+        if 'add_image' in request.POST:
+            form = form_class(request.POST, request.FILES)
+            if form.is_valid():
+                new_image = form.save(commit=False)
+                new_image.cake = obj if product_type == 'cake' else None
+                new_image.accessory = obj if product_type == 'accessory' else None
+                new_image.save()
+        elif 'remove_image' in request.POST:
+            image_id = request.POST.get('image_id')
+            image = get_object_or_404(ImageModel, pk=image_id)
+            image.delete()
+        return redirect('product_detail', pk=pk, product_type=product_type)
+    
+    images = obj.images.all() if product_type == 'cake' else obj.images.all()
+    form = form_class()
+
+    context = {
+        'object': obj,
+        'images': images,
+        'form': form,
+        'product_type': product_type
+    }
+    return render(request, 'staff/manage_images.html', context)
+
+@login_required
+def manage_flavours(request, pk):
+    cake = get_object_or_404(Cake, pk=pk)
+    
+    if request.method == 'POST':
+        form = FlavourForm(request.POST, cake=cake)
+        if 'add_flavour' in request.POST:
+            if form.is_valid():
+                flavour = form.cleaned_data['flavour']
+                cake.flavours.add(flavour)
+        elif 'remove_flavour' in request.POST:
+            flavour_id = request.POST.get('flavour_id')
+            flavour = get_object_or_404(Flavour, pk=flavour_id)
+            cake.flavours.remove(flavour)
+        return redirect('product_detail', pk=pk, product_type='cake')
+    
+    flavour_form = FlavourForm(cake=cake)
+    
+    context = {
+        'object': cake,
+        'flavour_form': flavour_form,
+        'product_type': 'cake',
+    }
+    return render(request, 'staff/manage_flavours.html', context)
+
+@login_required
+def manage_sizes(request, pk):
+    cake = get_object_or_404(Cake, pk=pk)
+    
+    if request.method == 'POST':
+        if 'add_size' in request.POST:
+            form = CakeSizeForm(request.POST)
+            if form.is_valid():
+                size = form.save(commit=False)
+                size.cake = cake
+                size.save()
+        elif 'remove_size' in request.POST:
+            size_id = request.POST.get('size_id')
+            size = get_object_or_404(CakeSize, pk=size_id)
+            size.delete()
+        return redirect('manage_sizes', pk=pk)
+    
+    size_form = CakeSizeForm()
+    
+    context = {
+        'cake': cake,
+        'size_form': size_form,
+        'sizes': cake.sizes.all(),
+    }
+    return render(request, 'staff/manage_sizes.html', context)

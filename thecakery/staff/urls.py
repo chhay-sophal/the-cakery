@@ -14,4 +14,7 @@ urlpatterns = [
     path('stock/product/<str:product_type>/<int:pk>/', product_detail, name='product_detail'),
     # path('stock/product/modify/<int:pk>/', ModifyProductView.as_view(), name='modify_product'),
     path('stock/product/modify/<str:product_type>/<int:pk>/', modify_product, name='modify_product'),
+    path('product/<int:pk>/manage-images/<str:product_type>/', manage_images, name='manage_images'),
+    path('product/<int:pk>/manage-flavours/', manage_flavours, name='manage_flavours'),
+    path('cake/<int:pk>/manage-sizes/', manage_sizes, name='manage_sizes'),
 ]

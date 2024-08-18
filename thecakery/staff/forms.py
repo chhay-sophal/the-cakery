@@ -83,3 +83,30 @@ class ModifyPartyAccessoryForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['images'].widget = forms.ClearableFileInput(attrs={'multiple': True})
+
+class CakeImageForm(forms.ModelForm):
+    class Meta:
+        model = CakeImage
+        fields = ['image', 'alt_text']
+
+class PartyAccessoryImageForm(forms.ModelForm):
+    class Meta:
+        model = PartyAccessoryImage
+        fields = ['image', 'alt_text']
+
+class FlavourForm(forms.Form):
+    def __init__(self, *args, **kwargs):
+        cake = kwargs.pop('cake')  # Extract the cake object from kwargs
+        super().__init__(*args, **kwargs)
+        self.fields['flavour'].queryset = Flavour.objects.exclude(cakes=cake)
+    
+    flavour = forms.ModelChoiceField(
+        queryset=Flavour.objects.none(),  # Default queryset, will be set in __init__
+        widget=forms.Select,
+        empty_label="Select a flavour"
+    )
+
+class CakeSizeForm(forms.ModelForm):
+    class Meta:
+        model = CakeSize
+        fields = ['size', 'additional_price']
