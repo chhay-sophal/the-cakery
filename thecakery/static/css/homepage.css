@@ -30,12 +30,15 @@ z-index: 10; /* Set a high z-index to ensure it is on top */
 .navbar .navbar-nav .nav-link {
 color:#56091F;
 }
+
 .btn-outline-dark {
 border-radius: 0;
 }
+
 .btn-outline-dark:focus {
 box-shadow: none;
 }
+
 @media screen and (max-width: 768px) {
 .btn-outline-dark {
     border: none;
@@ -46,8 +49,19 @@ box-shadow: none;
 .btn-outline-dark:hover {
     background: none;
     color: gray;
+  }
 }
+.fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
+
+.fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
 .btn-pink {
 background-color: #FAABBD;
 color: #FFFFFF;
@@ -153,6 +167,49 @@ h6,
         padding: 10px; /* Reduce padding for smaller screens */
         text-align: justify; /* Ensure text remains justified */
     }
+}
+/* Animation for fade in from down to up */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Animation for fade in from up to down */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Applying the animations */
+.content h1 {
+    animation: fadeInUp 1.5s ease-out;
+}
+
+.content p#desc1 {
+    animation: fadeInUp 2s ease-out;
+}
+
+.content .btn {
+    animation: fadeInDown 2.5s ease-out;
+}
+.content .btn:hover {
+    background-color: white; /* Change background color on hover */
+    color: #48050f; /* Change text color on hover */
+    border: 2px solid #FAABBD; /* Add a border on hover */
+    transform: scale(1.1); /* Slightly enlarge the button on hover */
+    transition: all 0.3s ease; /* Smooth transition */
 }
 
 
