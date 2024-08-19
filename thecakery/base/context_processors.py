@@ -1,6 +1,6 @@
 from django.shortcuts import get_object_or_404
 from orders.models import Cart
-from cakes.models import Cake, Flavour
+from cakes.models import Cake, Category
 from party_accessories.models import PartyAccessory
 
 def cart_and_favorites_context(request):
@@ -9,7 +9,7 @@ def cart_and_favorites_context(request):
     total_price = 0
     cakes = []
     accessories = []
-    flavours = []
+    categories = []
 
     if request.user.is_authenticated:
         # Fetch cart and cart items
@@ -24,13 +24,13 @@ def cart_and_favorites_context(request):
         cakes = Cake.objects.filter(favorite__user=request.user)
         accessories = PartyAccessory.objects.filter(favorite__user=request.user)
 
-        # Fetch all flavours
-        flavours = Flavour.objects.all()
+        # Fetch all categories
+        categories = Category.objects.all()
 
     return {
         'cart_items': cart_items,
         'total_price': total_price,
         'favorite_cakes': cakes,
         'favorite_accessories': accessories,
-        'flavours': flavours,
+        'categories': categories,
     }

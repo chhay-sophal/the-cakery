@@ -75,11 +75,11 @@
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Choose Your Cake
+                        Categories
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        {% for flavour in flavours %}
-                            <li><a class="dropdown-item" href="{% url 'flavour' %}?flavour={{ flavour.name }}">{{ flavour.name }}</a></li>
+                        {% for category in categories %}
+                            <li><a class="dropdown-item" href="{% url 'category' %}?category={{ category.name }}">{{ category.name }}</a></li>
                         {% endfor %}
                     </ul>
                 </li>                

@@ -27,7 +27,7 @@
 
 <div class="cover-photo-container">
   <!-- Search Form -->
-  <form method="GET" action="{% url 'catalog' %}" class="search-form mb-4">
+  <form method="GET" action="{% url 'category' %}" class="search-form mb-4">
     <div class="input-group">
       <input type="text" name="q" class="form-control" placeholder="Search for cakes..." value="{{ query|default_if_none:'' }}">
       <div class="input-group-append">
@@ -37,7 +37,7 @@
   </form>
 </div>
   
-  <h3 class="font-secondary">Choose Your Favourite Cake!</h3>
+  <h3 class="font-secondary">Choose Your {{ category|default_if_none:'' }} Cake!</h3>
   <div class="row">
     {% for cake in cakes %}
     <div class="col-md-3 mb-4">
