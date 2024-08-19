@@ -45,6 +45,12 @@ def remove_favorite(request, item_type, item_id):
         Favorite.objects.filter(user=request.user, accessory=item).delete()
     return redirect(request.META.get('HTTP_REFERER', 'home'))
 
+from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import get_object_or_404, redirect
+from django.contrib import messages
+from .models import Cake, CakeSize, PartyAccessory, Cart, CartItem
+
 @login_required
 def add_to_cart(request, item_type, item_id):
     quantity = request.POST.get('quantity', 1)  # Get the quantity from POST data, default to 1
@@ -71,7 +77,7 @@ def add_to_cart(request, item_type, item_id):
                 return redirect('cake_detail', cake_name=item.name)
     elif item_type == 'accessory':
         item = get_object_or_404(PartyAccessory, pk=item_id)
-        size = None  # Set size to None for accessories
+        size = None  # Accessories do not use size
     else:
         messages.error(request, "Invalid item type.")
         return redirect(request.META.get('HTTP_REFERER', 'home'))
@@ -79,20 +85,24 @@ def add_to_cart(request, item_type, item_id):
     cart, created = Cart.objects.get_or_create(user=request.user)
     content_type = ContentType.objects.get_for_model(item)
 
-    cart_item, created = CartItem.objects.get_or_create(
-        cart=cart,
-        content_type=content_type,
-        object_id=item_id,
-        defaults={'quantity': quantity}
-    )
-
-    if item_type == 'cake' and size:
-        cart_item.size = size
-        cart_item.save()
-
-    if not created:
+    try:
+        cart_item = CartItem.objects.get(
+            cart=cart,
+            content_type=content_type,
+            object_id=item_id,
+            size=size  # Include size in the query
+        )
         cart_item.quantity += quantity
         cart_item.save()
+    except CartItem.DoesNotExist:
+        # Create a new cart item if it doesn't exist
+        cart_item = CartItem.objects.create(
+            cart=cart,
+            content_type=content_type,
+            object_id=item_id,
+            size=size,
+            quantity=quantity
+        )
 
     # Calculate the total price based on the updated quantity
     total_price = cart_item.get_price()
