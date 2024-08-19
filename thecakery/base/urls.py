@@ -14,4 +14,5 @@ urlpatterns = [
     path('sign_up/', sign_up, name='sign_up'),
     path('dessert/', dessert, name='dessert'),
     path('accessory/', accessory_list, name='accessory'),
+    path('flavour/', flavour, name='flavour'),
 ]

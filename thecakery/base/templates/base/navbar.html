@@ -73,17 +73,16 @@
                 <li class="nav-item">
                     <a class="nav-link active" aria-current="page" href="{% url 'catalog' %}">Catalog</a>
                 </li>
-                <!-- <li class="nav-item dropdown">
+                <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                         Choose Your Cake
                     </a>
                     <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="{% url 'birthday' %}">Birthday Cake</a></li>
-                        <li><a class="dropdown-item" href="{% url 'wedding' %}">Wedding Cake</a></li>
-                        <li><a class="dropdown-item" href="{% url 'anniversary' %}">Anniversary Cake</a></li>
-                        <li><a class="dropdown-item" href="{% url 'celebration' %}">Celebration Cake</a></li>
+                        {% for flavour in flavours %}
+                            <li><a class="dropdown-item" href="{% url 'flavour' %}?flavour={{ flavour.name }}">{{ flavour.name }}</a></li>
+                        {% endfor %}
                     </ul>
-                </li> -->
+                </li>                
                 <!-- <li class="nav-item">
                     <a class="nav-link" href="{% url 'dessert' %}">Desserts & Sweets</a>
                 </li> -->

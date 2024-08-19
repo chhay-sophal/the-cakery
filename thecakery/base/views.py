@@ -68,3 +68,22 @@ def accessory_list(request):
         accessories = PartyAccessory.objects.all()
     
     return render(request, 'base/accessory.html', {'accessories': accessories, 'query': query})
+
+def flavour(request):
+    query = request.GET.get('flavour')
+    cakes = Cake.objects.prefetch_related('trending_entries__trend_type', 'images')
+
+    if query:
+        cakes = cakes.filter(
+            Q(flavours__name__icontains=query)
+        ).distinct()
+
+    user = request.user
+
+    context = {
+        'cakes': cakes,
+        'user': user,
+        'query': query,  # Pass the query to the template to display in the search form
+    }
+
+    return render(request, 'base/flavour.html', context)
