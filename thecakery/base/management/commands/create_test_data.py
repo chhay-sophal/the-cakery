@@ -70,16 +70,17 @@ class Command(BaseCommand):
                 name=category['name'],
                 defaults={'description': category['description']}
             )
+            self.stdout.write(self.style.SUCCESS('Category test data inserted successfully.'))
 
-            if created:
-                # Add image if available
-                image_filename = f"{category['name']}.jpg"  # Assuming images are in .jpg format
-                image_path = os.path.join('static', 'image', image_filename)
+            # if created:
+            #     # Add image if available
+            #     image_filename = f"{category['name']}.jpg"  # Assuming images are in .jpg format
+            #     image_path = os.path.join('static', 'image', image_filename)
                 
-                if os.path.exists(image_path):
-                    with open(image_path, 'rb') as image_file:
-                        category_instance.image.save(image_filename, File(image_file))
-                        category_instance.save()
+            #     if os.path.exists(image_path):
+            #         with open(image_path, 'rb') as image_file:
+            #             category_instance.image.save(image_filename, File(image_file))
+            #             category_instance.save()
 
         # Test data for Flavour
         flavours = [
@@ -484,35 +485,41 @@ class Command(BaseCommand):
                 'description': 'Colorful balloons perfect for any birthday celebration.',
                 'price': 9.99,
                 'stock': 100,
+                'image': 'balloon.jpg',
             },
             {
                 'name': 'Party Hats',
                 'description': 'Fun and festive party hats for guests.',
                 'price': 5.99,
                 'stock': 200,
+                'image': 'hat.webp',
             },
             {
                 'name': 'Confetti Cannon',
                 'description': 'A burst of colorful confetti to light up your party.',
                 'price': 12.99,
                 'stock': 50,
+                'image': 'cannon.jpg',
             },
             {
                 'name': 'Streamers',
                 'description': 'Decorative streamers in various colors.',
                 'price': 7.99,
                 'stock': 150,
+                'image': 'streamers.jpg',
             },
             {
                 'name': 'Disposable Cups',
                 'description': 'Colorful disposable cups, perfect for serving drinks.',
                 'price': 4.99,
                 'stock': 300,
+                'image': 'cup.jpg',
             },
             # Add more accessories as needed
         ]
+        
         for data in accessory_data:
-            PartyAccessory.objects.create(
+            accessory, created = PartyAccessory.objects.get_or_create(
                 name=data['name'],
                 description=data['description'],
                 price=data['price'],
@@ -520,5 +527,18 @@ class Command(BaseCommand):
                 created_at=timezone.now(),
                 updated_at=timezone.now()
             )
+
+            if created:
+                # Add image if available
+                # Path to the static image file
+                image_path = os.path.join('static', 'image', data['image'])
+                if os.path.exists(image_path):
+                    with open(image_path, 'rb') as image_file:
+                        accessory_image = PartyAccessoryImage(
+                            accessory=accessory,
+                            image=File(image_file),
+                            alt_text=f"Image of {accessory.name}"
+                        )
+                        accessory_image.save()
         
         self.stdout.write(self.style.SUCCESS('Test data inserted successfully.'))

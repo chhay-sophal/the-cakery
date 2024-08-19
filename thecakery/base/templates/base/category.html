@@ -50,7 +50,7 @@
           {% if cake.images.first %}
             <img class="card-img-top" src="{{ cake.images.first.image.url }}" alt="{{ cake.images.first.alt_text }}">
           {% else %}
-            <img class="card-img-top" src="{% static 'default_image_url' %}" alt="No image available">
+            <img class="card-img-top" src="{% static 'image/placeholder.webp' %}" alt="No image available">
           {% endif %}
           <a href="{% if cake in favorite_cakes %}{% url 'remove_favorite' 'cake' cake.id %}{% else %}{% url 'add_favorite' 'cake' cake.id %}{% endif %}" class="card-heart-link" onclick="event.stopPropagation();">
             <i class="fa fa-heart card-heart-icon {% if cake in favorite_cakes %}clicked{% endif %}"></i>

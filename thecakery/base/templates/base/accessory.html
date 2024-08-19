@@ -4,7 +4,7 @@
 {% block title %}Party Accessories{% endblock %}
 
 {% block content %}
-<div class="container mt-5">
+<div class="">
 
     <div class="cover-photo-container">
         <!-- Search Form -->
@@ -28,7 +28,7 @@
                     {% if accessory.images.first %}
                     <img class="card-img-top" src="{{ accessory.images.first.image.url }}" alt="{{ accessory.images.first.alt_text }}">
                     {% else %}
-                    <img class="card-img-top" src="{% static 'default_image_url' %}" alt="No image available">
+                    <img class="card-img-top" src="{% static 'image/placeholder.webp' %}" alt="No image available">
                     {% endif %}
                     <a href="{% if accessory in favorite_accessories %}{% url 'remove_favorite' 'accessory' accessory.id %}{% else %}{% url 'add_favorite' 'accessory' accessory.id %}{% endif %}" class="card-heart-link" onclick="event.stopPropagation();">
                         <i class="fa fa-heart card-heart-icon {% if accessory in favorite_accessories %}clicked{% endif %}"></i>

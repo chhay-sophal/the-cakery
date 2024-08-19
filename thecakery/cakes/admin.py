@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Cake, CakeType, Flavour, CakeImage, CakeSize, TrendingCake, TrendingType, Discount
+from .models import Cake, Category, CakeType, Flavour, CakeImage, CakeSize, TrendingCake, TrendingType, Discount
 
 @admin.register(Cake)
 class CakeAdmin(admin.ModelAdmin):
@@ -34,3 +34,5 @@ class TrendingCakeAdmin(admin.ModelAdmin):
     list_display = ('cake', 'trend_type', 'trend_score', 'description', 'created_at')
     list_filter = ('trend_type',)
     search_fields = ('cake__name',)
+
+admin.site.register(Category)

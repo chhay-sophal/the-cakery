@@ -24,8 +24,8 @@ def cart_and_favorites_context(request):
         cakes = Cake.objects.filter(favorite__user=request.user)
         accessories = PartyAccessory.objects.filter(favorite__user=request.user)
 
-        # Fetch all categories
-        categories = Category.objects.all()
+    # Fetch all categories
+    categories = Category.objects.all()
 
     return {
         'cart_items': cart_items,
