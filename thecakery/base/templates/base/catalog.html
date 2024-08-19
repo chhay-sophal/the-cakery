@@ -26,9 +26,9 @@
 </header>
 
 <!-- Search Form -->
-<form method="GET" action="{% url 'cakes_page' %}" class="search-form mb-4">
+<form method="GET" action="{% url 'catalog' %}" class="search-form mb-4">
   <div class="input-group">
-    <input type="text" name="q" class="form-control" placeholder="Search for cakes..." value="{{ query }}">
+    <input type="text" name="q" class="form-control" placeholder="Search for cakes..." value="{{ query|default_if_none:'' }}">
     <div class="input-group-append">
       <button class="btn btn-pink" type="submit">Search</button>
     </div>
