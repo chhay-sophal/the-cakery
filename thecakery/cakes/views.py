@@ -5,6 +5,8 @@ from reviews.forms import ReviewForm
 from .models import Cake, CakeImage
 from reviews.models import Review
 from reviews.views import reviews
+from django.db.models import Q
+from django.shortcuts import render
 
 def get_all_cakes(request): 
     cakes = Cake.objects.all()
@@ -53,3 +55,18 @@ def get_cake_detail(request, cake_name):
     return render(request, 'cakes/cake_detail.html', context)
 def chocolate(request):
     return render(request, 'cakes/cake_detail.html',chocolate)
+
+def get_all_cakes(request):
+    query = request.GET.get('q', '')  # Get the search query
+    if query:
+        cakes = Cake.objects.filter(
+            Q(name__icontains=query) |
+            Q(category__name__icontains=query)
+        )
+    else:
+        cakes = Cake.objects.all()
+
+    cake_images = CakeImage.objects.all()  # Assuming you want to show all cake images
+
+    return render(request, "cakes/cakes_page.html", {'cakes': cakes, 'cake_images': cake_images, 'query': query})
+

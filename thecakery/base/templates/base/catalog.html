@@ -4,8 +4,7 @@
 
 {% block content %}
 
-
-  <header>
+<header>
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
@@ -15,47 +14,58 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-	<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+	  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
     <script src="{% static 'js/main.js' %}"></script>
+    <header>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/slick-carousel/1.8.1/slick.min.js"></script>
+
+  </header>
 </header>
 
-
-<div class="container">
-  <h3 class="font-secondary">Choose Your Cake</h3>
+<!-- Search Form -->
+<form method="GET" action="{% url 'cakes_page' %}" class="search-form mb-4">
+  <div class="input-group">
+    <input type="text" name="q" class="form-control" placeholder="Search for cakes..." value="{{ query }}">
+    <div class="input-group-append">
+      <button class="btn btn-pink" type="submit">Search</button>
+    </div>
+  </div>
+</form>
+  
+  <h3 class="font-secondary">Choose Your Favourite Cake!</h3>
   <div class="row">
     {% for cake in cakes %}
     <div class="col-md-3 mb-4">
       <div class="card position-relative" onclick="window.location.href='{% url 'cake_detail' cake.name %}'">
         <div class="card-img-container">
+          {% if cake.trending_entries.exists %}
+            <div class="badge badge-popular">Most Popular!</div>
+          {% endif %}
           <!-- Image and Heart Icon -->
           {% if cake.images.first %}
             <img class="card-img-top" src="{{ cake.images.first.image.url }}" alt="{{ cake.images.first.alt_text }}">
           {% else %}
-            <img class="card-img-top" src="default_image_url" alt="No image available">
+            <img class="card-img-top" src="{% static 'default_image_url' %}" alt="No image available">
           {% endif %}
           <a href="{% if cake in favorite_cakes %}{% url 'remove_favorite' 'cake' cake.id %}{% else %}{% url 'add_favorite' 'cake' cake.id %}{% endif %}" class="card-heart-link" onclick="event.stopPropagation();">
             <i class="fa fa-heart card-heart-icon {% if cake in favorite_cakes %}clicked{% endif %}"></i>
           </a>
         </div>
         <div class="card-body">
-          <div class="card-header small-font-light-black">
-            {% if cake.trending_entries.exists %}
-              {{ cake.trending_entries.first.trend_type.name }}
-            {% else %}
-              Most Popular!
-            {% endif %}
-          </div>
-          <p class="card-text text-muted">{{ cake.category.name }}</p>
           <h5 class="card-title">{{ cake.name }}</h5>
-          <div class="card-footer">
-            {{ cake.get_final_price|floatformat:2 }}$
-          </div>
+          <p class="card-text text-muted">{{ cake.category.name }}</p>
+          <p class="card-text">{{ cake.get_final_price|floatformat:2 }}$</p>
+          <a href="{% url 'cake_detail' cake.name %}" class="btn btn-pink">View More</a>
         </div>
       </div>
     </div>
+    {% empty %}
+    <p>No cakes found matching your search criteria.</p>
     {% endfor %}
   </div>
-</div>
 
 <style>
 .up {
@@ -76,6 +86,25 @@ h3 {
   line-height: 3em;
 }
 
+.search-form {
+  max-width: 600px; /* Set a maximum width for the search form */
+  margin: 20px auto; /* Center the form horizontally and add margin from the top */
+  padding: 20px; /* Add padding inside the form */
+  border-radius: 8px; /* Optional: rounded corners */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: shadow for better visibility */
+}
+
+.search-form .input-group {
+  border-radius: 8px; /* Rounded corners for the input group */
+}
+
+.search-form .btn-pink {
+  border-radius: 8px; /* Rounded corners for the button */
+  background-color: #FAABBD;
+}
+
+
+/* Card Styles */
 .card {
   border: none;
   border-radius: 8px;
@@ -83,17 +112,61 @@ h3 {
   max-width: 100%;
   position: relative;
   cursor: pointer;
-  /* Removed any hover effects */
+  height: 450px;
 }
 
-.card-img-container {
-  position: relative;
+.card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  height: 150px;
+  overflow: hidden;
+}
+
+.card-title {
+  color: #56091F;
+  margin-bottom: 0.3rem;
+  font-size: 18px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.text-muted {
+  font-size: 14px;
+  margin-bottom: 0.3rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-text {
+  font-size: 16px;
+  margin-bottom: 0.5rem;
 }
 
 .card-img-top {
   width: 100%;
-  height: 300px; /* Adjust height as needed */
+  height: 300px;
   object-fit: cover;
+}
+
+.card-img-container {
+  position: relative;
+  height: 250px;
+}
+
+.badge-popular {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background-color: #FF0000;
+  color: #FFF;
+  padding: 5px 10px;
+  border-radius: 5px;
+  font-size: 12px;
+  z-index: 2;
 }
 
 .card-heart-link {
@@ -107,71 +180,57 @@ h3 {
   font-size: 24px;
   color: #FAABBD;
   cursor: pointer;
-  /* Removed transform and transition effects */
 }
 
 .card-heart-icon.clicked {
   color: #FF0000;
-  /* Removed transform effect */
 }
 
-.card-heart-icon:hover {
-  /* Removed transform effect */
-}
-
-.small-font-light-black {
-  font-size: 12px;
-  color: black;
-  font-weight: 300;
-}
-
-.card-body {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.card-title {
-  color: #56091F;
-  margin-bottom: 0.5rem;
-}
-
-.text-muted {
-  font-size: 14px;
-  margin-bottom: 0.5rem;
-}
-
-.card-footer {
-  font-weight: bold;
-  font-size: 18px;
-  background-color: pink;
-  border-top: none;
-}
-
+/* Responsive Styles */
 @media (max-width: 768px) {
-  .card-title, .text-muted, .card-footer {
+  .card-title, .text-muted, .card-text {
     font-size: 14px;
   }
 
-  .card-footer {
-    font-size: 16px;
+  .card {
+    height: 400px;
+  }
+
+  .card-body {
+    height: 120px;
+  }
+
+  .input-group .form-control {
+    font-size: 14px;
+  }
+
+  .input-group-append .btn-pink {
+    font-size: 14px;
   }
 }
 
 @media (max-width: 576px) {
-  .up {
-    height: 200px;
-  }
-
-  .card-title, .text-muted, .card-footer {
+  .card-title, .text-muted, .card-text {
     font-size: 12px;
   }
 
-  .card-footer {
-    font-size: 14px;
+  .card {
+    height: 350px;
+  }
+
+  .card-body {
+    height: 100px;
+  }
+
+  .input-group .form-control {
+    font-size: 12px;
+  }
+
+  .input-group-append .btn-pink {
+    font-size: 12px;
   }
 }
+
 </style>
 
 {% endblock %}

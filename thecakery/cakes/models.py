@@ -99,3 +99,4 @@ class TrendingCake(models.Model):
 
     def __str__(self):
         return f"{self.cake.name} ({self.trend_type.name})"
+    

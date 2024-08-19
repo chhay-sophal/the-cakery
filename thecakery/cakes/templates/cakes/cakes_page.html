@@ -1,26 +1,224 @@
 {% extends 'base/base.html' %}
-
+{% load static %}
 {% block title %}
     <title>Cake Page</title>
 {% endblock %}
 
 {% block content %}
-    <h1>Cakes Available:</h1>
-    <ul>
-        {% for cake in cakes %}
-            <li>
-                <h2>{{ cake.name }}</h2>
-                <p>Price: {{ cake.price }}</p>
-                <div>
-                    {% for image in cake.images.all %}
-                        <img src="{{ image.image.url }}" alt="{{ image.alt_text }}" style="max-width: 300px;">
-                    {% empty %}
-                        <p>No images available for this cake.</p>
-                    {% endfor %}
+    <div class="container">
+        <!-- Back Button -->
+        <a href="javascript:history.back()" class="btn btn-back">Back</a>
+
+        <h1 class="page-title">Cakes Available:</h1>
+        <div class="product-grid">
+            {% for cake in cakes %}
+                <div class="product-card">
+                    <a href="{% url 'cake_detail' cake.name %}" class="product-link">
+                        <div class="product-img-container">
+                            {% if cake.trending_entries.exists %}
+                                <div class="badge badge-popular">Most Popular!</div>
+                            {% endif %}
+                            {% if cake.images.first %}
+                                <img class="product-img" src="{{ cake.images.first.image.url }}" alt="{{ cake.images.first.alt_text }}">
+                            {% else %}
+                                <img class="product-img" src="{% static 'default_image_url' %}" alt="No image available">
+                            {% endif %}
+                            <a href="{% if cake in favorite_cakes %}{% url 'remove_favorite' 'cake' cake.id %}{% else %}{% url 'add_favorite' 'cake' cake.id %}{% endif %}" class="card-heart-link">
+                                <i class="fa fa-heart card-heart-icon {% if cake in favorite_cakes %}clicked{% endif %}"></i>
+                            </a>
+                        </div>
+                        <div class="product-details">
+                            <h2 class="product-name">{{ cake.name }}</h2>
+                            <p class="product-category">{{ cake.category.name }}</p>
+                            <p class="product-price">{{ cake.get_final_price|floatformat:2 }}$</p>
+                            <a href="{% url 'cake_detail' cake.id %}" class="view-more-btn">View More</a>
+                        </div>
+                    </a>
                 </div>
-            </li>
-        {% empty %}
-            <li>No cakes available.</li>
-        {% endfor %}
-    </ul>
+            {% empty %}
+                <p class="no-products">No cakes available.</p>
+            {% endfor %}
+        </div>
+    </div>
+
+    <style>
+        .container {
+            padding: 20px;
+            max-width: 2000px; /* Adjust this value as needed */
+            margin: 0 auto; /* Centers the container horizontally */
+        }
+
+        .page-title {
+            font-size: 2em;
+            color: #333;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .product-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .product-card {
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            width: 400px; /* Increase the width */
+            height: 450px; /* Increase the height */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-link {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .product-img-container {
+            position: relative;
+            height: 250px;
+            overflow: hidden;
+        }
+
+        .product-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+        }
+
+        .badge-popular {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #FF0000;
+            color: #FFF;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            z-index: 2;
+        }
+
+        .card-heart-link {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 2;
+        }
+
+        .card-heart-icon {
+            font-size: 24px;
+            color: #FAABBD;
+            cursor: pointer;
+        }
+
+        .card-heart-icon.clicked {
+            color: #FF0000;
+        }
+
+        .product-details {
+            padding: 15px;
+            text-align: center;
+        }
+
+        .product-name {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .product-category {
+            font-size: 0.9em;
+            color: #666;
+            margin-bottom: 10px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .product-price {
+            font-size: 1.1em;
+            color: #0c0c0c;
+            margin-bottom: 15px;
+        }
+
+        .view-more-btn {
+            display: inline-block;
+            padding: 10px 15px;
+            font-size: 0.9em;
+            color: black;
+            background-color:#FAABBD;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .view-more-btn:hover {
+            background-color:#FAABBD;
+            color:white;
+        }
+
+        .no-products {
+            text-align: center;
+            font-size: 1.2em;
+            color: #888;
+        }
+
+        .btn-back {
+            display: inline-block;
+            padding: 10px 15px;
+            font-size: 1em;
+            color: #FFF;
+            background-color:#FAABBD;
+            border-radius: 5px;
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-back:hover {
+            background-color: #555;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .product-name, .product-category, .product-price {
+                font-size: 14px;
+            }
+
+            .product-card {
+                height: 400px;
+            }
+
+            .product-details {
+                height: 120px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .product-name, .product-category, .product-price {
+                font-size: 12px;
+            }
+
+            .product-card {
+                height: 350px;
+            }
+
+            .product-details {
+                height: 100px;
+            }
+        }
+    </style>
 {% endblock %}
