@@ -157,37 +157,58 @@
 
 
 <!-- Service Start -->
-    <div class="container-fluid service position-relative px-5 mt-5  fade-in" style="margin-bottom: 135px;">
-        <div class="container">
-            <div class="row g-5">
-                <div class="col-lg-4 col-md-6">
-                    <div class="border-inner text-center text-white p-5" style="background-color: #F598B0;">
-                        <h4 class="text-uppercase mb-3">Birthday Cake</h4>
-                        <p>Ipsum ipsum clita erat amet dolor sit justo sea eirmod diam stet sit justo amet tempor amet kasd lorem dolor ipsum</p>
-                        <a class="text-uppercase text-dark" href="">Read More <i class="bi bi-arrow-right"></i></a>
-                    </div>
+<div class="container-fluid service position-relative px-5 mt-5 fade-in" style="margin-bottom: 135px;">
+    <div class="container">
+        <div class="row g-5">
+            <div class="col-lg-4 col-md-6">
+                <div class="border-inner text-center text-white p-5" style="background-color: #F598B0;">
+                    <h4 class="text-uppercase mb-3">Birthday Cake</h4>
+                    <p>Celebrate special moments with our beautifully crafted birthday cakes, made to bring joy to your celebrations.</p>
+                    <a class="text-uppercase text-dark" href="{% url 'category' %}?category='Birthday'">More <i class="bi bi-arrow-right"></i></a>
+                    <a class="text-uppercase text-dark" href="">More <i class="bi bi-arrow-right"></i></a>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="border-inner text-center text-white p-5" style="background-color: #F598B0;">
-                        <h4 class="text-uppercase mb-3">Wedding Cake</h4>
-                        <p>Ipsum ipsum clita erat amet dolor sit justo sea eirmod diam stet sit justo amet tempor amet kasd lorem dolor ipsum</p>
-                        <a class="text-uppercase text-dark" href="">Read More <i class="bi bi-arrow-right"></i></a>
-                    </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="border-inner text-center text-white p-5" style="background-color: #F598B0;">
+                    <h4 class="text-uppercase mb-3">Wedding Cake</h4>
+                    <p>Make your big day even more memorable with our stunning wedding cakes, designed to match your unique love story.</p>
+                    <a class="text-uppercase text-dark" href="{% url 'category' %}?category='Wedding'">More <i class="bi bi-arrow-right"></i></a>
                 </div>
-                <div class="col-lg-4 col-md-6">
-                    <div class="border-inner text-center text-white p-5" style="background-color: #F598B0;">
-                        <h4 class="text-uppercase mb-3">Custom Cake</h4>
-                        <p>Ipsum ipsum clita erat amet dolor sit justo sea eirmod diam stet sit justo amet tempor amet kasd lorem dolor ipsum</p>
-                        <a class="text-uppercase text-dark" href="">Read More <i class="bi bi-arrow-right"></i></a>
-                    </div>
+            </div>
+            <div class="col-lg-4 col-md-6">
+                <div class="border-inner text-center text-white p-5" style="background-color: #F598B0;">
+                    <h4 class="text-uppercase mb-3">Anniversary Cake</h4>
+                    <p>Celebrate your love with elegance and taste. Our Anniversary Cakes are perfection, making your special day unforgettable.</p>
+                    <a class="text-uppercase text-dark" href="{% url 'category' %}?category='Anniversary'">More <i class="bi bi-arrow-right"></i></a>
                 </div>
-                <div class="col-lg-12 col-md-6 text-center">
-                    <h1 class="text-uppercase text-light mb-4">30% Discount For This Summer</h1>
-                    <a href="{% url 'catalog' %}" class="btn border-inner py-3 px-5" style="background-color: #FAABBD;">Order Now</a>
+            </div>
+            <!-- <div class="col-lg-4 col-md-6">
+                <div class="border-inner text-center text-white p-5" style="background-color: #F598B0;">
+                    <h4 class="text-uppercase mb-3">Custom Cake</h4>
+                    <p>Create the cake of your dreams with our custom cake options, tailored to fit any occasion and taste.</p>
+                    <a class="text-uppercase text-dark" href="">More <i class="bi bi-arrow-right"></i></a>
                 </div>
+            </div> -->
+            <div class="col-lg-12 col-md-6 text-center">
+                <h1 class="text-uppercase text-light mb-4">30% Discount For This Summer</h1>
+                <a href="{% url 'catalog' %}" class="btn border-inner py-3 px-5" style="background-color: #FAABBD;">Order Now</a>
             </div>
         </div>
     </div>
+</div>
+
+
+<style>
+    .border-inner {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .border-inner:hover {
+        transform: scale(1.05);
+        box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15);
+    }
+</style>
+
 <!-- Service End-->
 
 
