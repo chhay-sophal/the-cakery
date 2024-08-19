@@ -25,15 +25,17 @@
   </header>
 </header>
 
-<!-- Search Form -->
-<form method="GET" action="{% url 'catalog' %}" class="search-form mb-4">
-  <div class="input-group">
-    <input type="text" name="q" class="form-control" placeholder="Search for cakes..." value="{{ query|default_if_none:'' }}">
-    <div class="input-group-append">
-      <button class="btn btn-pink" type="submit">Search</button>
+<div class="cover-photo-container">
+  <!-- Search Form -->
+  <form method="GET" action="{% url 'catalog' %}" class="search-form mb-4">
+    <div class="input-group">
+      <input type="text" name="q" class="form-control" placeholder="Search for cakes..." value="{{ query|default_if_none:'' }}">
+      <div class="input-group-append">
+        <button class="btn btn-pink" type="submit">Search</button>
+      </div>
     </div>
-  </div>
-</form>
+  </form>
+</div>
   
   <h3 class="font-secondary">Choose Your Favourite Cake!</h3>
   <div class="row">
@@ -231,6 +233,39 @@ h3 {
   }
 }
 
+
+.cover-photo-container {
+  position: relative;
+  width: 100%;
+  height: 25vh; /* Full viewport height */
+  background-image: url("{% static 'image/hero.jpg' %}"); /* Add your cover photo URL here */
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white; /* Adjust text color if needed */
+  text-align: center; /* Center text horizontally */
+}
+
+.search-form {
+  max-width: 600px; /* Set a maximum width for the search form */
+  width: 100%; /* Full width of the container */
+  padding: 20px; /* Add padding inside the form */
+  border-radius: 8px; /* Optional: rounded corners */
+  background: rgba(0, 0, 0, 0.5); /* Optional: semi-transparent background */
+}
+
+/* Additional styles */
+
+.search-form .input-group {
+  border-radius: 8px; /* Rounded corners for the input group */
+}
+
+.search-form .btn-pink {
+  border-radius: 8px; /* Rounded corners for the button */
+  background-color: #FAABBD;
+}
 </style>
 
 {% endblock %}
